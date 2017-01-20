@@ -1,0 +1,16 @@
+#!/bin/bash
+
+yum install -y epel-release
+yum install -y python34
+curl -O https://bootstrap.pypa.io/get-pip.py
+/usr/bin/python3.4 get-pip.py
+
+/usr/bin/pip3 install flask
+/usr/bin/pip3 install pulp
+/usr/bin/pip3 install pyversion
+/usr/bin/pip3 install googlemaps
+/usr/bin/pip3 install asyncio
+
+yum install -y glpk glpk-utils
+
+rm get-pip.py
