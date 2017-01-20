@@ -1,16 +1,16 @@
 #!/bin/bash
 
-yum install -y epel-release
-yum install -y python34
-curl -O https://bootstrap.pypa.io/get-pip.py
-/usr/bin/python3.4 get-pip.py
+yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+yum -y install python35u-3.5.2
+yum -y install python35u-pip
+yum -y install python35u-devel
 
-/usr/bin/pip3 install flask
-/usr/bin/pip3 install pulp
-/usr/bin/pip3 install pyversion
-/usr/bin/pip3 install googlemaps
-/usr/bin/pip3 install asyncio
+/usr/bin/python3.5 -v
+
+/usr/bin/pip3.5 install flask
+/usr/bin/pip3.5 install pulp
+/usr/bin/pip3.5 install pyversion
+/usr/bin/pip3.5 install googlemaps
+/usr/bin/pip3.5 install asyncio
 
 yum install -y glpk glpk-utils
-
-rm get-pip.py

@@ -7,6 +7,8 @@ A flask server for interfacing the linear program with users
 from flask import Flask, request, send_file, jsonify
 from www.app import MyApp
 from www.bounds import time_constraints
+from data_collection.data_collection import collectData
+from solver.value_solver import solve
 
 app = Flask(__name__)
 mapp = None
