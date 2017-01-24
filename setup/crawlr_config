@@ -12,5 +12,6 @@ yum -y install python35u-devel
 /usr/bin/pip3.5 install pyversion
 /usr/bin/pip3.5 install googlemaps
 /usr/bin/pip3.5 install asyncio
+/usr/bin/pip3.5 install pickledb
 
 yum install -y glpk glpk-utils

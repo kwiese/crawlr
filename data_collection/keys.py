@@ -5,7 +5,7 @@ Authors: Sean Donohoe and Kyle Wiese
 
 import googlemaps
 import datetime
-
+from data_collection.cache import *
 
 class KeyManager:
 
@@ -33,6 +33,7 @@ class KeyManager:
 
 		self.maps_rr = 0
 		self.places_rr = 0
+                self.db = initialize_cache()
 
 	def distance_matrix(self, origins, destinations):
 		maps_key, valid = self.maps_keys[self.maps_rr]
@@ -69,12 +70,16 @@ class KeyManager:
 		return self.places_keys[i][0]
 
 	def geocode(self, address):
-		maps_key, valid = self.maps_keys[self.maps_rr]
+                g = getGeoCode(self.db, address)
+                if not g:
+	            maps_key, valid = self.maps_keys[self.maps_rr]
 
-		self.maps_rr = (self.maps_rr + 1) % len(self.maps_keys)
+		    self.maps_rr = (self.maps_rr + 1) % len(self.maps_keys)
 
-		client = googlemaps.Client(key=maps_key)
-		return client.geocode(address)
+		    client = googlemaps.Client(key=maps_key)
+		    g = client.geocode(address)
+                    insertGeoCode(self.db, address, g)
+                return g
 
 	def reverse_geocode(self, geocode_val):
 		maps_key, valid = self.maps_keys[self.maps_rr]

@@ -7,7 +7,7 @@ An implementation for composing and solving the linear program, using the PuLP A
 
 # from pulp import *
 from gurobipy import *
-from ../www/bounds import time_constraints
+from www.bounds import time_constraints
 
 var_mapping = {}
 subtourCount = 1
@@ -19,7 +19,8 @@ def cascade(data):
     keywordArray = []
 
 #    lp = LpProblem("value optimizer", LpMaximize)
-    lp = Model("value optimizer")
+    env = Env.CloudEnv("", "e3f97d2a-b91d-4da1-ae3d-ad13cd9079d3", "NBFaCx9pQtOe84vWzikcBA", "")
+    lp = Model("value optimizer", env=env)
     
     initialize(lp, data, timeArray, decisionArray, edgeArray, keywordArray)
 
@@ -40,6 +41,10 @@ def cascade(data):
     return (timeArray, decisionArray, edgeArray, keywordArray, lp)
 
 def solve(data):
+    global subtourCount
+    global var_mapping
+    subtourCount = 1
+    var_mapping = {}
     
     (timeArray, decisionArray, edgeArray, keywordArray, lp) = cascade(data) 
     
@@ -197,7 +202,7 @@ def addObjectiveFunction(data, timeArray, decisionArray, edgeArray, lp):
                     tuples.append((x, place["rating"]))
 
 #    lp += sum(map(lambda x: x[0]*x[1], tuples)) + -1*sum(map(lambda x: x[0], decisionArray)) + -1*sum(map(lambda x: x[0]*x[1], edgeArray))
-    lp.setObjective(sum(map(lambda x: x[0]*x[1], tuples)) + -1*sum(map(lambda x: x[0], decisionArray)) + -1*sum(map(lambda x: x[0]*x[1], edgeArray), GRB.MAXIMIZE)
+    lp.setObjective(sum(map(lambda x: x[0]*x[1], tuples)) + -1*sum(map(lambda x: x[0], decisionArray)) + -1*sum(map(lambda x: x[0]*x[1], edgeArray)), GRB.MAXIMIZE)
 
 def addBudgetConstraint(data, decisionArray, lp):
     # function to add the budget constraint
@@ -243,7 +248,7 @@ def addHomeConstraints(data, timeArray, decisionArray, lp):
     home_d = None
 
     for (x, k, p) in timeArray:
-        if (var_mapping[x.getAttr(GRB.Attr.VarName] == "HOME"):
+        if (var_mapping[x.getAttr(GRB.Attr.VarName)] == "HOME"):
             home_time = x
             break
 
@@ -332,7 +337,7 @@ def addSubtourConstraint(data, subtour, edgeArray, lp):
     for nodeName in subtour:
         for (x, t) in edgeArray:
             frm = var_mapping[x.getAttr(GRB.Attr.VarName)].split(",")[0].strip()
-            to = var_mapping[x.getAttr(GRB.Attr.VarName].split(",")[1].strip()
+            to = var_mapping[x.getAttr(GRB.Attr.VarName)].split(",")[1].strip()
         
             if to == nodeName and frm not in subtour:
                 inBound.append(x)
@@ -340,8 +345,8 @@ def addSubtourConstraint(data, subtour, edgeArray, lp):
                 outBound.append(x)
 #    nconst = sum(inBound) + sum(outBound) >= 2
 #    lp += nconst
-     lp.addConstr(sum(inBound) + sum(outBound) >= 2, "s{}".format(subtourCount))
-     subtourCount += 1
+    lp.addConstr(sum(inBound) + sum(outBound) >= 2, "s{}".format(subtourCount))
+    subtourCount += 1
 
 def addKeywordConstraints(data, decisionArray, keywordArray, lp):
     for (keyword, equality, value) in keywordArray:

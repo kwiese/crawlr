@@ -4,9 +4,10 @@ wget http://packages.gurobi.com/7.0/gurobi7.0.1_linux64.tar.gz
 mv gurobi7.0.1_linux64.tar.gz /opt/
 tar xzvf /opt/gurobi7.0.1_linux64.tar.gz -C /opt/
 rm /opt/gurobi7.0.1_linux64.tar.gz
+cp ../gurobi.lic /opt/gurobi701/
 
-echo 'export GUROBI_HOME="/opt/gurobi701/linux64"' >> ~/.bashrc
-echo 'export PATH="${PATH}:${GUROBI_HOME}/bin"' >> ~/.bashrc
-echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"' >> ~/.bashrc
+echo 'export GUROBI_HOME="/opt/gurobi701/linux64"' >> /home/ec2-user/.bashrc
+echo 'export PATH="${PATH}:${GUROBI_HOME}/bin"' >> /home/ec2-user/.bashrc
+echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"' >> /home/ec2-user/.bashrc
 
 echo "run 'source ~/.bashrc' to complete setup!"
