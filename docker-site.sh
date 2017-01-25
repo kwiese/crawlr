@@ -6,4 +6,4 @@ docker kill $DID
 echo "Building..."
 docker build -t crawlr/landing .
 echo "Running Docker container!"
-docker run -p 80:8002 -p 8003:8003 -d crawlr/landing
+docker run -p 80:8002 -d crawlr/landing

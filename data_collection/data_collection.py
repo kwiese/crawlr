@@ -40,6 +40,7 @@ def generateMapData(origins, destinations, names, maps_key):
         destinations,
         mode="walking",
     )
+    print(len(origins))
     o_names = [ (n, a, False) for n, a in names ]
     d_names = [ (n, a, False) for n, a in names ]
 
@@ -84,7 +85,6 @@ async def collectMapData(place_data):
     loop = asyncio.get_event_loop()
     for i in range(0, len(origins), 10):
         for j in range(0, len(origins), 10):
-            print(len(origins[i:min(i+10, len(origins))]))
             placedata.append(loop.run_in_executor(
                 None,
                 generateMapData,
@@ -183,7 +183,6 @@ async def collectUserData(user_data):
 
 
     geocode = km.geocode(user_data['start_address'])
-    print(geocode)
     
     geocode_tup = (geocode[0]['geometry']['location']['lat'], geocode[0]['geometry']['location']['lng'])
     da = km.reverse_geocode(geocode_tup)

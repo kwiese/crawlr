@@ -4,11 +4,14 @@ Authors: Sean Donohoe
 A flask server for interfacing the linear program with users
 """
 
+import logging
+import traceback
+
 from flask import Flask, request, send_file, jsonify
 from www.app import MyApp
 from www.bounds import time_constraints
 from data_collection.data_collection import collectData
-from solver.value_solver import solve
+from solver.value_solver_gurobi import solve
 
 app = Flask(__name__)
 mapp = None
@@ -69,11 +72,14 @@ def solveRoute():
         d["strictness"] = strictness
         d["bounds"] = bounds
 
+        print(d)
+
         data = collectData(d)
         print("DONE COLLECTING DATA")
         try:
             path_data = solve(data)
         except:
+            logging.error(traceback.format_exc())
             edata = {"path": [], "addresses": []}
             return jsonify(**edata)
 

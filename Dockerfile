@@ -13,6 +13,5 @@ ADD ["setup/crawlr_config", "crawlr_config"]
 ADD ["run.py", "run.py"]
 RUN ./crawlr_config
 EXPOSE 8002
-EXPOSE 8003
 
 CMD ["/usr/bin/python3.5", "run.py"]
