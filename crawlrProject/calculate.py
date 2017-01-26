@@ -1,5 +1,5 @@
 from www.bounds import time_constraints
-#from data_collection.data_collection import collectData
+from data_collection.data_collection import collectData
 from solver.value_solver import solve
 
 def start_chain(data):
@@ -48,8 +48,8 @@ def start_chain(data):
     d["bounds"] = bounds
 
     print(d)
-    #
-    # data = collectData(d)
+
+    data = collectData(d)
     # print("DONE COLLECTING DATA")
     # try:
     #     path_data = solve(data)
