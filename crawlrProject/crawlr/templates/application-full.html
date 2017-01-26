@@ -36,7 +36,6 @@
                     document.getElementById("loading").style.display = 'block';
                     $.ajax({
                         type: 'post',
-                        action: '/getRoute/',
                         data: $('#pathdata').serialize(),
                         dataType: 'json',
                         success: function(data) {
@@ -129,7 +128,7 @@
 	    <div class="jumbotron">
 	        <h1>Maximize Your Day's Value</h1>
 	    </div>
-            <form id="pathdata">
+            <form id="pathdata">{% csrf_token %}
                 <div class="form-group">
                     <h4>Starting Address</h4>
                     <input class="form-control" type="text" id="addr" style="width:50%" name="start_address" placeholder="Address"><br>
