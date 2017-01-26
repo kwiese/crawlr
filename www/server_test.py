@@ -4,6 +4,10 @@ Authors: Sean Donohoe
 A flask server for interfacing the linear program with users
 """
 
+import logging
+import traceback
+import time
+
 from flask import Flask, request, send_file, jsonify
 from www.app import MyApp
 from www.bounds import time_constraints
@@ -69,11 +73,19 @@ def solveRoute():
         d["strictness"] = strictness
         d["bounds"] = bounds
 
+        coll = time.time()
         data = collectData(d)
-        print("DONE COLLECTING DATA")
+        print("")
+        print("Time to collect data: {}".format((time.time() - coll)))
+        print("")
         try:
+            s = time.time()
             path_data = solve(data)
+            print("")
+            print("Time to solve: {}".format((time.time() - s)))
+            print("")
         except:
+            logging.error(traceback.format_exc())
             edata = {"path": [], "addresses": []}
             return jsonify(**edata)
 

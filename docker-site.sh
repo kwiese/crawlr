@@ -6,4 +6,4 @@ docker kill $DID
 echo "Building..."
 docker build -t crawlr/landing .
 echo "Running Docker container!"
-docker run -p 80:8002 -p 8003:8003 -d crawlr/landing
+docker run -p 80:8002 -e GUROBI_HOME=/opt/gurobi701/linux64 -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/gurobi701/linux64/bin -e LD_LIBRARY_PATH=/opt/gurobi701/linux64/lib -d crawlr/landing
