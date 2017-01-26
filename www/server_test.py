@@ -6,12 +6,13 @@ A flask server for interfacing the linear program with users
 
 import logging
 import traceback
+import time
 
 from flask import Flask, request, send_file, jsonify
 from www.app import MyApp
 from www.bounds import time_constraints
 from data_collection.data_collection import collectData
-from solver.value_solver_gurobi import solve
+from solver.value_solver import solve
 
 app = Flask(__name__)
 mapp = None
@@ -72,12 +73,17 @@ def solveRoute():
         d["strictness"] = strictness
         d["bounds"] = bounds
 
-        print(d)
-
+        coll = time.time()
         data = collectData(d)
-        print("DONE COLLECTING DATA")
+        print("")
+        print("Time to collect data: {}".format((time.time() - coll)))
+        print("")
         try:
+            s = time.time()
             path_data = solve(data)
+            print("")
+            print("Time to solve: {}".format((time.time() - s)))
+            print("")
         except:
             logging.error(traceback.format_exc())
             edata = {"path": [], "addresses": []}
