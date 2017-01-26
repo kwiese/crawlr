@@ -4,8 +4,6 @@ Authors: Sean Donohoe and Kyle Wiese
 An implementation for composing and solving the linear program, using the PuLP API
 """
 
-
-# from pulp import *
 from gurobipy import *
 from www.bounds import time_constraints
 
@@ -19,7 +17,6 @@ def cascade(data):
     edgeArray = []
     keywordArray = []
 
-#    lp = LpProblem("value optimizer", LpMaximize)
     lp = Model("value optimizer", env=env)
     lp.setParam("OutputFlag", False)
     
