@@ -12,7 +12,7 @@ import traceback
 import googlemaps
 import time
 
-from data_collection.keys import KeyManager
+from keys import KeyManager
 
 km = KeyManager()
 event_loop = asyncio.get_event_loop()

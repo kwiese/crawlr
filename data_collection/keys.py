@@ -5,6 +5,7 @@ Authors: Sean Donohoe and Kyle Wiese
 
 import googlemaps
 import datetime
+import os
 
 class KeyManager:
 
@@ -31,6 +32,7 @@ class KeyManager:
 
         self.maps_rr = 0
         self.places_rr = 0
+        self.instance_ip = os.environ["HOSTIP"]
 
     def distance_matrix(self, origins, destinations):
         maps_key, valid = self.maps_keys[self.maps_rr]

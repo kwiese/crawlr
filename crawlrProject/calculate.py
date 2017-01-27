@@ -1,5 +1,5 @@
 from www.bounds import time_constraints
-from data_collection.data_collection import collectData
+from collection_api import collectData
 from solver.value_solver import solve
 
 def start_chain(data):

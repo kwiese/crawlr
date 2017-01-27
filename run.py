@@ -1,3 +1,6 @@
+
+URLS = [k for k in open('urls.txt', 'r')]
+
 from www.server import *
 
 mapp = MyApp()
