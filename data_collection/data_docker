@@ -1,0 +1,23 @@
+#!/bin/bash
+
+number_dockers=$1
+fname="urls.txt"
+
+./docker_kill_all
+
+docker build -t crawlr/data_collection .
+
+HOSTIP=$(ifconfig eth0 | tail -n+2 | head -n1 | tr -s   | cut -d  -f3 | cut -d':' -f2)
+
+touch $fname
+echo $number_dockers
+for i in $(seq 1 $number_dockers)
+do
+	docker run -e HOSTIP=$HOSTIP -d crawlr/data_collection
+done
+
+docker ps | tail -n +2 | cut -d' ' -f1 | while IFS= read -r line
+do
+	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $line >> $fname
+done 
+

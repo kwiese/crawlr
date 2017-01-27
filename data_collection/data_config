@@ -1,0 +1,11 @@
+#!/bin/bash
+
+yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+yum -y install python35u-3.5.2
+yum -y install python35u-pip
+yum -y install python35u-devel
+
+
+/usr/bin/pip3.5 install flask
+/usr/bin/pip3.5 install googlemaps
+/usr/bin/pip3.5 install asyncio
