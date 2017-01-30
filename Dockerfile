@@ -14,7 +14,7 @@ ADD ["data_collection/urls.txt", "urls.txt"]
 
 RUN ./crawlr_config
 RUN source ./config_env
-RUN cd crawlrProject && /usr/bin/python3.5 manage.py collectstatic && cd -
-EXPOSE 8002
+RUN cd crawlrProject && /usr/bin/python3.5 manage.py collectstatic --noinput && cd -
+EXPOSE 8000
 
 CMD ["/usr/bin/python3.5", "crawlrProject/manage.py", "runserver", "0.0.0.0:8000"]

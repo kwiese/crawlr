@@ -2,6 +2,7 @@
 
 docker ps | tail -n +2 | cut -d' ' -f1 | while IFS= read -r line
 do
+	echo $line
 	docker stop $line
 	docker rm $line
 done 

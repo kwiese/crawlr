@@ -7,7 +7,7 @@ fname="urls.txt"
 
 docker build -t crawlr/data_collection .
 
-HOSTIP=$(ifconfig eth0 | tail -n+2 | head -n1 | tr -s   | cut -d  -f3 | cut -d':' -f2)
+HOSTIP=$(ifconfig eth0 | tail -n+2 | head -n1 | tr -s " "  | cut -d" "  -f3 | cut -d':' -f2)
 
 touch $fname
 echo $number_dockers
