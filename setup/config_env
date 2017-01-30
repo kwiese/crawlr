@@ -5,4 +5,12 @@ mv gurobi7.0.1_linux64.tar.gz /opt/
 /bin/tar xzvf /opt/gurobi7.0.1_linux64.tar.gz -C /opt/
 rm /opt/gurobi7.0.1_linux64.tar.gz
 rm /opt/gurobi701/linux64/setup.py
-mv setup.py /opt/gurobi701/linux64/
+cp setup.py /opt/gurobi701/linux64/
+
+/usr/bin/python3.5 /opt/gurobi701/linux64/setup.py install
+
+/usr/bin/wget http://files.gurobi.com/cloud/libaes70.so.bz2
+/usr/bin/bzip2 -d libaes70.so.bz2
+chmod 755 libaes70.so
+rm /opt/gurobi701/linux64/lib/libaes70.so
+mv libaes70.so /opt/gurobi701/linux64/lib/
