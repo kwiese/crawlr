@@ -1,39 +1,124 @@
+<!DOCTYPE html>
 <html>
-   <body>
+    <head>
+      <title>Crawlr</title>
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script>
+        function setMinVals(select_id, hour_id, min_id){
+          var sel = document.getElementById(select_id);
+          var sv = sel.options[sel.selectedIndex].value.split("::");
+          var seconds = parseInt(sv[1]);
+          var minute_min = Math.floor(seconds / 60);
+          var hour_min = 0;
+          if (seconds >= 3600){
+            minute_min = Math.floor((seconds - 3600)/60);
+            hour_min = Math.floor(seconds / 3600);
+          }
+          document.getElementById(hour_id).min = hour_min;
+          document.getElementById(min_id).min = minute_min;
+        }
+      </script>
+    <head>
+      <body>
 
-      <form name = "form" method = "POST" >{% csrf_token %}
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href= "/" >Crawlr</a>
+            </div>
+          </div>
+        </nav>
 
-         <div style = "max-width:470px;">
-            <center>
-               <input type = "text" style = "margin-left:20%;"
-                  placeholder = "Identifiant" name = "username" />
-            </center>
-         </div>
-
-         <br>
-
-         <div style = "max-width:470px;">
-            <center>
-               <input type = "password" style = "margin-left:20%;"
-                  placeholder = "password" name = "password" />
-            </center>
-         </div>
-
-         <br>
-
-         <div style = "max-width:470px;">
-            <center>
-
-               <button style = "border:0px; background-color:#4285F4; margin-top:8%;
-                  height:35px; width:80%;margin-left:19%;" type = "submit"
-                  value = "Login" >
-                  <strong>Login</strong>
-               </button>
-
-            </center>
-         </div>
-
-      </form>
-
-   </body>
+        <div class="container" id="queryPage">
+          <div class="jumbotron">
+            <h1>Maximize Your Day's Value</h1>
+          </div>
+          <form id="pathdata">{% csrf_token %}
+            <div class="form-group">
+              <h4>Starting Address</h4>
+              <input class="form-control" type="text" id="addr" style="width:50%" name="start_address" placeholder="Address"><br>
+              <h4>Search Radius</h4>
+              <select class="form-control" name="searchRadius" style="width: 50%">
+                <option value=805 selected>0.5 miles</option>
+                <option value=1287>0.8</option>
+                <option value=1770>1.1 miles</option>
+              </select>
+              <h4>Average Budget</h4>
+              <select class="form-control" name="budget" style="width: 50%">
+                {% for k,v in form_info.budget.items %}
+                  <option value={{k}}>{{v}}</option>
+                {% endfor %}
+              </select>
+              <h4>How Much Time do You Have?</h4>
+              <select name="userHour" class="form-control" style="display:inline;width: 15%">
+                <option value=0>0</option>
+                <option value=3600 selected>1</option>
+                <option value=7200>2</option>
+                <option value=10800>3</option>
+                <option value=14400>4</option>
+                <option value=18000>5</option>
+                <option value=21600>6</option>
+                <option value=25200>7</option>
+                <option value=28800>8</option>
+              </select>
+              <p style="display:inline; margin: 5px">hours</p>
+              <select name="userMinute" class="form-control" style="display:inline;width: 15%">
+                <option value=0>0</option>
+                <option value=1800 selected>30</option>
+              </select>
+              <p style="display:inline; margin: 5px">minutes</p>
+            </div>
+            <div class ="form-group", id="keyword-entry">
+              <h4> Which type of place do you want to go to? </h4>
+              <select name="keyword1" class="form-control" id="keyword1" style="display:inline;width: 15%" onchange="setMinVals('keyword1','hours1','minutes1');">
+                {% for k,v in form_info.time_constraints.items %}
+                  <option value="{{k}}::{{v}}">{{k}}</option>
+                {% endfor %}
+              </select>
+              <br>
+              <h4> What's the most time you want to spend?
+              <br><br>
+              <h3> Hours: </h3>
+              <input id="hours1" class="form-control" type="number" min="" step="1" placeholder="Max Hours" style="display:inline;width: 15%">
+              <br><br>
+              <h3> Minutes: </h3>
+              <input id="minutes1" class="form-control" type="number" min="" max="59" step="1" placeholder="Max Minutes" style="display:inline;width: 15%">
+              <br><br>
+              <h3> Interest Multiplier: </h3>
+              <input id="interest1" class="form-control" type="number" min="1" step="1" placeholder="Interest Multiplier" style="display:inline;width: 15%">
+              <br><br>
+              <h3> Number of places to visit: </h3>
+              <select id="equality1" name="equality1" class="form-control" style="display:inline; width:15%; margin: 5px">
+                <option value="NONE" selected>Unlimited</option>
+                <option value="EQ"> = </option>
+                <option value="LTE"> &le; </option>
+                <option value="GTE"> &ge; </option>
+              </select>
+              <input id="equality-value1" type="number" class="form-control" style="display:inline; width:10%" name="" value="0" min="0" step="1"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          <script>
+            function initMap() {
+              // geocoder = new google.maps.Geocoder();
+              // map = new google.maps.Map(document.getElementById('map'), {
+              //   zoom: 9,
+              //   center: {lat: 41.85, lng: -87.65},
+              // });
+              // directionsDisplay = new google.maps.DirectionsRenderer;
+              // directionsDisplay.setMap(map);
+              // directionsService = new google.maps.DirectionsService;
+              var iA = document.getElementById('addr');
+              var autocomplete = new google.maps.places.Autocomplete(iA);
+            }
+          </script>
+          <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwLw6rb6ifekvYt1vKA2jFvgG9AMCskRQ&libraries=places&callback=initMap">
+          </script>
+      </body>
 </html>
