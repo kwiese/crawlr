@@ -6,3 +6,9 @@ yum -y install python35u-pip
 yum -y install python35u-devel
 
 /usr/bin/pip3.5 install Django
+/usr/bin/pip3.5 install uwsgi
+
+mkdir /etc/nginx/sites-enabled
+ln -s /crawlrProject/nginx.conf /etc/nginx/sites-enabled/
+
+mv nginx.conf /etc/nginx/
