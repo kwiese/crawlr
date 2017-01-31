@@ -18,5 +18,4 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 urlpatterns = [url(r'^application/', include('crawlr.urls')), url(r'^$', TemplateView.as_view(template_name='index_home.html'))]
-#urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 #urlpatterns = [url(r'^application/', TemplateView.as_view(template_name='index.html')), url(r'^$', TemplateView.as_view(template_name='index_home.html'))]

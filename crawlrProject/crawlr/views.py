@@ -7,15 +7,11 @@ from crawlr.form_info import form_constraints
 
 def application(request):
     # if this is a POST request we need to process the form data
-    # if request.method == 'POST':
-    #     data = request.POST
-    #     start_chain(data)
-    #     return render(request, 'application-test.html')
+    if request.method == 'POST':
+        data = request.POST
+        start_chain(data)
 
-            #redirect to results page?
-
-
-    return render(request, 'application-test.html', {'form_info': form_constraints})
+    return render(request, 'application-full.html', {'form_info': form_constraints})
 
 # def application(request):
 #     page = render(request, 'application.html')
