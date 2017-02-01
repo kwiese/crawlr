@@ -1,0 +1,8 @@
+#!/bin/bash
+
+yum -y install python35
+yum -y install python35-pip
+yum -y install python35-devel
+
+
+pip-3.5 install flask

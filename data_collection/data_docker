@@ -5,6 +5,11 @@ fname="urls.txt"
 
 ./docker_kill_all
 
+rm host_url.txt
+hip=$(ifconfig eth0 | tail -n+2 | head -n1 | tr -s ' ' | cut -d " " -f 3 | cut -d ":" -f2)
+touch host_url.txt
+echo $hip > host_url.txt
+
 docker build -t crawlr/data_collection .
 
 HOSTIP=$(ifconfig eth0 | tail -n+2 | head -n1 | tr -s " "  | cut -d" "  -f3 | cut -d':' -f2)

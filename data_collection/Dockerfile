@@ -7,6 +7,7 @@ ADD ["keys.py", "keys.py"]
 ADD ["server.py", "server.py"]
 ADD ["data_config", "data_config"]
 ADD ["log.py", "log.py"]
+ADD ["host_url.txt", "logurl.txt"]
 RUN ./data_config
 
 EXPOSE 80

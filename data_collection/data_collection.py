@@ -75,7 +75,7 @@ async def collectMapData(place_data):
     distance_data = {}
 
     glob_place_data = [ place_data[k] for k in place_data ]
-    glob_place_data = [ (item["name"], item["address"], item["geo_loc"]) for row in glob_place_data for item in row ]
+    glob_place_data = [ (item["name"].replace("\"", "\\\""), item["address"].replace("\"", "\\\""), item["geo_loc"]) for row in glob_place_data for item in row ]
     glob_place_data.sort(key=lambda tup: tup[0])
     print("")
     print("found {} places".format(len(glob_place_data)))
@@ -122,6 +122,7 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
         orig_rating = 0
     try:
         website = placeStats["result"]["website"]
+#        website = None
     except KeyError:
         website = None
     trange = (0, None)
@@ -136,7 +137,7 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
                 trange = (opening, closing)
                 break
     except KeyError:
-        pass
+        log(traceback.format_exc())
     timeOk = True
             
     if (trange[1] is not None):
@@ -160,13 +161,14 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
 
     if (len(geocode) > 0 and timeOk):
         geo_tup = (geocode[0]['geometry']['location']['lat'], geocode[0]['geometry']['location']['lng'])
+        n = p["name"]+" ("+placeStats["result"]["formatted_address"].replace(",", "")+")"
         newItem = {
-            'name':  p["name"]+" ("+placeStats["result"]["formatted_address"].replace(",", "")+")",
+            'name':  n.replace("\"", "\\\""),
             'opening_hours':  trange,
             'price_level':  p["price_level"],
             'rating': rating,
             'original_rating': orig_rating,
-            'address': placeStats["result"]["formatted_address"],
+            'address': placeStats["result"]["formatted_address"].replace("\"", "\\\""),
             'geo_loc': geo_tup,
             'website': website,
         }
@@ -180,7 +182,7 @@ async def collectUserData(user_data):
     else:
         current_day += 1
     
-    places = {keyword: [] for keyword in user_data['keywords'] + ["HOME"]}
+    places = {keyword.replace("\"", "\\\""): [] for keyword in user_data['keywords'] + ["HOME"]}
 
 
     geocode = km.geocode(user_data['start_address'])
@@ -218,14 +220,7 @@ async def collectUserData(user_data):
             open_now=True,
             radius=user_data['radius'],
         )
-        """
-        placedata = [ generateUserData(p, current_day, key_weight, user_data, km.get_maps_key(), km.get_places_key()) for p in data["results"] ]
-        for n in asyncio.as_completed(placedata):
-            res = await n
-            if res and (res["name"], res["address"]) not in seen_places:
-                places[keyword].append(res)
-                seen_places.append((res["name"], res["address"]))
-        """
+ 
         loop = asyncio.get_event_loop()
         placedata = [
             loop.run_in_executor(None, generateUserData, p, current_day, key_weight, user_data, km.get_maps_key(), km.get_places_key())

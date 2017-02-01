@@ -12,6 +12,8 @@ ADD ["setup/crawlr_config", "crawlr_config"]
 ADD ["setup/config_env", "config_env"]
 ADD ["setup/setup.py", "setup.py"]
 ADD ["data_collection/urls.txt", "crawlrProject/urls.txt"]
+ADD ["data_collection/host_url.txt", "crawlrProject/logurl.txt"]
+ADD ["data_collection/host_url.txt", "crawlrProject/crawlr/logurl.txt"]
 
 RUN ./crawlr_config
 RUN source ./config_env
