@@ -1,8 +1,9 @@
 import datetime
 import grequests
 
-logurl = ["http://{}:5000/event".format(line.rstrip()) for line in open('logurl.txt', 'r')]
-logurl = logurl[0]
+url = ["http://{}:5000".format(line.rstrip()) for line in open('logurl.txt', 'r')]
+logurl = "{}/event".format(url[0])
+perfurl = "{}/perf".format(url[0])
 badfile = "/var/log/crawlr/crawlr.log"
 
 def log_local(data):
@@ -16,7 +17,15 @@ def log(data):
     packet = {"payload": entry}
     try:
         req = grequests.post(logurl, json=packet)
-#        grequests.send(req, grequests.Pool(1))
+        j = grequests.map([req])
+        log_local(j)
+    except Exception as e:
+        log_local(traceback.format_exc())
+
+def perf(pairs):
+    packet = {"payload": pairs}
+    try:
+        req = grequests.post(perfurl, json=packet)
         j = grequests.map([req])
         log_local(j)
     except Exception as e:

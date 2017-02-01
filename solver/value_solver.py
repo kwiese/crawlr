@@ -6,9 +6,10 @@ An implementation for composing and solving the linear program, using the PuLP A
 
 from gurobipy import *
 from bounds import time_constraints
-from log import log
+from log import log, perf
 
 import traceback
+import time
 
 var_mapping = {}
 env = Env.CloudEnv("cloud.log", "e3f97d2a-b91d-4da1-ae3d-ad13cd9079d3", "NBFaCx9pQtOe84vWzikcBA", "")
@@ -57,24 +58,32 @@ def solve(data):
     subtourArray = []
     
 #    status = lp.solve(GLPK(msg=0))
+    sopt = time.time()
     try:
         lp.optimize()
     except Exception as e:
         log(traceback.format_exc())
         raise e
-
+    pdata = []
+    stn = []
+    stl = []
     subtours = collectSubtours(edgeArray, lp)
     while len(subtours) > 1:
-        print(len(subtours))
-        print([ len(k) for k in subtours ])
+        stn.append(len(subtours))
+        for k in subtours:
+            stl.append(len(k))
         for subtour in subtours:
             addSubtourConstraint(data, subtour, edgeArray, decisionArray, subtourArray, lp)
         addObjectiveFunction(data, timeArray, decisionArray, edgeArray, subtourArray, lp)
         lp.update()
         lp.optimize()
         subtours = collectSubtours(edgeArray, lp)
-
+    eopt = time.time()
     log("Solution found!")
+    pdata.append(("Average number of subtours per iteration", (sum(stn)/len(stn))))
+    pdata.append(("Average subtour length", (sum(stl)/len(stl))))
+    pdata.append(("Time to solve", (eopt - sopt)))
+    perf(pdata)
 
     chosenEdges = []
     

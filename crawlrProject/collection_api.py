@@ -12,7 +12,7 @@ def collectData(data):
         url = getURL()
         log("using url {}".format(url))
         response = requests.post(url, json=data)
-        d = response.json()
+        d = response.json(strict=False)
         new_d = {}
         for k in d["distance_data"]:
             frm, to = k.split("__")

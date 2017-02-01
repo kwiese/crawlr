@@ -6,3 +6,9 @@ yum -y install python35-devel
 
 
 pip-3.5 install flask
+
+mkdir /var/log/crawlr/
+touch /var/log/crawlr/crawlr.log
+touch /var/log/crawlr/perf.log
+
+chmod -R 777 /var/log/crawlr

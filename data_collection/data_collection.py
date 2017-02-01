@@ -11,8 +11,9 @@ import logging
 import traceback
 import googlemaps
 import time
+import unicodedata
 
-from log import log
+from log import log, perf
 from keys import KeyManager
 
 km = KeyManager()
@@ -75,7 +76,7 @@ async def collectMapData(place_data):
     distance_data = {}
 
     glob_place_data = [ place_data[k] for k in place_data ]
-    glob_place_data = [ (item["name"].replace("\"", "\\\""), item["address"].replace("\"", "\\\""), item["geo_loc"]) for row in glob_place_data for item in row ]
+    glob_place_data = [ (item["name"], item["address"], item["geo_loc"]) for row in glob_place_data for item in row ]
     glob_place_data.sort(key=lambda tup: tup[0])
     print("")
     print("found {} places".format(len(glob_place_data)))
@@ -163,17 +164,21 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
         geo_tup = (geocode[0]['geometry']['location']['lat'], geocode[0]['geometry']['location']['lng'])
         n = p["name"]+" ("+placeStats["result"]["formatted_address"].replace(",", "")+")"
         newItem = {
-            'name':  n.replace("\"", "\\\""),
+            'name':  scrub(n),
             'opening_hours':  trange,
             'price_level':  p["price_level"],
             'rating': rating,
             'original_rating': orig_rating,
-            'address': placeStats["result"]["formatted_address"].replace("\"", "\\\""),
+            'address': scrub(placeStats["result"]["formatted_address"]),
             'geo_loc': geo_tup,
             'website': website,
         }
         return (newItem, placeTime, geocodeTime)
     return None
+
+def scrub(s):
+    better = "".join(c for c in s if unicodedata.category(c)[0] != "C")
+    return better.replace("\"", "\\\"")
 
 async def collectUserData(user_data):
     current_day = datetime.datetime.today().weekday()
@@ -182,7 +187,7 @@ async def collectUserData(user_data):
     else:
         current_day += 1
     
-    places = {keyword.replace("\"", "\\\""): [] for keyword in user_data['keywords'] + ["HOME"]}
+    places = {keyword: [] for keyword in user_data['keywords'] + ["HOME"]}
 
 
     geocode = km.geocode(user_data['start_address'])
@@ -205,6 +210,7 @@ async def collectUserData(user_data):
     seen_places = []
     placeTimes = []
     geocodeTimes = []
+    pdata = []
     
     print("")
     print("Time is currently: {}".format(datetime.datetime.now().time()))
@@ -233,12 +239,13 @@ async def collectUserData(user_data):
                 seen_places.append((res[0]["name"], res[0]["address"]))
                 placeTimes.append(res[1])
                 geocodeTimes.append(res[2])
-    print("")
-    print("Total Place Grab Time: {}".format(sum(placeTimes)))
+    pdata.append(("Total place grab time", sum(placeTimes)))
     if len(placeTimes) > 0:
-        print("Average Place Grab Time: {}".format(sum(placeTimes)/len(placeTimes)))
-    print("Total Geocode Time: {}".format(sum(geocodeTimes)))
+        pdata.append(("Number of place times", len(placeTimes)))
+        pdata.append(("Average place grab time", (sum(placeTimes)/len(placeTimes))))
+    pdata.append(("Total geocode time", sum(geocodeTimes)))
     if len(geocodeTimes) > 0:
-        print("Average Geocode Time: {}".format(sum(geocodeTimes)/len(geocodeTimes)))
-    print("")
+        pdata.append(("Number of geocode times", len(geocodeTimes)))
+        pdata.append(("Average geocode time", (sum(geocodeTimes)/len(geocodeTimes))))
+    perf(pdata)
     return places
