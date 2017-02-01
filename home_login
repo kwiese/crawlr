@@ -1,0 +1,5 @@
+#!/bin/bash
+
+DID=$(docker ps -f "ancestor=crawlr/landing" | tail -n+2 | cut -d" " -f1)
+
+docker exec -it $DID bash

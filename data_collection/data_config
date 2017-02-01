@@ -9,3 +9,6 @@ yum -y install python35u-devel
 /usr/bin/pip3.5 install flask
 /usr/bin/pip3.5 install googlemaps
 /usr/bin/pip3.5 install asyncio
+
+mkdir /var/log/crawlr
+touch /var/log/crawlr/crawlr.log

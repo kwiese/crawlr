@@ -5,7 +5,10 @@ An implementation for composing and solving the linear program, using the PuLP A
 """
 
 from gurobipy import *
-from www.bounds import time_constraints
+from bounds import time_constraints
+from log import log
+
+import traceback
 
 var_mapping = {}
 env = Env.CloudEnv("cloud.log", "e3f97d2a-b91d-4da1-ae3d-ad13cd9079d3", "NBFaCx9pQtOe84vWzikcBA", "")
@@ -44,11 +47,21 @@ def solve(data):
     subtourCount = 1
     var_mapping = {}
     
-    (timeArray, decisionArray, edgeArray, keywordArray, lp) = cascade(data)
+    try:
+        (timeArray, decisionArray, edgeArray, keywordArray, lp) = cascade(data)
+    except Exception as e:
+        log(traceback.format_exc())
+        raise e
+
+    log("After cascade")
     subtourArray = []
     
 #    status = lp.solve(GLPK(msg=0))
-    lp.optimize()
+    try:
+        lp.optimize()
+    except Exception as e:
+        log(traceback.format_exc())
+        raise e
 
     subtours = collectSubtours(edgeArray, lp)
     while len(subtours) > 1:
@@ -60,6 +73,8 @@ def solve(data):
         lp.update()
         lp.optimize()
         subtours = collectSubtours(edgeArray, lp)
+
+    log("Solution found!")
 
     chosenEdges = []
     
@@ -136,6 +151,7 @@ def solve(data):
         "path": final_path,
         "addresses": final_addresses,
     }
+    log("returning data")
     return rdata
 
 def initialize(lp, data, timeArray, decisionArray, edgeArray, keywordArray):

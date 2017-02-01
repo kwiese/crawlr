@@ -12,6 +12,7 @@ import traceback
 import googlemaps
 import time
 
+from log import log
 from keys import KeyManager
 
 km = KeyManager()
@@ -19,6 +20,7 @@ event_loop = asyncio.get_event_loop()
 
 def collectData(user_data):
     all_data = {}
+    log("Starting Collection")
     try:
         place_data = event_loop.run_until_complete(collectUserData(user_data))
         distance_data = event_loop.run_until_complete(collectMapData(place_data))
@@ -27,7 +29,7 @@ def collectData(user_data):
         all_data["place_data"] = place_data
         all_data["distance_data"] = distance_data
     except Exception as e:
-        logging.error(traceback.format_exc())
+        log(traceback.format_exc())
     finally:
         return all_data
 

@@ -11,7 +11,7 @@ ADD ["www/bounds.py", "crawlrProject/bounds.py"]
 ADD ["setup/crawlr_config", "crawlr_config"]
 ADD ["setup/config_env", "config_env"]
 ADD ["setup/setup.py", "setup.py"]
-ADD ["data_collection/urls.txt", "urls.txt"]
+ADD ["data_collection/urls.txt", "crawlrProject/urls.txt"]
 
 RUN ./crawlr_config
 RUN source ./config_env

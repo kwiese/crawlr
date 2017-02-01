@@ -7,3 +7,4 @@ do
 	docker rm $line
 done 
 rm urls.txt
+docker rmi $(docker images -qf "dangling=true")

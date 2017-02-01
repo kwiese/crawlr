@@ -7,17 +7,21 @@ A flask server for interfacing the linear program with users
 from flask import Flask, request, send_file, jsonify
 from data_collection import collectData
 import json
+from log import log
 
 app = Flask(__name__)
 
 @app.route("/query", methods=['GET', 'POST'])
 def query():
-    print(request.json)
+    log(request.json)
     if request.method == "POST":
         data = request.get_json(silent=True)
         if not data:
             return "FAILED"
-        ret = collectData(data)
+        try:
+            ret = collectData(data)
+        except Exception as e:
+            log(traceback.format_exc())
         new_d = {}
         for k in ret["distance_data"]:
             frm, to = k
@@ -29,4 +33,4 @@ def query():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8002)
+    app.run(host='0.0.0.0', port=80)

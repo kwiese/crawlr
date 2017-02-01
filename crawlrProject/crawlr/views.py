@@ -1,18 +1,20 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
-# import os,sys
-# sys.path.insert(1, os.path.join(sys.path[0], '..'))
-# from calculate import start_chain
+from django.http import HttpResponseRedirect, JsonResponse
+import os,sys
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+from calculate import start_chain
 from crawlr.form_info import form_constraints
+
+from log import log
 
 def application(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
+        log("starting collect....")
         data = request.POST
-        start_chain(data)
-
+        route_info = start_chain(data)
+        log("route_info received:")
+        log(route_info)
+        return JsonResponse(route_info)
+    log("fetched main page")
     return render(request, 'application-full.html', {'form_info': form_constraints})
-
-# def application(request):
-#     page = render(request, 'application.html')
-#     return page
