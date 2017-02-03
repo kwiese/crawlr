@@ -10,6 +10,7 @@ yum -y install python35u-devel
 /usr/bin/pip3.5 install googlemaps
 /usr/bin/pip3.5 install asyncio
 /usr/bin/pip3.5 install grequests
+/usr/bin/pip3.5 install python-dateutil
 
 mkdir /var/log/crawlr
 touch /var/log/crawlr/crawlr.log

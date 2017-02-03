@@ -7,7 +7,6 @@ An implementation to collect place data based on specified user constraints from
 
 import datetime
 import asyncio
-import logging
 import traceback
 import googlemaps
 import time
@@ -15,7 +14,7 @@ import unicodedata
 import dateutil.parser as dt
 
 from log import log, perf
-from keys import KeyManager
+from data_collection.keys import KeyManager
 
 km = KeyManager()
 event_loop = asyncio.get_event_loop()

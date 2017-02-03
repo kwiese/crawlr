@@ -2,6 +2,9 @@ import json
 import requests
 import random
 import traceback
+import unicodedata
+import re
+import urllib
 
 from log import log
 
@@ -11,8 +14,10 @@ def collectData(data):
     try:
         url = getURL()
         log("using url {}".format(url))
-        response = requests.post(url, json=data)
-        d = response.json(strict=False)
+        dt = json.dumps(data).encode('utf8')
+        req = urllib.request.Request(url, data=dt, headers={'content-type': 'application/json'})
+        f = urllib.request.urlopen(req)
+        d = json.load(f) 
         new_d = {}
         for k in d["distance_data"]:
             frm, to = k.split("__")

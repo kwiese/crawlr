@@ -1,0 +1,9 @@
+#!/bin/bash
+
+mkdir /etc/nginx/sites-enabled
+ln -s /crawlrProject/nginx.conf /etc/nginx/sites-enabled/
+
+mv nginx.conf /etc/nginx/
+
+mkdir /var/log/crawlr
+touch /var/log/crawlr/crawlr.log

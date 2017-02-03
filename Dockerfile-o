@@ -1,0 +1,21 @@
+FROM centos:latest
+
+RUN yum update -y && \
+	yum install -y epel-release && \
+	yum install -y wget bzip2 gcc nginx 
+
+ADD ["setup/nginx.conf", "nginx.conf"]
+ADD ["crawlrProject/", "crawlrProject/"]
+ADD ["solver/", "crawlrProject/solver/"]
+ADD ["www/bounds.py", "crawlrProject/bounds.py"]
+ADD ["setup/crawlr_config", "crawlr_config"]
+ADD ["setup/config_env", "config_env"]
+ADD ["setup/setup.py", "setup.py"]
+ADD ["data_collection/urls.txt", "crawlrProject/urls.txt"]
+ADD ["data_collection/host_url.txt", "crawlrProject/logurl.txt"]
+ADD ["data_collection/host_url.txt", "crawlrProject/crawlr/logurl.txt"]
+
+RUN ./crawlr_config
+RUN source ./config_env
+EXPOSE 8000
+CMD ["uwsgi", "--socket", "/tmp/uwsgi.sock", "--chdir", "/crawlrProject", "--module", "crawlrProject.wsgi", "--chmod-socket=664"]

@@ -2,8 +2,9 @@
 
 echo "Building..."
 docker build -t crawlr/landing .
+HOSTIP=$(ifconfig eth0 | tail -n+2 | head -n1 | tr -s " "  | cut -d" "  -f3 | cut -d':' -f2)
 echo "Running Docker container!"
-docker run -p 80:8000 -e GUROBI_HOME=/opt/gurobi701/linux64 -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/gurobi701/linux64/bin -e LD_LIBRARY_PATH=/opt/gurobi701/linux64/lib -d crawlr/landing tail -f /dev/null
+docker run -p 80:8000 -e GUROBI_HOME=/opt/gurobi701/linux64 -e PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/gurobi701/linux64/bin -e LD_LIBRARY_PATH=/opt/gurobi701/linux64/lib -e HOSTIP=$HOSTIP -d crawlr/landing tail -f /dev/null
 
 DID=$(docker ps -f "ancestor=crawlr/landing" | tail -n+2 | cut -d" " -f1)
 

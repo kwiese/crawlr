@@ -11,11 +11,9 @@ from log import log, perf
 import traceback
 import time
 
-var_mapping = {}
 env = Env.CloudEnv("cloud.log", "e3f97d2a-b91d-4da1-ae3d-ad13cd9079d3", "NBFaCx9pQtOe84vWzikcBA", "")
-subtourCount = 1
 
-def cascade(data):
+def cascade(data, var_mapping):
     timeArray = []
     decisionArray = []
     edgeArray = []
@@ -24,32 +22,30 @@ def cascade(data):
     lp = Model("value optimizer", env=env)
     lp.setParam("OutputFlag", False)
     
-    initialize(lp, data, timeArray, decisionArray, edgeArray, keywordArray)
+    initialize(lp, data, timeArray, decisionArray, edgeArray, keywordArray, var_mapping)
 
-    addBudgetConstraint(data, decisionArray, lp)   
+    addBudgetConstraint(data, decisionArray, lp, var_mapping)   
    
-    addPathConstraint(data, decisionArray, edgeArray, lp)
+    addPathConstraint(data, decisionArray, edgeArray, lp, var_mapping)
 
-    addTimeConstraint(data, timeArray, edgeArray, lp)
+    addTimeConstraint(data, timeArray, edgeArray, lp, var_mapping)
 
-    addHomeConstraints(data, timeArray, decisionArray, lp)
+    addHomeConstraints(data, timeArray, decisionArray, lp, var_mapping)
 
-    addDecisionConstraints(data, timeArray, decisionArray, lp) 
+    addDecisionConstraints(data, timeArray, decisionArray, lp, var_mapping) 
 
-    addKeywordConstraints(data, decisionArray, keywordArray, lp)
+    addKeywordConstraints(data, decisionArray, keywordArray, lp, var_mapping)
 
-    addObjectiveFunction(data, timeArray, decisionArray, edgeArray, [], lp)
+    addObjectiveFunction(data, timeArray, decisionArray, edgeArray, [], lp, var_mapping)
 
     return (timeArray, decisionArray, edgeArray, keywordArray, lp)
 
 def solve(data):
-    global subtourCount
-    global var_mapping
     subtourCount = 1
     var_mapping = {}
     
     try:
-        (timeArray, decisionArray, edgeArray, keywordArray, lp) = cascade(data)
+        (timeArray, decisionArray, edgeArray, keywordArray, lp) = cascade(data, var_mapping)
     except Exception as e:
         log(traceback.format_exc())
         raise e
@@ -57,7 +53,6 @@ def solve(data):
     log("After cascade")
     subtourArray = []
     
-#    status = lp.solve(GLPK(msg=0))
     sopt = time.time()
     try:
         lp.optimize()
@@ -67,21 +62,23 @@ def solve(data):
     pdata = []
     stn = []
     stl = []
-    subtours = collectSubtours(edgeArray, lp)
+    subtours = collectSubtours(edgeArray, lp, var_mapping)
     while len(subtours) > 1:
         stn.append(len(subtours))
         for k in subtours:
             stl.append(len(k))
         for subtour in subtours:
-            addSubtourConstraint(data, subtour, edgeArray, decisionArray, subtourArray, lp)
-        addObjectiveFunction(data, timeArray, decisionArray, edgeArray, subtourArray, lp)
+            addSubtourConstraint(data, subtour, edgeArray, decisionArray, subtourArray, lp, var_mapping, subtourCount)
+        addObjectiveFunction(data, timeArray, decisionArray, edgeArray, subtourArray, lp, var_mapping)
         lp.update()
         lp.optimize()
-        subtours = collectSubtours(edgeArray, lp)
+        subtours = collectSubtours(edgeArray, lp, var_mapping)
     eopt = time.time()
     log("Solution found!")
-    pdata.append(("Average number of subtours per iteration", (sum(stn)/len(stn))))
-    pdata.append(("Average subtour length", (sum(stl)/len(stl))))
+    if len(stn):
+        pdata.append(("Average number of subtours per iteration", (sum(stn)/len(stn))))
+    if len(stl):
+        pdata.append(("Average subtour length", (sum(stl)/len(stl))))
     pdata.append(("Time to solve", (eopt - sopt)))
     perf(pdata)
 
@@ -163,9 +160,8 @@ def solve(data):
     log("returning data")
     return rdata
 
-def initialize(lp, data, timeArray, decisionArray, edgeArray, keywordArray):
+def initialize(lp, data, timeArray, decisionArray, edgeArray, keywordArray, var_mapping):
     # function to initialize the columns and rows of the problem
-    global var_mapping
     curr_int = 0
     place_data = data["place_data"]
     user_data = data["user_data"]
@@ -183,38 +179,28 @@ def initialize(lp, data, timeArray, decisionArray, edgeArray, keywordArray):
         lb = time_constraints[keyword]
         ub = data["user_data"]["bounds"][keyword]
         for place in data["place_data"][keyword]:
-#            tVar = LpVariable("x{}".format(curr_int), 0, float(ub), LpContinuous)
             tVar = lp.addVar(vtype=GRB.CONTINUOUS, name="x{}".format(curr_int), lb=0, ub=float(ub))
             tEntry = ("x{}".format(curr_int), tVar, keyword, place["price_level"], float(ub))
             timeArray.append(tEntry)
-#            var_mapping[tVar.name] = place["name"]
             var_mapping[tEntry[0]] = place["name"]
             curr_int += 1
 
-            if place["name"] == "HOME":
-#                dVar = LpVariable("x{}".format(curr_int), 1, 1, LpBinary)
-                 dVar = lp.addVar(vtype=GRB.BINARY, name="x{}".format(curr_int))
-            else:
-#                dVar = LpVariable("x{}".format(curr_int), 0, 1, LpBinary) 
-                 dVar = lp.addVar(vtype=GRB.BINARY, name="x{}".format(curr_int))
+            dVar = lp.addVar(vtype=GRB.BINARY, name="x{}".format(curr_int))
             dEntry = ("x{}".format(curr_int), dVar, keyword, place["price_level"])
             decisionArray.append(dEntry)
-#            var_mapping[dVar.name] = place["name"]
             var_mapping[dEntry[0]] = place["name"]
             curr_int += 1
 
     for k in data["distance_data"]:
         frm, to = k
-#        dVar = LpVariable("x{}".format(curr_int), 0, 1, LpBinary)
         dVar = lp.addVar(vtype=GRB.BINARY, name="x{}".format(curr_int))
         dEntry = ("x{}".format(curr_int), dVar, data["distance_data"][k])
         edgeArray.append(dEntry)
-#        var_mapping[dVar.name] = "{}, {}".format(frm, to)
         var_mapping[dEntry[0]] = "{}, {}".format(frm, to)
         curr_int += 1
     lp.update()
 
-def addObjectiveFunction(data, timeArray, decisionArray, edgeArray, subtourArray, lp):
+def addObjectiveFunction(data, timeArray, decisionArray, edgeArray, subtourArray, lp, var_mapping):
     # function to set the objective function
     tuples = []
     for (x, xn, k, p, ub) in timeArray:
@@ -227,23 +213,20 @@ def addObjectiveFunction(data, timeArray, decisionArray, edgeArray, subtourArray
     else:
         lp.setObjective(sum(map(lambda x: x[0]*x[1], tuples)) + -1*sum(map(lambda x: x[1], decisionArray)) + -1*sum(map(lambda x: x[1]*x[2], edgeArray)), GRB.MAXIMIZE)
 
-def addBudgetConstraint(data, decisionArray, lp):
+def addBudgetConstraint(data, decisionArray, lp, var_mapping):
     # function to add the budget constraint
     budget = data["user_data"]["budget"]
-#    lp += (sum(map(lambda x: x[0]*(x[2]-budget), decisionArray)) <= 0)
     lp.addConstr(sum(map(lambda x: x[1]*(x[3]-budget), decisionArray)) <= 0, "budget")
             
 
-def addPathConstraint(data, decisionArray, edgeArray, lp):
+def addPathConstraint(data, decisionArray, edgeArray, lp, var_mapping):
     # function to add the IN-OUT constraints
     for (x, xn, k, p) in decisionArray:
-#        nodeName = var_mapping[x.name]
         nodeName = var_mapping[x]
         inBound = []
         outBound = []
 
         for (y, yn, t) in edgeArray:
-#            frm, to = var_mapping[y.name].split(',')
             frm, to = var_mapping[y].split(',')
             if nodeName == frm.strip():
                 outBound.append(yn)
@@ -251,21 +234,18 @@ def addPathConstraint(data, decisionArray, edgeArray, lp):
                 inBound.append(yn)
         
         # inbound constraint
-#        lp += (sum(inBound) - x == 0)
         lp.addConstr(sum(inBound) - xn == 0, "path_inbound")
         
         # outbound constraint
-#        lp += (sum(outBound) - x == 0)
         lp.addConstr(sum(outBound) - xn == 0, "path_outbound")
 
-def addTimeConstraint(data, timeArray, edgeArray, lp):
+def addTimeConstraint(data, timeArray, edgeArray, lp, var_mapping):
     # function to add the maximum time constraint
     p1 = sum(map(lambda e: e[1], timeArray))
     p2 = sum(map(lambda e: e[1]*e[2], edgeArray))
-#    lp += (p1 + p2 - data["user_data"]["time"]) <= 0
     lp.addConstr(p1 + p2 - data["user_data"]["time"] <= 0, "time")
 
-def addHomeConstraints(data, timeArray, decisionArray, lp):
+def addHomeConstraints(data, timeArray, decisionArray, lp, var_mapping):
     # function to add constraints about the Home node
     home_time = None
     home_d = None
@@ -280,12 +260,10 @@ def addHomeConstraints(data, timeArray, decisionArray, lp):
             home_d = xn
             break
     
-#    lp += home_time == 0
     lp.addConstr(home_time == 0, "home_time")
-#    lp += home_d == 1
     lp.addConstr(home_d == 1, "home_decision")
 
-def addDecisionConstraints(data, timeArray, decisionArray, lp):
+def addDecisionConstraints(data, timeArray, decisionArray, lp, var_mapping):
     # function to add constraints defining decision variable behavior
     tuples = []
     for (x, xn, k, p, ub) in timeArray:
@@ -296,18 +274,13 @@ def addDecisionConstraints(data, timeArray, decisionArray, lp):
     curr_int = 1
     for (x, y, k, ub) in tuples: 
         lowerBound = time_constraints[k]
-#        c1 = y*lowerBound - x <= 0
-#        lp += c1
         lp.addConstr(y*lowerBound - x <= 0, "cd{}".format(curr_int))
         curr_int += 1
-#        c2 = x - y*x.upBound <= 0
-#        lp += c2
         lp.addConstr(x - y*ub <= 0, "cd{}".format(curr_int))
         curr_int += 1
 
-def collectSubtours(edgeArray, lp):
+def collectSubtours(edgeArray, lp, var_mapping):
     tours = []
-#    edgeCopy = [ k for k in edgeArray if value(k[0])] 
     edgeCopy = [ k for k in edgeArray if k[1].X ]
     for edge in edgeCopy:
 
@@ -353,8 +326,7 @@ def collectSubtours(edgeArray, lp):
         tours.append(subtour)
     return tours
 
-def addSubtourConstraint(data, subtour, edgeArray, decisionArray, subtourArray, lp): 
-    global subtourCount   
+def addSubtourConstraint(data, subtour, edgeArray, decisionArray, subtourArray, lp, var_mapping, subtourCount): 
     inBound = []
     outBound = []
     skip = False
@@ -394,7 +366,7 @@ def addSubtourConstraint(data, subtour, edgeArray, decisionArray, subtourArray, 
 
         subtourCount += 1
 
-def addKeywordConstraints(data, decisionArray, keywordArray, lp):
+def addKeywordConstraints(data, decisionArray, keywordArray, lp, var_mapping):
     for (keyword, equality, value) in keywordArray:
         associated_vars = []
         for (x, xn, k, p) in decisionArray:
@@ -402,21 +374,15 @@ def addKeywordConstraints(data, decisionArray, keywordArray, lp):
                 associated_vars.append(xn)
         if (len(associated_vars) > 0):
             if equality == "EQ":
-#                lp += sum(associated_vars)  == value
                 lp.addConstr(sum(associated_vars) == value, keyword)
             elif equality == "GTE":
-#                lp += sum(associated_vars)  >= value
                 lp.addConstr(sum(associated_vars) >= value, keyword)
             elif equality == "LTE":
-#                lp += sum(associated_vars)  <= value
                 lp.addConstr(sum(associated_vars) <= value, keyword)
         else:
             if equality != "LTE":
-#                badVar = LpVariable("bad", 0, None, LpInteger)
                 badVar = lp.addVar(vtype=GRB.BINARY, name="bad")
-#                lp += badVar <= 0
                 lp.addConstr(badVar <= 0, "b1")
-#                lp += badVar >= 1
                 lp.addConstr(badVar >= 1, "b2")
-                print("adding infeasible route constraint")
+                log("adding infeasible route constraint")
                 return

@@ -1,5 +1,5 @@
 from bounds import time_constraints
-from collection_api import collectData
+from data_collection.data_collection import collectData
 from solver.value_solver import solve
 import traceback
 
@@ -53,6 +53,7 @@ def start_chain(data):
         d["strictness"] = strictness
         d["bounds"] = bounds
 
+        d["timestamp"] = data["timestamp"]
 
         data = collectData(d)
     except Exception as e:
