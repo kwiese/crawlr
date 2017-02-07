@@ -110,7 +110,7 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
     dobj = dt.parse(user_data["timestamp"])
     
     place_grab = time.time()
-    placeStats = places_client.place(p["place_id"])
+    placeStats = km.place(p["place_id"])
     placeTime = (time.time() - place_grab)
     rating = None 
     orig_rating = None
@@ -158,7 +158,7 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
             timeOk = ((nowTime + durr) <= trange[1])
 
     geocode_grab = time.time()
-    geocode = maps_client.geocode(placeStats["result"]["formatted_address"])
+    geocode = km.geocode(placeStats["result"]["formatted_address"])
     geocodeTime = (time.time() - geocode_grab)
 
     if (len(geocode) > 0 and timeOk):

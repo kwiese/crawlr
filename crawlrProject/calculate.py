@@ -52,8 +52,7 @@ def start_chain(data):
         d["weights"] = weights
         d["strictness"] = strictness
         d["bounds"] = bounds
-
-        d["timestamp"] = data["timestamp"]
+        d["timestamp"] = " ".join(data["timestamp"].split("(")[:-1]).strip()
 
         data = collectData(d)
     except Exception as e:

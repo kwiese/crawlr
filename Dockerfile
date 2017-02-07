@@ -4,7 +4,7 @@ EXPOSE 8000
 
 RUN yum update -y && \
 yum install -y epel-release && \
-yum install -y wget bzip2 gcc nginx && \
+yum install -y wget bzip2 gcc gcc-c++ nginx && \
 yum -y install https://centos7.iuscommunity.org/ius-release.rpm && \
 yum install -y python35u.x86_64 python35u-devel.x86_64 python35u-pip.noarch && \
 /usr/bin/pip3.5 install Django && \
@@ -13,7 +13,14 @@ yum install -y python35u.x86_64 python35u-devel.x86_64 python35u-pip.noarch && \
 /usr/bin/pip3.5 install grequests && \
 /usr/bin/pip3.5 install googlemaps && \
 /usr/bin/pip3.5 install asyncio && \
-/usr/bin/pip3.5 install python-dateutil
+/usr/bin/pip3.5 install python-dateutil && \
+/usr/bin/pip3.5 install redis && \
+/usr/bin/pip3.5 install Cython
+
+ADD ["crawlrProject/", "crawlrProject/"]
+ADD ["solver/", "crawlrProject/solver/"]
+ADD ["fastcode/", "crawlrProject/solver/fastcode/"]
+RUN cd crawlrProject/solver/fastcode && /usr/bin/python3.5 setup.py build_ext --inplace && cd -
 
 ADD ["setup/nginx.conf", "nginx.conf"]
 ADD ["nginx.conf", "nginx/nginx.conf"]
@@ -39,8 +46,6 @@ chmod 755 libaes70.so && \
 rm /opt/gurobi701/linux64/lib/libaes70.so && \
 mv libaes70.so /opt/gurobi701/linux64/lib/
 
-ADD ["crawlrProject/", "crawlrProject/"]
-ADD ["solver/", "crawlrProject/solver/"]
 ADD ["www/bounds.py", "crawlrProject/bounds.py"]
 ADD ["data_collection/host_url.txt", "crawlrProject/logurl.txt"]
 ADD ["data_collection/host_url.txt", "crawlrProject/crawlr/logurl.txt"]

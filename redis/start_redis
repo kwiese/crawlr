@@ -1,0 +1,7 @@
+#!/bin/bash
+
+chkconfig --add redis-server
+chkconfig --level 345 redis-server on
+service redis-server start
+
+

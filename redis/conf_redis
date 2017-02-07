@@ -1,0 +1,32 @@
+#!/bin/bash
+yum -y update
+yum -y install gcc make
+
+wget http://download.redis.io/releases/redis-3.2.0.tar.gz
+tar -xzvf redis-3.2.0.tar.gz -C /usr/local/src
+rm redis-3.2.0.tar.gz
+
+cd /usr/local/src/redis-3.2.0 && make distclean && make && yum install -y tcl && make test && cd -
+
+mkdir -p /etc/redis /var/lib/redis /var/redis/6379
+
+cp /usr/local/src/redis-3.2.0/src/redis-server src/redis-cli /usr/local/bin
+cp /usr/local/src/redis-3.2.0/redis.conf /etc/redis/6379.conf
+
+wget https://raw.githubusercontent.com/saxenap/install-redis-amazon-linux-centos/master/redis-server
+
+mv redis-server /etc/init.d
+chmod 755 /etc/init.d/redis-server
+
+echo "Verify the following in /etc/redis/6379.conf"
+echo ""
+echo -e "\t1. bind 0.0.0.0  //line 61"
+echo -e "\t2. daemonize yes   //line 127"
+echo -e "\t3. logfile \"/var/log/redis_6379.log\"  //line 162"
+echo -e "\t4. dir /var/redis/6379  //line 246"
+
+echo -e "\n\nAlso verify the following in /etc/init.d/redis-server"
+echo ""
+echo -e "\t1. REDIS_CONF_FILE=\"/etc/redis/6379.conf\"    //line 26"
+
+echo -e "\n\n*** After all is verified, run the start_redis script ***\n\n"
