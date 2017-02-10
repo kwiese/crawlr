@@ -47,15 +47,6 @@ class KeyManager:
         self.places_rr = 0
         self.instance_ip = os.environ["HOSTIP"]
         self.geo_cache = redis.StrictRedis(host=self.instance_ip, port=6379, db=0)
-        self.place_cache = redis.StrictRedis(host=self.instance_ip, port=6379, db=1)
-
-    def distance_matrix(self, origins, destinations):
-        maps_key, valid = self.maps_keys[self.maps_rr]
-        print("maps_key #{}".format(self.maps_rr))
-
-        self.maps_rr = (self.maps_rr + 1) % len(self.maps_keys)
-        client = googlemaps.Client(key=maps_key)
-        return client.distance_matrix(origins, destinations, mode="walking")
 
     def get_maps_key(self):
         i = self.maps_rr
@@ -103,19 +94,4 @@ class KeyManager:
             type=type,
             open_now=open_now,
             radius=radius,
-        )
-
-    def place(self, pid):
-        x = self.place_cache.get(pid)
-        if x:
-            d = json.loads(x.decode('utf-8'))
-            return d
-        else:
-            places_key, valid = self.places_keys[self.places_rr]
-            self.places_rr = (self.places_rr + 1) % len(self.places_keys)
-            client = googlemaps.Client(key=places_key)
-            data = client.place(pid)
-
-            s = json.dumps(data)
-            self.place_cache.set(pid, s)
-            return data
+        ) 

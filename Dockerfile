@@ -15,12 +15,9 @@ yum install -y python35u.x86_64 python35u-devel.x86_64 python35u-pip.noarch && \
 /usr/bin/pip3.5 install asyncio && \
 /usr/bin/pip3.5 install python-dateutil && \
 /usr/bin/pip3.5 install redis && \
-/usr/bin/pip3.5 install Cython
+/usr/bin/pip3.5 install Cython && \
+/usr/bin/pip3.5 install gunicorn
 
-ADD ["crawlrProject/", "crawlrProject/"]
-ADD ["solver/", "crawlrProject/solver/"]
-ADD ["fastcode/", "crawlrProject/solver/fastcode/"]
-RUN cd crawlrProject/solver/fastcode && /usr/bin/python3.5 setup.py build_ext --inplace && cd -
 
 ADD ["setup/nginx.conf", "nginx.conf"]
 ADD ["nginx.conf", "nginx/nginx.conf"]
@@ -46,8 +43,16 @@ chmod 755 libaes70.so && \
 rm /opt/gurobi701/linux64/lib/libaes70.so && \
 mv libaes70.so /opt/gurobi701/linux64/lib/
 
+ADD ["crawlrProject/", "crawlrProject/"]
+ADD ["solver/", "crawlrProject/solver/"]
+ADD ["fastcode/", "crawlrProject/solver/fastcode/"]
+RUN cd crawlrProject/solver/fastcode && /usr/bin/python3.5 setup.py build_ext --inplace && cd -
+
 ADD ["www/bounds.py", "crawlrProject/bounds.py"]
 ADD ["data_collection/host_url.txt", "crawlrProject/logurl.txt"]
 ADD ["data_collection/host_url.txt", "crawlrProject/crawlr/logurl.txt"]
 
-CMD ["uwsgi", "--socket", "/tmp/uwsgi.sock", "--chdir", "/crawlrProject", "--module", "crawlrProject.wsgi", "--chmod-socket=664"]
+EXPOSE 80
+CMD ["gunicorn", "crawlrProject.wsgi"]
+
+#CMD ["uwsgi", "--socket", "/tmp/uwsgi.sock", "--chdir", "/crawlrProject", "--module", "crawlrProject.wsgi", "--chmod-socket=664"]

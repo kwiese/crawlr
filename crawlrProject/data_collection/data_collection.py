@@ -12,18 +12,23 @@ import googlemaps
 import time
 import unicodedata
 import dateutil.parser as dt
+import redis
+import os
+import json
 
 from log import log, perf
 from data_collection.keys import KeyManager
 
 km = KeyManager()
-event_loop = asyncio.get_event_loop()
+event_loop = asyncio.SelectorEventLoop()
+asyncio.set_event_loop(event_loop)
 
 def collectData(user_data):
     all_data = {}
     log("Starting Collection")
     try:
         place_data = event_loop.run_until_complete(collectUserData(user_data))
+        place_data = filterPlaces(place_data)
         distance_data = event_loop.run_until_complete(collectMapData(place_data))
 
         all_data["user_data"] = user_data
@@ -38,12 +43,13 @@ def collectData(user_data):
 def generateMapData(origins, destinations, names, maps_key):
     client = googlemaps.Client(key=maps_key)
     d_data = {}
+    t = time.time()
     dest_data = client.distance_matrix(
         origins,
         destinations,
         mode="walking",
     )
-    print(len(origins))
+    c_time = (time.time() - t)
     o_names = [ (n, a, False) for n, a in names ]
     d_names = [ (n, a, False) for n, a in names ]
 
@@ -70,20 +76,18 @@ def generateMapData(origins, destinations, names, maps_key):
             toName = d_addr[j]
             if fromName != toName:
                 d_data[(fromName, toName)] = 30 + dest_data["rows"][i]["elements"][j]["duration"]["value"]
-    return d_data
+    return (d_data, c_time)
 
 async def collectMapData(place_data):
     distance_data = {}
 
     glob_place_data = [ place_data[k] for k in place_data ]
-    glob_place_data = [ (item["name"], item["address"], item["geo_loc"]) for row in glob_place_data for item in row ]
+    glob_place_data = [ (item["name"], item["address"]) for row in glob_place_data for item in row ]
     glob_place_data.sort(key=lambda tup: tup[0])
-    print("")
-    print("found {} places".format(len(glob_place_data)))
 
-    origins = [ a for n, a, l in glob_place_data ]
-    destinations = [ a for n, a, l in glob_place_data ] 
-    names = [ (n, a) for (n, a, l) in glob_place_data ]
+    origins = [ a for n, a in glob_place_data ]
+    destinations = [ a for n, a in glob_place_data ] 
+    names = [ (n, a) for (n, a) in glob_place_data ]
 
     placedata = []
     loop = asyncio.get_event_loop()
@@ -97,20 +101,33 @@ async def collectMapData(place_data):
                 names,
                 km.get_maps_key(),
             ))
-#    for n in asyncio.as_completed(placedata):
+    times = []
     for n in placedata:
-        res = await n
+        res, c = await n
+        times.append(c)
         for k in res:
-            distance_data[k] = res[k] 
+            distance_data[k] = res[k]
+
+    if len(times):
+        pdata = [("Average map time", (sum(times)/len(times))), ("Total map time", sum(times))]
+        perf(pdata)
+            
     return distance_data
 
-def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key):
-    maps_client = googlemaps.Client(key=maps_key)
-    places_client = googlemaps.Client(key=places_key)
+def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key, ):
+    place_cache = redis.StrictRedis(host=os.environ["HOSTIP"], port=6379, db=1)
     dobj = dt.parse(user_data["timestamp"])
     
     place_grab = time.time()
-    placeStats = km.place(p["place_id"])
+    x = place_cache.get(p["place_id"])
+    if x:
+        placeStats = json.loads(x.decode('utf-8'))
+    else:
+        places_client = googlemaps.Client(key=places_key)
+        placeStats = places_client.place(p["place_id"])
+        s = json.dumps(placeStats)
+        place_cache.set(p["place_id"], s)
+
     placeTime = (time.time() - place_grab)
     rating = None 
     orig_rating = None
@@ -123,8 +140,7 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
         rating = 1
         orig_rating = 0
     try:
-#        website = placeStats["result"]["website"]
-        website = None
+        website = placeStats["result"]["website"]
     except KeyError:
         website = None
     trange = (0, None)
@@ -138,8 +154,8 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
                     closing = int(day["close"]["time"]) 
                 trange = (opening, closing)
                 break
-    except KeyError:
-        log(traceback.format_exc())
+    except Exception as e:
+        raise e
     timeOk = True
             
     if (trange[1] is not None):
@@ -157,12 +173,8 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
         else:   
             timeOk = ((nowTime + durr) <= trange[1])
 
-    geocode_grab = time.time()
-    geocode = km.geocode(placeStats["result"]["formatted_address"])
-    geocodeTime = (time.time() - geocode_grab)
 
-    if (len(geocode) > 0 and timeOk):
-        geo_tup = (geocode[0]['geometry']['location']['lat'], geocode[0]['geometry']['location']['lng'])
+    if (timeOk):
         n = p["name"]+" ("+placeStats["result"]["formatted_address"].replace(",", "")+")"
         newItem = {
             "name":  scrub(n),
@@ -171,10 +183,9 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
             "rating": rating,
             "original_rating": orig_rating,
             "address": scrub(placeStats["result"]["formatted_address"]),
-            "geo_loc": geo_tup,
             "website": website,
         }
-        return (newItem, placeTime, geocodeTime)
+        return (newItem, placeTime)
     return None
 
 def scrub(s):
@@ -203,21 +214,15 @@ async def collectUserData(user_data):
         "rating": 0,
         "original_rating": 0,
         "address": home_addr,
-        "geo_loc": geocode_tup,
         "website": None,
     }
     places["HOME"].append(homeItem)
 
     seen_places = []
     placeTimes = []
-    geocodeTimes = []
     pdata = []
     
-    print("")
-    print("Time is currently: {}".format(datetime.datetime.now().time()))
-    print("")
     for keyword in user_data['keywords']:
-        print("Collecting data for {}".format(keyword))
         key_weight = user_data["weights"][keyword]
         data = km.places_nearby(
             geocode_tup,
@@ -227,7 +232,6 @@ async def collectUserData(user_data):
             open_now=True,
             radius=user_data['radius'],
         )
- 
         loop = asyncio.get_event_loop()
         placedata = [
             loop.run_in_executor(None, generateUserData, p, current_day, key_weight, user_data, km.get_maps_key(), km.get_places_key())
@@ -239,15 +243,28 @@ async def collectUserData(user_data):
                 places[keyword].append(res[0])
                 seen_places.append((res[0]["name"], res[0]["address"]))
                 placeTimes.append(res[1])
-                geocodeTimes.append(res[2])
     pdata.append(("Total place grab time", sum(placeTimes)))
     if len(placeTimes) > 0:
         pdata.append(("Number of place times", len(placeTimes)))
         pdata.append(("Average place grab time", (sum(placeTimes)/len(placeTimes))))
-    pdata.append(("Total geocode time", sum(geocodeTimes)))
-    if len(geocodeTimes) > 0:
-        pdata.append(("Number of geocode times", len(geocodeTimes)))
-        pdata.append(("Average geocode time", (sum(geocodeTimes)/len(geocodeTimes))))
     pdata.append(("Requesting time", (str(dt.parse(user_data["timestamp"])))))
     perf(pdata)
     return places
+
+def filterPlaces(place_data):
+    filtered_places = {k: [] for k in place_data}
+    filtered_places["HOME"] = place_data["HOME"]
+
+    glob_place_data = [ place_data[k] for k in place_data ]
+    ratings = [ item["rating"] for row in glob_place_data for item in row ]
+    ratings.sort()
+    threshold = int(len(ratings)/4)
+    min_rating = ratings[threshold]
+    
+    for k in place_data:
+        if k != "HOME":
+            for place in place_data[k]:
+                if place["rating"] >= min_rating:
+                    filtered_places[k].append(place)
+
+    return filtered_places    

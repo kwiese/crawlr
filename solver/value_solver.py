@@ -11,6 +11,7 @@ from solver.fastcode.collection import collectSubtoursFast, collectRelated
 
 import traceback
 import time
+import random
 
 env = Env.CloudEnv("cloud.log", "e3f97d2a-b91d-4da1-ae3d-ad13cd9079d3", "NBFaCx9pQtOe84vWzikcBA", "")
 
@@ -84,6 +85,7 @@ def solve(data):
     subtours = collectSubtours(edgeArray, lp, var_mapping)
     cdatac += 1
     cdata += (time.time() - c)
+    tuned = False
     while len(subtours) > 1:
         stn.append(len(subtours))
         for subtour in subtours:
@@ -95,6 +97,11 @@ def solve(data):
                 cnsdatac += 1
                 cnsdata += (time.time() - ct)
         addObjectiveFunction(data, timeArray, decisionArray, edgeArray, subtourArray, lp, var_mapping)
+#        if iters >= 15 and not tuned:
+#            lp.tune()
+#            lp.getTuneResult(0)
+#            lp.write('tune' + str(0) + '.prm')
+#            tuned = True
         t = time.time()
         lp.optimize()
         iters += 1
@@ -372,6 +379,9 @@ def addKeywordConstraints(data, decisionArray, keywordArray, lp, var_mapping):
 
 def addPreEmptiveConstraints(data, edgeArray, decisionArray, subtourArray, lp, var_mapping, subtourCount):
     gdata = [ var_mapping[y]  for (y, yn, k, p) in decisionArray if var_mapping[y] != "HOME" ]
+
+#    sdata = random.sample(gdata, int(len(gdata)/3))
+#    rdata = list(set(gdata) - set(sdata))
     
     for i in range(len(gdata)):
         frm = gdata[i]
