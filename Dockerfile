@@ -1,7 +1,5 @@
 FROM centos:latest
 
-EXPOSE 8000
-
 RUN yum update -y && \
 yum install -y epel-release && \
 yum install -y wget bzip2 gcc gcc-c++ nginx && \
@@ -18,7 +16,6 @@ yum install -y python35u.x86_64 python35u-devel.x86_64 python35u-pip.noarch && \
 /usr/bin/pip3.5 install Cython && \
 /usr/bin/pip3.5 install gunicorn
 
-
 ADD ["setup/nginx.conf", "nginx.conf"]
 ADD ["nginx.conf", "nginx/nginx.conf"]
 
@@ -26,7 +23,9 @@ RUN mkdir /etc/nginx/sites-enabled && \
 ln -s /nginx/nginx.conf /etc/nginx/sites-enabled/ && \
 mv nginx.conf /etc/nginx/ && \
 mkdir /var/log/crawlr && \
-touch /var/log/crawlr/crawlr.log
+touch /var/log/crawlr/crawlr.log && \
+mkdir /var/log/nginx_logs && \
+touch /var/log/nginx_logs/error.log
 
 ADD ["setup/setup.py", "setup.py"]
 
@@ -51,7 +50,10 @@ RUN cd crawlrProject/solver/fastcode && /usr/bin/python3.5 setup.py build_ext --
 ADD ["www/bounds.py", "crawlrProject/bounds.py"]
 ADD ["data_collection/host_url.txt", "crawlrProject/logurl.txt"]
 ADD ["data_collection/host_url.txt", "crawlrProject/crawlr/logurl.txt"]
+ADD ["www_crawlr_tech.crt", "www_crawlr_tech.crt"]
+ADD ["www_crawlr_tech.key", "www_crawlr_tech.key"]
 
+EXPOSE 443
 EXPOSE 80
 CMD ["gunicorn", "crawlrProject.wsgi"]
 

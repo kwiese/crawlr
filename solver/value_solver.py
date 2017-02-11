@@ -8,12 +8,31 @@ from gurobipy import *
 from bounds import time_constraints
 from log import log, perf
 from solver.fastcode.collection import collectSubtoursFast, collectRelated
+from threading import Lock
 
 import traceback
 import time
 import random
 
 env = Env.CloudEnv("cloud.log", "e3f97d2a-b91d-4da1-ae3d-ad13cd9079d3", "NBFaCx9pQtOe84vWzikcBA", "")
+lastUsed = time.time()
+envGuard = Lock()
+
+class FuckedException(Exception):
+    pass
+
+def checkEnv():
+    global lastUsed
+    global env
+    envGuard.acquire()
+    try:
+        if (time.time() - lastUsed) >= 10800:
+            env = Env.CloudEnv("cloud.log", "e3f97d2a-b91d-4da1-ae3d-ad13cd9079d3", "NBFaCx9pQtOe84vWzikcBA", "")
+            lastUsed = time.time()
+        else:
+            lastUsed = time.time()
+    finally:
+        envGuard.release()
 
 def cascade(data, var_mapping, subtourCount):
     timeArray = []
@@ -21,7 +40,8 @@ def cascade(data, var_mapping, subtourCount):
     edgeArray = []
     keywordArray = []
     subtourArray = []
-
+    
+    checkEnv()
     lp = Model("value optimizer", env=env)
     lp.setParam("OutputFlag", False)
     
@@ -77,6 +97,8 @@ def solve(data):
     except Exception as e:
         log(traceback.format_exc())
         raise e
+
+    log(lp.Status)
 
     pdata = []
     stn = []
@@ -324,8 +346,12 @@ def addDecisionConstraints(data, timeArray, decisionArray, lp, var_mapping):
         curr_int += 1
 
 def collectSubtours(edgeArray, lp, var_mapping):
-    #edgeCopy = [ (k[0], k[1]) for k in edgeArray if k[2].X ]
-    return collectSubtoursFast(edgeArray, len(edgeArray))
+    subtours = collectSubtoursFast(edgeArray, len(edgeArray))
+    if len(subtours):
+        return subtours
+    else:
+        log(edgeArray)
+        raise FuckedException("everything is terrible")
 
 def addSubtourConstraint(data, subtour, edgeArray, decisionArray, subtourArray, lp, var_mapping, subtourCount): 
     if "HOME" in subtour:
@@ -379,11 +405,25 @@ def addKeywordConstraints(data, decisionArray, keywordArray, lp, var_mapping):
 
 def addPreEmptiveConstraints(data, edgeArray, decisionArray, subtourArray, lp, var_mapping, subtourCount):
     gdata = [ var_mapping[y]  for (y, yn, k, p) in decisionArray if var_mapping[y] != "HOME" ]
+    choose_3 = []
+    for (frm, to, en, t) in edgeArray:
+        if frm == "HOME":
+            choose_3.append((to, t))
+    choose_3.sort(key=lambda x: x[1])
 
-#    sdata = random.sample(gdata, int(len(gdata)/3))
-#    rdata = list(set(gdata) - set(sdata))
+    b = int(len(choose_3)/3)
+#    choose_3 = choose_3[-b:]
+    choose_3 = choose_3[b:2*b]
     
     for i in range(len(gdata)):
         frm = gdata[i]
         for j in range(i+1, len(gdata)):
             addSubtourConstraint(data, [frm, gdata[j]], edgeArray, decisionArray, subtourArray, lp, var_mapping, subtourCount)
+
+    for i in range(len(choose_3)):
+        f,tf = choose_3[i]
+        for j in range(i+1, len(choose_3)):
+            s,sf = choose_3[j]
+            for k in range(j+1, len(choose_3)):
+                th,thf = choose_3[k]
+                addSubtourConstraint(data, [f, s, th], edgeArray, decisionArray, subtourArray, lp, var_mapping, subtourCount)

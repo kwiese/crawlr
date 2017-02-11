@@ -16,6 +16,7 @@ def collectSubtoursFast(edgeArray, int length):
     subtours = []
     cdef int j
     cdef vector[int] seen
+    cdef int exists
 
     while(ledges > 0):
         start = edges[0][0]
@@ -25,6 +26,7 @@ def collectSubtoursFast(edgeArray, int length):
         ledges -= 1
         while to != start:
             subtour.append(to)
+            exists = 0
             for i in range(ledges):
                 x = edges[i]
                 frm = x[0]
@@ -32,7 +34,10 @@ def collectSubtoursFast(edgeArray, int length):
                 if frm == to:
                     seen.push_back(i)
                     to = n
+                    exists = 1
                     break
+            if exists == 0:
+                return []
         subtours.append(subtour)
         stdsort(seen.begin(), seen.end())
         while not seen.empty():
