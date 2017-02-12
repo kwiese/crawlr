@@ -150,8 +150,9 @@ def generateUserData(p, current_day, key_weight, user_data, maps_key, places_key
             if day["open"]["day"] == current_day:
                 opening = int(day["open"]["time"])
                 closing = None
-                if (day["close"]["time"] is not None):
-                    closing = int(day["close"]["time"]) 
+                if "close" in day:
+                    if (day["close"]["time"] is not None):
+                        closing = int(day["close"]["time"]) 
                 trange = (opening, closing)
                 break
     except Exception as e:

@@ -111,19 +111,13 @@ def solve(data):
     while len(subtours) > 1:
         stn.append(len(subtours))
         for subtour in subtours:
-            if len(subtour) > 2:
+            if "HOME" not in subtour:
                 stl.append(len(subtour))
                 ct = time.time()
                 addSubtourConstraint(data, subtour, edgeArray, decisionArray, subtourArray, lp, var_mapping, subtourCount)
-#                log("add time {}".format((time.time() - ct)))
                 cnsdatac += 1
                 cnsdata += (time.time() - ct)
         addObjectiveFunction(data, timeArray, decisionArray, edgeArray, subtourArray, lp, var_mapping)
-#        if iters >= 15 and not tuned:
-#            lp.tune()
-#            lp.getTuneResult(0)
-#            lp.write('tune' + str(0) + '.prm')
-#            tuned = True
         t = time.time()
         lp.optimize()
         iters += 1
@@ -411,9 +405,12 @@ def addPreEmptiveConstraints(data, edgeArray, decisionArray, subtourArray, lp, v
             choose_3.append((to, t))
     choose_3.sort(key=lambda x: x[1])
 
-    b = int(len(choose_3)/3)
+#    b = int(len(choose_3)/3)
+    b = int(len(choose_3)/4)
 #    choose_3 = choose_3[-b:]
-    choose_3 = choose_3[b:2*b]
+#    choose_3 = choose_3[b:2*b]
+#    choose_3 = choose_3[b:]
+    choose_3 = choose_3[b:3*b]
     
     for i in range(len(gdata)):
         frm = gdata[i]

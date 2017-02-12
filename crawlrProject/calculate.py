@@ -2,6 +2,7 @@ from bounds import time_constraints
 from data_collection.data_collection import collectData
 from solver.value_solver import solve
 import traceback
+import time
 
 from log import log
 
@@ -53,15 +54,18 @@ def start_chain(data):
         d["strictness"] = strictness
         d["bounds"] = bounds
         d["timestamp"] = " ".join(data["timestamp"].split("(")[:-1]).strip()
-
+        t = time.time()
         data = collectData(d)
+        log("total data collection {}".format((time.time() - t)))
     except Exception as e:
         log(traceback.format_exc())
         edata = {"path": [], "addresses": []}
         return edata
     try:
         log("starting solving")
+        t = time.time()
         path_data = solve(data)
+        log("total solving {}".format((time.time() - t)))
     except:
         log(traceback.format_exc())
         edata = {"path": [], "addresses": []}
