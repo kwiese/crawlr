@@ -16,7 +16,6 @@ def start_chain(data):
             kname = "{}-selected".format(keyword)
             if kname in data:
                 keywords.append(keyword)
-        print(d)
         d["keywords"] = keywords
 
         d["start_address"] = data["start_address"]
@@ -55,6 +54,7 @@ def start_chain(data):
         d["strictness"] = strictness
         d["bounds"] = bounds
         d["timestamp"] = " ".join(data["timestamp"].split("(")[:-1]).strip()
+        log(d)
         t = time.time()
         data = collectData(d)
         log("total data collection {}".format((time.time() - t)))
