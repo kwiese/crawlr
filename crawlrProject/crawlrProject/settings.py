@@ -26,9 +26,6 @@ SECRET_KEY = '8j_-j8w5fodd+ex0q7r&^kd(04&^2)5+#iy!z#day*fxoc75_u'
 #DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -125,7 +122,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 ALLOWED_HOSTS = [
-    '.crawlr.tech',
+    '.amazonaws.com',
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
