@@ -16,6 +16,7 @@ def start_chain(data):
             kname = "{}-selected".format(keyword)
             if kname in data:
                 keywords.append(keyword)
+        print(d)
         d["keywords"] = keywords
 
         d["start_address"] = data["start_address"]
