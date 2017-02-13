@@ -38,7 +38,6 @@
                     document.getElementById("loading").style.display = 'block';
                     $.ajax({
                         type: 'post',
-                        url: '/getRoute/',
                         data: $('#pathdata').serialize(),
                         dataType: 'json',
                         success: function(data) {
@@ -314,12 +313,13 @@
                                 <option value="EQ" selected> = </option>            <option value="LTE"> &le; </option>            <option value="GTE"> &ge; </option>        </select>        <input type="number" class="form-control" style="display:inline; width:10%" name="art_gallery-strictness" value="0" min="0" step="1"/>    </div></div>
                     </div>
                 </div>
-                <div class="submitButton">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-		<script type="text/javascript">
+                <script type="text/javascript">
                   document.getElementById('timestamp').value = Date(Date.UTC());
                 </script>
+                <input id="timestamp" name="timestamp" type="hidden"</input>
+                <div class="submitButton">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </div>
             </form>
 
@@ -390,5 +390,26 @@
 	<script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwLw6rb6ifekvYt1vKA2jFvgG9AMCskRQ&libraries=places&callback=initMap">
 	</script>
+  <footer>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12">
+                  <ul class="list-inline">
+                      <li>
+                          <a href="#">Home</a>
+                      </li>
+                      <li class="footer-menu-divider">&sdot;</li>
+                      <li>
+                          <a href="#about">About</a>
+                      </li>
+                      <li class="footer-menu-divider">&sdot;</li>
+                      <li>
+                          <a href="#contact">Contact</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </footer>
    </body>
 </html>
