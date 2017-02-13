@@ -26,6 +26,7 @@ asyncio.set_event_loop(event_loop)
 def collectData(user_data):
     all_data = {}
     log("Starting Collection")
+    log(user_data["timestamp"])
     try:
         place_data = event_loop.run_until_complete(collectUserData(user_data))
         place_data = filterPlaces(place_data)
