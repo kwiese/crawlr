@@ -20,17 +20,16 @@ from log import log, perf
 from data_collection.keys import KeyManager
 
 km = KeyManager()
-event_loop = asyncio.SelectorEventLoop()
-asyncio.set_event_loop(event_loop)
 
 def collectData(user_data):
     all_data = {}
     log("Starting Collection")
     log(user_data["timestamp"])
     try:
-        place_data = event_loop.run_until_complete(collectUserData(user_data))
+        event_loop = asyncio.SelectorEventLoop()
+        place_data = event_loop.run_until_complete(collectUserData(user_data, event_loop))
         place_data = filterPlaces(place_data)
-        distance_data = event_loop.run_until_complete(collectMapData(place_data))
+        distance_data = event_loop.run_until_complete(collectMapData(place_data, event_loop))
 
         all_data["user_data"] = user_data
         all_data["place_data"] = place_data
@@ -79,7 +78,7 @@ def generateMapData(origins, destinations, names, maps_key):
                 d_data[(fromName, toName)] = 30 + dest_data["rows"][i]["elements"][j]["duration"]["value"]
     return (d_data, c_time)
 
-async def collectMapData(place_data):
+async def collectMapData(place_data, event_loop):
     distance_data = {}
 
     glob_place_data = [ place_data[k] for k in place_data ]
@@ -91,10 +90,9 @@ async def collectMapData(place_data):
     names = [ (n, a) for (n, a) in glob_place_data ]
 
     placedata = []
-    loop = asyncio.get_event_loop()
     for i in range(0, len(origins), 10):
         for j in range(0, len(origins), 10):
-            placedata.append(loop.run_in_executor(
+            placedata.append(event_loop.run_in_executor(
                 None,
                 generateMapData,
                 origins[i:min(i+10, len(origins))], 
@@ -194,7 +192,7 @@ def scrub(s):
     better = "".join(c for c in s if unicodedata.category(c)[0] != "C")
     return better.replace("&", "and")
 
-async def collectUserData(user_data):
+async def collectUserData(user_data, event_loop):
     current_day = datetime.datetime.today().weekday()
     if current_day == 6:
         current_day = 0
@@ -234,9 +232,8 @@ async def collectUserData(user_data):
             open_now=True,
             radius=user_data['radius'],
         )
-        loop = asyncio.get_event_loop()
         placedata = [
-            loop.run_in_executor(None, generateUserData, p, current_day, key_weight, user_data, km.get_maps_key(), km.get_places_key())
+            event_loop.run_in_executor(None, generateUserData, p, current_day, key_weight, user_data, km.get_maps_key(), km.get_places_key())
             for p in data["results"]
         ]
         for n in placedata:

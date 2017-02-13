@@ -8,8 +8,8 @@ docker run -p 80:80 -p 443:443 -e GUROBI_HOME=/opt/gurobi701/linux64 -e PATH=/us
 
 DID=$(docker ps -f "ancestor=crawlr/landing" | tail -n+2 | cut -d" " -f1)
 
-#docker exec -d $DID uwsgi --socket /tmp/uwsgi.sock --chdir /crawlrProject --module crawlrProject.wsgi --chmod-socket=666
+docker exec -d $DID uwsgi --socket /tmp/uwsgi.sock --chdir /crawlrProject --module crawlrProject.wsgi --chmod-socket=666 --processes 4 --threads 10
 #docker exec -d $DID bash -c "cd /crawlrProject && gunicorn crawlrProject.wsgi -w 1 --threads 50"
-docker exec -d $DID bash -c "cd /crawlrProject && gunicorn crawlrProject.wsgi"
+#docker exec -d $DID bash -c "cd /crawlrProject && gunicorn crawlrProject.wsgi"
 
 docker exec $DID nginx

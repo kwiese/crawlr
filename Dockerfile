@@ -52,6 +52,7 @@ ADD ["data_collection/host_url.txt", "crawlrProject/logurl.txt"]
 ADD ["data_collection/host_url.txt", "crawlrProject/crawlr/logurl.txt"]
 ADD ["www_crawlr_tech.crt", "www_crawlr_tech.crt"]
 ADD ["www_crawlr_tech.key", "www_crawlr_tech.key"]
+ADD ["uwsgi_params", "uwsgi_params"]
 
 EXPOSE 443
 EXPOSE 80
