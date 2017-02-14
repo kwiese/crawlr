@@ -12,7 +12,7 @@ form_constraints = {'time_constraints':
         'night_club': 1800,
         'park': 1800,
         'shopping_mall': 2700,
-        }
+        },
         'budget':
         {0:'$',
         1:'$$',
