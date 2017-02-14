@@ -41,9 +41,9 @@ function addKeywordSelect(){
     }
   }
   entry += "</select>";
-  //if (num_chosen < 3){
-    entry += "<button type='primary' name='add-" + num_chosen.toString() + "-options' onClick='displayOptions()";
-  //}
+  if (num_chosen < 3){
+    entry += "<button type='primary' name='add-" + num_chosen.toString() + "-options' onClick='displayOptions()> Add another! </button>";
+  }
   entry += "</div>";
   num_chosen += 1;
   document.getElementById("keyword-selection").innerHTML = document.getElementById("keyword-selection").innerHTML + entry;
