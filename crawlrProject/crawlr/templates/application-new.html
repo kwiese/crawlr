@@ -62,7 +62,7 @@
 	    <div class="form-header">
 	        <h1>Maximize Your Night</h1>
 	    </div>
-            <form id="pathdata">{% csrf_token %}
+            <form id="pathdata" onkeypress="return event.keyCode != 13;">{% csrf_token %}
                 <div class="form-group input-column">
                     <div class="addressField">
                         <h4>Starting Address</h4>
@@ -102,10 +102,11 @@
                         <p style="display:inline; margin: 5px">minutes</p>
                     </div>
                 </div>
-              <h4>Keywords</h4>
-              <div style="margin-left: 10%" id="keyword-selection">
-
-              </div>
+                <div class="form-group input-column">
+                  <h4>Keywords</h4>
+                  <div style="margin-left: 10%" id="keyword-selection">
+                  </div>
+                </div>
     </div>
 
     <div class="container" id="loading" style="display: none">
