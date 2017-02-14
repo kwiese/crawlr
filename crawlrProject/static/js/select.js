@@ -42,6 +42,7 @@ function addKeywordSelect(){
   }
   entry += "</select>";
   if (num_chosen < 3){
+    alert("In if!")
     entry += "<button type='primary' name='add-" + num_chosen.toString() + "-options' onClick='displayOptions()> Add another! </button>";
   }
   entry += "</div>";
