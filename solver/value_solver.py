@@ -7,7 +7,7 @@ An implementation for composing and solving the linear program, using the PuLP A
 from gurobipy import *
 from bounds import time_constraints
 from log import log, perf
-from solver.fastcode.collection import collectSubtoursFast, collectRelated
+from solver.fastcode.collection import collectSubtoursFast, collectRelated, meldSubtours
 from threading import Lock
 
 import traceback
@@ -79,6 +79,7 @@ def solve(data):
     cnsdatac = 0
     cnsdata = 0
     iters = 1
+    approximation = False
     
     try:
         (subtourArray, timeArray, decisionArray, edgeArray, keywordArray, lp) = cascade(data, var_mapping, subtourCount)
@@ -125,6 +126,10 @@ def solve(data):
         sdata += (time.time() - t)
         c = time.time()
         subtours = collectSubtours(edgeArray, lp, var_mapping)
+        if sdata >= 12.0:
+            approx = meldSubtours(edgeArray, subtours)
+            approximation = True
+            break
         cdatac += 1
         cdata += (time.time() - c)
     eopt = time.time()
@@ -147,10 +152,22 @@ def solve(data):
     perf(pdata)
 
     chosenEdges = []
-    
+    if approximation:
+        for i in range(len(approx)):
+            frm = approx[i]
+            to = approx[((i+1) % len(approx))]
+            chosenEdges.append((frm, to))
+    else:
+        s = subtours[0]
+        for i in range(len(s)):
+            frm = s[i]
+            to = s[((i+1) % len(s))]
+            chosenEdges.append((frm, to))
+    """
     for (frm, to, en, t) in edgeArray:
         if en.X:
             chosenEdges.append((frm, to))
+    """
 
     last = ""
     for x in chosenEdges:
