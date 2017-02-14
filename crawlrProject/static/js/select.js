@@ -55,9 +55,8 @@ function displayOptions(){
   var outer_div = document.getElementById("keyword-options-"+num_chosen.toString());
   var sel = document.getElementById("k-" + num_chosen.toString());
   var key = sel.options[sel.selectedIndex].value;
-  alert(key)
   var entry = "<h5 style='display:inline'>Don't spend longer than</h5>";
-  entry += "<input id='" + key +"-hours' class='form-control' type='number' min='0' step='1' placeholder='Max Hours' style='display:inline;width: 15%'>";
+  entry += "<input id='" + key +"-hours' class='form-control' type='number' min='0' step='1' placeholder='Max Hours' style='width: 15%'>";
   entry += "<p style='display:inline'> Hours </p>"
   entry += "<input id='" + key +"-minutes' class='form-control' type='number' min='0' max='59' step='1' placeholder='Max Mins' style='display:inline;width: 15%'>";
   entry += "<p style='display:inline'> Minutes </p> <br><br>"
