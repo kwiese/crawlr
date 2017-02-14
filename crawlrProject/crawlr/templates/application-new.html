@@ -24,16 +24,15 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="{% static "js/display.js" %}"></script>
   <script src="{% static "js/select.js" %}"></script>
-        <script>
-            function checkUpdate(keyword) {
-                var e = document.getElementById(keyword)
-                if(e.style.display == 'block')
-                    e.style.display = 'none'
-                else
-                    e.style.display = 'block'
-            }
-        </script>
-        <script> addKeywordSelect() </script>
+  <script>
+      function checkUpdate(keyword) {
+          var e = document.getElementById(keyword)
+          if(e.style.display == 'block')
+              e.style.display = 'none'
+          else
+              e.style.display = 'block'
+      }
+  </script>
 	<script>
 		var map = null;
 		var start = null;
@@ -48,9 +47,9 @@
 			padding: 0;
 		}
 	</style>
-    </head>
+  </head>
 
-    <body>
+    <body onload="addKeywordSelect()">
     <nav class="navbar navbar-default">
    	  <div class="container-fluid">
    	    <div class="navbar-header">
@@ -103,12 +102,10 @@
                         <p style="display:inline; margin: 5px">minutes</p>
                     </div>
                 </div>
-                <h4>Keywords</h4>
-                <div style="margin-left: 10%" id="keyword-selection">
+              <h4>Keywords</h4>
+              <div style="margin-left: 10%" id="keyword-selection">
 
-                </div>
-
-
+              </div>
     </div>
 
     <div class="container" id="loading" style="display: none">
