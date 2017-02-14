@@ -75,7 +75,11 @@ def generateMapData(origins, destinations, names, maps_key):
         for j in range(len(dest_data["rows"][i]["elements"])):
             toName = d_addr[j]
             if fromName != toName:
-                d_data[(fromName, toName)] = 30 + dest_data["rows"][i]["elements"][j]["duration"]["value"]
+                dist_obj = dest_data["rows"][i]["elements"][j]
+                if "duration" in dist_obj:
+                    d_data[(fromName, toName)] = 30 + dest_data["rows"][i]["elements"][j]["duration"]["value"]
+                else:
+                    d_data[(fromName, toName)] = 30
     return (d_data, c_time)
 
 async def collectMapData(place_data, event_loop):

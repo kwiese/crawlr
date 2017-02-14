@@ -389,6 +389,8 @@ def addKeywordConstraints(data, decisionArray, keywordArray, lp, var_mapping):
                 lp.addConstr(sum(associated_vars) >= value, keyword)
             elif equality == "LTE":
                 lp.addConstr(sum(associated_vars) <= value, keyword)
+        elif equality == "GTE" and value == 0:
+            continue
         else:
             if equality != "LTE":
                 badVar = lp.addVar(vtype=GRB.BINARY, name="bad")
