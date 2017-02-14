@@ -35,7 +35,7 @@ var num_chosen = 0;
 function addKeywordSelect(){
   var entry = "<div class='form-group' id='keyword-" + num_chosen.toString() +"'>";
   entry += "<select class='form-control' name='k-" + num_chosen.toString() + "' onchange='displayOptions();'>";
-  entry += "<option value='""'>Select...</option>";
+  entry += "<option value=''>Select...</option>";
   for (var key in chosen){
     if (chosen[key] == false){
       entry += "<option value='" + key + "'>" + key + "</option>";
