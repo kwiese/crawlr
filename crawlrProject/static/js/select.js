@@ -35,15 +35,16 @@ var num_chosen = 0;
 function addKeywordSelect(){
   var entry = "<div class='form-group' id='keyword-" + num_chosen.toString() +"'>";
   entry += "<select class='form-control' name='k-" + num_chosen.toString() + "' onchange='displayOptions();'>";
+  entry += "<option value='""'>Select...</option>";
   for (var key in chosen){
     if (chosen[key] == false){
       entry += "<option value='" + key + "'>" + key + "</option>";
     }
   }
   entry += "</select>";
-  entry += "<div class='form-group' id='keyword-options-" + num_chosen.toString() +"'> </div>";
+  entry += "<div class='form-group' id='keyword-options-" + num_chosen.toString() +"'></div>";
   if (num_chosen < 3){
-    entry += "<button class='btn btn-primary' name='add-" + num_chosen.toString() + "-options' onClick='num_chosen += 1; addKeywordSelect();'> Add another! </button>";
+    entry += "<button class='btn btn-primary' name='add-" + num_chosen.toString() + "-options' onClick='num_chosen += 1; addKeywordSelect();'>Add</button>";
   }
   entry += "</div>";
   document.getElementById("keyword-selection").innerHTML = document.getElementById("keyword-selection").innerHTML + entry;
@@ -51,6 +52,7 @@ function addKeywordSelect(){
 
 
 function displayOptions(){
+  alert("in displayOptions")
   var outer_div = document.getElementById("keyword-options-"+num_chosen.toString());
   var sel = document.getElementById("k-" + num_chosen.toString());
   var key = sel.options[sel.selectedIndex].value;
