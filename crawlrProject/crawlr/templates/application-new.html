@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Crawlr</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="/static/css/landing-page.css" rel="stylesheet">
+    <link href="/static/css/app-page.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+  {% load staticfiles %}
+  <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="{% static "css/landing-page.css" %}" rel="stylesheet">
+  <link href="{% static "css/app-page.css" %}" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Satisfy|Varela+Round|Yellowtail" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="{% static "js/display.js" %}"></script>
+  <script src="{% static "js/select.js" %}"></script>
+        <script>
+            function checkUpdate(keyword) {
+                var e = document.getElementById(keyword)
+                if(e.style.display == 'block')
+                    e.style.display = 'none'
+                else
+                    e.style.display = 'block'
+            }
+        </script>
+        <script> addKeywordSelect() </script>
+	<script>
+		var map = null;
+		var start = null;
+		var geocoder = null;
+		var directionsService = null;
+		var directionsDisplay = null;
+	</script>
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+    </head>
+
+    <body>
+    <nav class="navbar navbar-default">
+   	  <div class="container-fluid">
+   	    <div class="navbar-header">
+   	      <a class="navbar-brand topnav" style="background:transparent;" href= "/" >Crawlr</a>
+   	    </div>
+   	  </div>
+ 	  </nav>
+
+	<div class="container form-container" style="" id="queryPage">
+	    <div class="form-header">
+	        <h1>Maximize Your Night</h1>
+	    </div>
+            <form id="pathdata">{% csrf_token %}
+                <div class="form-group input-column">
+                    <div class="addressField">
+                        <h4>Starting Address</h4>
+                        <input class="form-control" type="text" id="addr" name="start_address" placeholder="Address"><br>
+                    </div>
+                    <div class="radiusField">
+                        <h4>Search Radius</h4>
+                        <select class="form-control" name="searchRadius">
+                            <option value=805 selected>0.5 miles</option>
+                            <option value=1609>1 mile</option>
+                            <option value=2414>1.5 miles</option>
+                        </select>
+                    </div>
+                    <div class="budgetField">
+                        <h4>Average Budget</h4>
+                        <select class="form-control" name="budget" style="width: 50%">
+                          {% for k,v in form_info.budget.items %}
+                            <option value={{k}}>{{v}}</option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                    <div class="timeField">
+                        <h4>How Much Time do You Have?</h4>
+                        <select name="userHour" class="form-control" style="display:inline;width: 15%">
+                            <option value=0>0</option>
+                            <option value=3600 selected>1</option>
+                            <option value=7200>2</option>
+                            <option value=10800>3</option>
+                            <option value=14400>4</option>
+                            <option value=18000>5</option>
+                        </select>
+                        <p style="display:inline; margin: 5px">hours</p>
+                        <select name="userMinute" class="form-control" style="display:inline;width: 15%">
+                            <option value=0>0</option>
+                            <option value=1800 selected>30</option>
+                        </select>
+                        <p style="display:inline; margin: 5px">minutes</p>
+                    </div>
+                </div>
+
+
+                <div class="loc-column">
+                <div class="loc-column-1">
+                <h4>Keywords</h4>
+                <div style="margin-left: 10%" id="keyword-selection">
+
+                </div>
+
+
+
+
+    <div class="container" id="loading" style="display: none">
+      <div class="jumbotron">
+        <h1>Maximize Your Day's Value</h1>
+      </div>
+      <h4 style="text-align:center; display:inline">Calculating your adventure...</h4>
+      <i class="fa fa-spinner fa-spin" style="font-size:24px; color: blue"></i>
+    </div>
+    <div class="container" id="results" style="display: none; height: 100%; width: 100%">
+      <div class="jumbotron">
+          <h1>Maximize Your Day's Value</h1>
+      </div>
+      <h1 class="display-3">Your Route</h1>
+      <div style="border-radius: 5px; overflow: scroll; background-color: #666666; display: inline; width: 48%; float: left">
+        <ol id="finalpath" class="list-group" style="margin: 10px">
+        </ol>
+      </div>
+      <div id="map" style="display: inline; float: right; height: 50%; width: 50%"></div>
+    </div>
+
+    <div class="container" id="nopath" style="display: none">
+      <div class="jumbotron">
+        <h1>Maximize Your Day's Value</h1>
+      </div>
+      <h3 style="margin: 0 auto; width: 50%">Sorry, we couldn't find a route for you!</h3>
+    </div>
+    <script>
+      function initMap() {
+        geocoder = new google.maps.Geocoder();
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 9,
+          center: {lat: 41.85, lng: -87.65},
+        });
+        directionsDisplay = new google.maps.DirectionsRenderer;
+        directionsDisplay.setMap(map);
+        directionsService = new google.maps.DirectionsService;
+        var iA = document.getElementById('addr');
+        var autocomplete = new google.maps.places.Autocomplete(iA);
+      }
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwLw6rb6ifekvYt1vKA2jFvgG9AMCskRQ&libraries=places&callback=initMap">
+    </script>
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <ul class="list-inline">
+                <li>
+                    <a href="#">Home</a>
+                </li>
+                <li class="footer-menu-divider">&sdot;</li>
+                <li>
+                    <a href="#about">About</a>
+                </li>
+                <li class="footer-menu-divider">&sdot;</li>
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
