@@ -42,7 +42,7 @@ function addKeywordSelect(){
     }
   }
   entry += "</select>";
-  entry += "<div class='form-group' id='keyword-options-" + num_chosen.toString() +"'></div>";
+  entry += "<div class='form-group' style='margin-left:15%; width: 95%;' id='keyword-options-" + num_chosen.toString() +"'></div>";
   if (num_chosen < 3){
     entry += "<button class='btn btn-primary' name='add-" + num_chosen.toString() + "-options' onClick='num_chosen += 1; addKeywordSelect();'>Add</button>";
   }
@@ -57,9 +57,10 @@ function displayOptions(){
   var key = sel.options[sel.selectedIndex].value;
   alert(key)
   var entry = "<h5 style='display:inline'>Don't spend longer than</h5><br>";
-  entry += "<select name='" + key + "class='form-control' style='display:inline; width:10%; margin: 5px'>";
-  entry += "<option value=3600>1</option>";
-  entry += "</select>";
+  entry += "<input id='" + key +"-hours' class='form-control' type='number' min='0' step='1' placeholder='Max Hours' style='display:inline;width: 15%'>";
+  entry += "<p style='display:inline'> Hours </p>"
+  entry += "<input id='" + key +"-minutes' class='form-control' type='number' min='0' max='59' step='1' placeholder='Max Mins' style='display:inline;width: 15%'>";
+  entry += "<p style='display:inline'> Minutes </p> <br><br>"
   outer_div.innerHTML = outer_div.innerHTML + entry;
 
 }
