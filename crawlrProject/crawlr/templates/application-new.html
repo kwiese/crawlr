@@ -64,11 +64,11 @@
 	    </div>
             <form id="pathdata" onkeypress="return event.keyCode != 13;">{% csrf_token %}
                 <div class="form-group input-group-lg">
-                    <div class="addressField">
+                    <div class="addressField" style="margin-left: 5%; margin-right: 5%">
                         <h4>Starting Address</h4>
                         <input class="form-control" type="text" id="addr" name="start_address" placeholder="Address"><br>
                     </div>
-                    <div class="radiusField">
+                    <div class="radiusField" style="margin-left: 5%; margin-right: 5%">
                         <h4>Search Radius</h4>
                         <select class="form-control" name="searchRadius">
                             <option value=805 selected>0.5 miles</option>
@@ -76,7 +76,7 @@
                             <option value=2414>1.5 miles</option>
                         </select>
                     </div>
-                    <div class="budgetField">
+                    <div class="budgetField" style="margin-left: 5%; margin-right: 5%">
                         <h4>Average Budget</h4>
                         <select class="form-control" name="budget" style="width: 50%">
                           {% for k,v in form_info.budget.items %}
@@ -84,7 +84,7 @@
                           {% endfor %}
                         </select>
                     </div>
-                    <div class="timeField">
+                    <div class="timeField" style="margin-left: 5%; margin-right: 5%">
                         <h4>How Much Time do You Have?</h4>
                         <select name="userHour" class="form-control" style="display:inline;width: 15%">
                             <option value=0>0</option>
@@ -104,7 +104,7 @@
                 </div>
                 <div class="form-group input-group-lg">
                   <h4>Keywords</h4>
-                  <div style="margin-left: 10%" id="keyword-selection">
+                  <div style="margin-left: 5%; margin-right: 5%" id="keyword-selection">
                   </div>
                 </div>
     </div>
