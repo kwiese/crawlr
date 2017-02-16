@@ -34,6 +34,27 @@ var num_chosen = 0;
 var div_inserted = [false, false, false, false];
 
 function addKeywordSelect(){
+  var entry = "<div class='form-group' id='keyword-" + num_chosen.toString() +"'>";
+  entry += "<select class='form-control' id='k-" + num_chosen.toString() + "' name='k-" + num_chosen.toString() + "'onchange='checkSelect(this.id); displayOptions(this.id);'>";
+  entry += "<option value='NONE-NONE'>Select...</option>";
+  for (var key in chosen){
+    if (!chosen[key]){
+      entry += "<option id='" + key + "-" + num_chosen.toString() + "' value='" + key + "-" + num_chosen.toString() + "'>" + key + "</option>";
+    }
+  }
+  entry += "</select> <br>";
+  entry += "</div>";
+  entry += "<div class='form-group' id='keyword-options-" + num_chosen.toString() +"'></div>";
+  document.getElementById("keyword-selection-" + num_chosen.toString()).innerHTML = document.getElementById("keyword-selection-" + num_chosen.toString()).innerHTML + entry;
+  checkSelect("k-" + num_chosen.toString());
+  if(num_chosen == 2){
+    document.getElementById("keyword-add").disabled = true;
+  }
+
+}
+
+function checkSelect(id){
+  id = parseInt(id.split("-")[1]);
   var sel0 = document.getElementById("k-0");
   var sel1 = document.getElementById("k-1");
   var sel2 = document.getElementById("k-2");
@@ -58,32 +79,14 @@ function addKeywordSelect(){
     }
   }
 
-  var entry = "<div class='form-group' id='keyword-" + num_chosen.toString() +"'>";
-  entry += "<select class='form-control' id='k-" + num_chosen.toString() + "' name='k-" + num_chosen.toString() + "'onchange='displayOptions(this.id);'>";
-  entry += "<option value='NONE-NONE'>Select...</option>";
-  for (var key in chosen){
-    if (!chosen[key]){
-      entry += "<option id='" + key + "-" + num_chosen.toString() + "' value='" + key + "-" + num_chosen.toString() + "'>" + key + "</option>";
-    }
-  }
-  entry += "</select> <br>";
-  entry += "</div>";
-  entry += "<div class='form-group' id='keyword-options-" + num_chosen.toString() +"'></div>";
-  document.getElementById("keyword-selection-" + num_chosen.toString()).innerHTML = document.getElementById("keyword-selection-" + num_chosen.toString()).innerHTML + entry;
-
   already_chosen.forEach(function(opt) {
     if(opt != null){
-      if (opt.split("-")[1] != num_chosen.toString()){
-        document.getElementById(opt.split("-")[0] + "-" + num_chosen.toString()).disabled = true;
+      if (opt.split("-")[1] != id.toString()){
+        document.getElementById(opt.split("-")[0] + "-" + id.toString()).disabled = true;
       }
     }
   });
-  if(num_chosen == 2){
-    document.getElementById("keyword-add").disabled = true;
-  }
-
 }
-
 
 function displayOptions(id){
   id = parseInt(id.split("-")[1]);
