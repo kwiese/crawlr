@@ -3,6 +3,7 @@ from data_collection.data_collection import collectData
 from solver.value_solver import solve
 import traceback
 import time
+import re
 
 from log import log
 
@@ -11,11 +12,26 @@ def start_chain(data):
     log("starting chain")
     try:
         keywords = []
+        keyindices = {}
         d = {}
-        for keyword in time_constraints:
-            kname = "{}-selected".format(keyword)
-            if kname in data:
-                keywords.append(keyword)
+        for element in data:
+            m = re.match(
+                r'k-([0-9]+)',
+                element,
+                re.M|re.I,
+            )
+            if m:
+                val = data[element]
+                mm = re.match(
+                    r'(.+)-([0-9]+)',
+                    val,
+                    re.M|re.I,
+                )
+                k = mm.group(1)
+                i = mm.group(2)
+                keyindices[i] = k
+                keywords.append(k)
+
         d["keywords"] = keywords
 
         d["start_address"] = data["start_address"]
@@ -32,24 +48,22 @@ def start_chain(data):
         weights = {"HOME": 0}
         strictness = {}
         bounds = {"HOME": 0}
-        for keyword in keywords:
-            kname = "{}-multiplier".format(keyword)
-            weights[keyword] = int(data[kname])
+        
+        for i in keyindices:
+            keyword = keyindices[i]
 
-            kname = "{}-equality".format(keyword)
-            equality = data[kname]
+            interest = data["{}-interest".format(i)]
+            weights[keyword] = int(interest)
+
+            equality = data["{}-equality".format(i)]
             if equality != "NONE":
-                kname = "{}-strictness".format(keyword)
-                value = int(data[kname])
+                strict = int(data["{}-strictness".format(i)])
+                strictness[keyword] = (equality, strict)
 
-                strictness[keyword] = (equality, value)
-
-            kname = "{}-upperHour".format(keyword)
-            upperHour = int(data[kname])
-            kname = "{}-upperMinute".format(keyword)
-            upperMinute = int(data[kname])
-            bounds[keyword] = (upperHour + upperMinute)
-
+            uHour = int(data["{}-hours".format(i)])*3600
+            uMinute = int(data["{}-minutes".format(i)])*60
+            bounds[keyword] = (uHour + uMinute)
+        
         d["weights"] = weights
         d["strictness"] = strictness
         d["bounds"] = bounds
