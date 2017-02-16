@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Crawlr</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-  {% load static %}
-  <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+      <title>Crawlr</title>
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+      {% load static %}
+      <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
 
-  <!-- Custom CSS -->
-  <link href="{% static "css/landing-page.css" %}" rel="stylesheet">
-  <link href="{% static "css/app-page.css" %}" rel="stylesheet">
+      <!-- Custom CSS -->
+      <link href="{% static "css/landing-page.css" %}" rel="stylesheet">
+      <link href="{% static "css/app-page.css" %}" rel="stylesheet">
 
-  <!-- Custom Fonts -->
-  <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Satisfy|Varela+Round|Yellowtail" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="{% static "js/display.js" %}"></script>
-  <script src="{% static "js/select.js" %}"></script>
-  <script>
-      function checkUpdate(keyword) {
-          var e = document.getElementById(keyword)
-          if(e.style.display == 'block')
-              e.style.display = 'none'
-          else
-              e.style.display = 'block'
-      }
-  </script>
-	<script>
-		var map = null;
-		var start = null;
-		var geocoder = null;
-		var directionsService = null;
-		var directionsDisplay = null;
-	</script>
-	<style>
-		html, body {
-			height: 100%;
-			margin: 0;
-			padding: 0;
-		}
-	</style>
+      <!-- Custom Fonts -->
+      <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Satisfy|Varela+Round|Yellowtail" rel="stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="{% static "js/display.js" %}"></script>
+      <script src="{% static "js/select.js" %}"></script>
+      <script>
+          function checkUpdate(keyword) {
+              var e = document.getElementById(keyword)
+              if(e.style.display == 'block')
+                  e.style.display = 'none'
+              else
+                  e.style.display = 'block'
+          }
+      </script>
+    	<script>
+    		var map = null;
+    		var start = null;
+    		var geocoder = null;
+    		var directionsService = null;
+    		var directionsDisplay = null;
+    	</script>
+    	<style>
+    		html, body {
+    			height: 100%;
+    			margin: 0;
+    			padding: 0;
+    		}
+    	</style>
   </head>
 
-    <body onload="addKeywordSelect()">
+  <body onload="addKeywordSelect()">
     <nav class="navbar navbar-default">
    	  <div class="container-fluid">
    	    <div class="navbar-header">
@@ -52,60 +52,66 @@
    	  </div>
  	  </nav>
 
-	<div class="container form-container" style="" id="queryPage">
+	  <div class="container form-container" style="" id="queryPage">
 	    <div class="form-header">
-	        <h1>Maximize Your Night</h1>
+	       <h1>Maximize Your Night</h1>
 	    </div>
-            <form id="pathdata" onkeypress="return event.keyCode != 13;">{% csrf_token %}
-                <div class="form-group input-group-lg">
-                  <div class="addressField" style="margin-left: 5%; margin-right: 5%">
-                      <h4>Starting Address</h4>
-                      <input class="form-control" type="text" id="addr" name="start_address" placeholder="Address"><br>
-                  </div>
-                  <div class="radiusField" style="margin-left: 5%; margin-right: 5%">
-                      <h4>Search Radius</h4>
-                      <select class="form-control" name="searchRadius">
-                          <option value=805 selected>0.5 miles</option>
-                          <option value=1609>1 mile</option>
-                          <option value=2414>1.5 miles</option>
-                      </select>
-                  </div>
-                  <div class="budgetField" style="margin-left: 5%; margin-right: 5%">
-                      <h4>Average Budget</h4>
-                      <select class="form-control" name="budget" style="width: 50%">
-                        {% for k,v in form_info.budget.items %}
-                          <option value={{k}}>{{v}}</option>
-                        {% endfor %}
-                      </select>
-                  </div>
-                  <div class="timeField" style="margin-left: 5%; margin-right: 5%">
-                      <h4>How Much Time do You Have?</h4>
-                      <select name="userHour" class="form-control" style="display:inline;width: 15%">
-                          <option value=0>0</option>
-                          <option value=3600 selected>1</option>
-                          <option value=7200>2</option>
-                          <option value=10800>3</option>
-                          <option value=14400>4</option>
-                          <option value=18000>5</option>
-                      </select>
-                      <p style="display:inline; margin: 5px">hours</p>
-                      <select name="userMinute" class="form-control" style="display:inline;width: 15%">
-                          <option value=0>0</option>
-                          <option value=1800 selected>30</option>
-                      </select>
-                      <p style="display:inline; margin: 5px">minutes</p>
-                  </div>
-                  <div style="margin-left: 5%; margin-right: 5%" id="keyword-selection">
-                    <h4>Keywords</h4>
-                  </div>
-                  <div class='col-md-4'>
-                    <div class='form-group row'>
-                      <div class='addButton'>
-                        <button type="button" class='btn btn-primary' id="keyword-add" onClick='num_chosen += 1; addKeywordSelect();'>Add Option</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      <form id="pathdata" onkeypress="return event.keyCode != 13;">{% csrf_token %}
+        <div class="form-group input-group-lg">
+          <div class="addressField" style="margin-left: 5%; margin-right: 5%">
+            <h4>Starting Address</h4>
+            <input class="form-control" type="text" id="addr" name="start_address" placeholder="Address"><br>
+          </div>
+          <div class="radiusField" style="margin-left: 5%; margin-right: 5%">
+            <h4>Search Radius</h4>
+            <select class="form-control" name="searchRadius">
+              <option value=805 selected>0.5 miles</option>
+              <option value=1609>1 mile</option>
+              <option value=2414>1.5 miles</option>
+            </select>
+          </div>
+          <div class="budgetField" style="margin-left: 5%; margin-right: 5%">
+            <h4>Average Budget</h4>
+            <select class="form-control" name="budget" style="width: 50%">
+              {% for k,v in form_info.budget.items %}
+                <option value={{k}}>{{v}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="timeField" style="margin-left: 5%; margin-right: 5%">
+            <h4>How Much Time do You Have?</h4>
+            <select name="userHour" class="form-control" style="display:inline;width: 15%">
+              <option value=0>0</option>
+              <option value=3600 selected>1</option>
+              <option value=7200>2</option>
+              <option value=10800>3</option>
+              <option value=14400>4</option>
+              <option value=18000>5</option>
+            </select>
+            <p style="display:inline; margin: 5px">hours</p>
+            <select name="userMinute" class="form-control" style="display:inline;width: 15%">
+              <option value=0>0</option>
+              <option value=1800 selected>30</option>
+            </select>
+            <p style="display:inline; margin: 5px">minutes</p>
+          </div>
+          <div style="margin-left: 5%; margin-right: 5%" id="keyword-selection">
+            <h4>Keywords</h4>
+            <div id="keyword-selection-0">
+            </div>
+            <div id="keyword-selection-1">
+            </div>
+            <div id="keyword-selection-2">
+            </div>
+          </div>
+          <div class='col-md-4'>
+            <div class='form-group row'>
+              <div class='addButton'>
+                <button type="button" class='btn btn-primary' id="keyword-add" onClick='num_chosen += 1; addKeywordSelect();'>Add Option</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
     <div class="container" id="loading" style="display: none">
