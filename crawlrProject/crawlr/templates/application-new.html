@@ -4,13 +4,7 @@
         <title>Crawlr</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="/static/css/landing-page.css" rel="stylesheet">
-    <link href="/static/css/app-page.css" rel="stylesheet">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-  {% load staticfiles %}
+  {% load static %}
   <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
 
   <!-- Custom CSS -->
@@ -64,47 +58,52 @@
 	    </div>
             <form id="pathdata" onkeypress="return event.keyCode != 13;">{% csrf_token %}
                 <div class="form-group input-group-lg">
-                    <div class="addressField" style="margin-left: 5%; margin-right: 5%">
-                        <h4>Starting Address</h4>
-                        <input class="form-control" type="text" id="addr" name="start_address" placeholder="Address"><br>
-                    </div>
-                    <div class="radiusField" style="margin-left: 5%; margin-right: 5%">
-                        <h4>Search Radius</h4>
-                        <select class="form-control" name="searchRadius">
-                            <option value=805 selected>0.5 miles</option>
-                            <option value=1609>1 mile</option>
-                            <option value=2414>1.5 miles</option>
-                        </select>
-                    </div>
-                    <div class="budgetField" style="margin-left: 5%; margin-right: 5%">
-                        <h4>Average Budget</h4>
-                        <select class="form-control" name="budget" style="width: 50%">
-                          {% for k,v in form_info.budget.items %}
-                            <option value={{k}}>{{v}}</option>
-                          {% endfor %}
-                        </select>
-                    </div>
-                    <div class="timeField" style="margin-left: 5%; margin-right: 5%">
-                        <h4>How Much Time do You Have?</h4>
-                        <select name="userHour" class="form-control" style="display:inline;width: 15%">
-                            <option value=0>0</option>
-                            <option value=3600 selected>1</option>
-                            <option value=7200>2</option>
-                            <option value=10800>3</option>
-                            <option value=14400>4</option>
-                            <option value=18000>5</option>
-                        </select>
-                        <p style="display:inline; margin: 5px">hours</p>
-                        <select name="userMinute" class="form-control" style="display:inline;width: 15%">
-                            <option value=0>0</option>
-                            <option value=1800 selected>30</option>
-                        </select>
-                        <p style="display:inline; margin: 5px">minutes</p>
-                    </div>
-                </div>
-                <div class="form-group input-group-lg">
+                  <div class="addressField" style="margin-left: 5%; margin-right: 5%">
+                      <h4>Starting Address</h4>
+                      <input class="form-control" type="text" id="addr" name="start_address" placeholder="Address"><br>
+                  </div>
+                  <div class="radiusField" style="margin-left: 5%; margin-right: 5%">
+                      <h4>Search Radius</h4>
+                      <select class="form-control" name="searchRadius">
+                          <option value=805 selected>0.5 miles</option>
+                          <option value=1609>1 mile</option>
+                          <option value=2414>1.5 miles</option>
+                      </select>
+                  </div>
+                  <div class="budgetField" style="margin-left: 5%; margin-right: 5%">
+                      <h4>Average Budget</h4>
+                      <select class="form-control" name="budget" style="width: 50%">
+                        {% for k,v in form_info.budget.items %}
+                          <option value={{k}}>{{v}}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                  <div class="timeField" style="margin-left: 5%; margin-right: 5%">
+                      <h4>How Much Time do You Have?</h4>
+                      <select name="userHour" class="form-control" style="display:inline;width: 15%">
+                          <option value=0>0</option>
+                          <option value=3600 selected>1</option>
+                          <option value=7200>2</option>
+                          <option value=10800>3</option>
+                          <option value=14400>4</option>
+                          <option value=18000>5</option>
+                      </select>
+                      <p style="display:inline; margin: 5px">hours</p>
+                      <select name="userMinute" class="form-control" style="display:inline;width: 15%">
+                          <option value=0>0</option>
+                          <option value=1800 selected>30</option>
+                      </select>
+                      <p style="display:inline; margin: 5px">minutes</p>
+                  </div>
                   <div style="margin-left: 5%; margin-right: 5%" id="keyword-selection">
                     <h4>Keywords</h4>
+                  </div>
+                  <div class='col-md-4'>
+                    <div class='form-group row'>
+                      <div class='addButton'>
+                        <button type="button" class='btn btn-primary' id="keyword-add" onClick='num_chosen += 1; addKeywordSelect();'>Add Option</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
     </div>
