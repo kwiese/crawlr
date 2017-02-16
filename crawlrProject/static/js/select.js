@@ -78,7 +78,6 @@ function checkSelect(id){
       already_chosen[2] = val
     }
   }
-}
 
   already_chosen.forEach(function(opt) {
     if(opt != null){
