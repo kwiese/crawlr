@@ -100,11 +100,11 @@ function displayOptions(id){
     entry += "<div class='form-group row'>";
     entry += "<label class='col-md-2' for='" + id +"-hours'>Hours:</label>";
     entry += "<div class='col-md-4'>";
-    entry += "<input name='" + id + "-hours' id='" + id +"-hours' class='form-control' type='number' min='0' step='1' placeholder='Hours'>";
+    entry += "<input name='" + id + "-hours' id='" + id +"-hours' class='form-control' type='number' min='0' step='1' value='1' placeholder='Hours'>";
     entry += "</div>";
     entry += "<label class='col-md-2' for='" + id +"-minutes'>Minutes:</label>";
     entry += "<div class='col-md-4'>";
-    entry += "<input name='" + id + "-minutes' id='" + id +"-minutes' class='form-control' type='number' min='0' max='59' step='1' placeholder='Mins'>";
+    entry += "<input name='" + id + "-minutes' id='" + id +"-minutes' class='form-control' type='number' min='0' max='59' step='1' value='0' placeholder='Mins'>";
     entry += "</div>";
     entry += "</div>";
     entry += "</div>";
@@ -114,7 +114,7 @@ function displayOptions(id){
     entry += "<div class='form-group row'>";
     entry += "<label class='col-md-2' for='" + id +"-interest'>Interest:</label>";
     entry += "<div class='col-md-4'>";
-    entry += "<input name='" + id + "-interest' id='" + id +"-interest' class='form-control' type='number' min='0' step='1' placeholder='Multiplier'>";
+    entry += "<input name='" + id + "-interest' id='" + id +"-interest' class='form-control' type='number' min='1' step='1' value='1' placeholder='Multiplier'>";
     entry += "</div>";
     entry += "</div>";
     entry += "</div>";

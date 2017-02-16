@@ -44,13 +44,38 @@
   </head>
 
   <body onload="addKeywordSelect()">
-    <nav class="navbar navbar-default">
+    <!-- <nav class="navbar navbar-default">
    	  <div class="container-fluid">
    	    <div class="navbar-header">
    	      <a class="navbar-brand topnav" style="background:transparent;" href= "/" >Crawlr</a>
    	    </div>
    	  </div>
- 	  </nav>
+ 	  </nav> -->
+
+    <nav class="navbar navbar-default topnav" style="width:100%; margin:0" role="navigation">
+        <div class="container navbar-fixed-top topnav">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand topnav" href="/application">Crawlr</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/#">Home</a>
+                    </li>
+                    <li>
+                        <a href="/#about">About</a>
+                    </li>
+                    <li>
+                        <a href="/#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
 	  <div class="container form-container" style="" id="queryPage">
 	    <div class="form-header">
@@ -112,19 +137,18 @@
             </div>
           </div>
         </div>
+        <input id="timestamp" name="timestamp" type="hidden"</input>
+        <div class="submitButton">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
     </div>
 
     <div class="container" id="loading" style="display: none">
-      <div class="jumbotron">
-        <h1>Maximize Your Day's Value</h1>
-      </div>
-      <h4 style="text-align:center; display:inline">Calculating your adventure...</h4>
+      <h4 style="text-align:center; display:inline; color:white">Calculating your adventure...</h4>
       <i class="fa fa-spinner fa-spin" style="font-size:24px; color: blue"></i>
     </div>
     <div class="container" id="results" style="display: none; height: 100%; width: 100%">
-      <div class="jumbotron">
-          <h1>Maximize Your Day's Value</h1>
-      </div>
       <h1 class="display-3">Your Route</h1>
       <div style="border-radius: 5px; overflow: scroll; background-color: #666666; display: inline; width: 48%; float: left">
         <ol id="finalpath" class="list-group" style="margin: 10px">
@@ -134,9 +158,6 @@
     </div>
 
     <div class="container" id="nopath" style="display: none">
-      <div class="jumbotron">
-        <h1>Maximize Your Day's Value</h1>
-      </div>
       <h3 style="margin: 0 auto; width: 50%">Sorry, we couldn't find a route for you!</h3>
     </div>
     <script>
@@ -157,26 +178,5 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwLw6rb6ifekvYt1vKA2jFvgG9AMCskRQ&libraries=places&callback=initMap">
     </script>
     <!-- Footer -->
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <ul class="list-inline">
-                <li>
-                    <a href="#">Home</a>
-                </li>
-                <li class="footer-menu-divider">&sdot;</li>
-                <li>
-                    <a href="#about">About</a>
-                </li>
-                <li class="footer-menu-divider">&sdot;</li>
-                <li>
-                    <a href="#contact">Contact</a>
-                </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
   </body>
 </html>
