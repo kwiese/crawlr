@@ -31,35 +31,95 @@ var chosen = {
 };
 
 var num_chosen = 0;
+var div_inserted = [false, false, false, false];
 
 function addKeywordSelect(){
+  var sel0 = document.getElementById("k-0");
+  var sel1 = document.getElementById("k-1");
+  var sel2 = document.getElementById("k-2");
+  var already_chosen = [];
+  if(sel0 != null){
+    already_chosen.push(sel0.options[sel0.selectedIndex].value.split("-")[0])
+  }
+  if(sel1 != null){
+    already_chosen.push(sel1.options[sel2.selectedIndex].value.split("-")[0])
+  }
+  if(sel2 != null){
+    already_chosen.push(sel2.options[sel2.selectedIndex].value.split("-")[0])
+  }
+
   var entry = "<div class='form-group' id='keyword-" + num_chosen.toString() +"'>";
-  entry += "<select class='form-control' id='k-" + num_chosen.toString() + "' name='k-" + num_chosen.toString() + "' onchange='displayOptions();'>";
-  entry += "<option value='NONE'>Select...</option>";
+  entry += "<select class='form-control' id='k-" + num_chosen.toString() + "' name='k-" + num_chosen.toString() + "'onchange='displayOptions(this.id);'>";
+  entry += "<option value='NONE-NONE'>Select...</option>";
   for (var key in chosen){
-    if (chosen[key] == false){
-      entry += "<option value='" + key + "'>" + key + "</option>";
+    if (!already_chosen.includes(chosen[key])){
+      entry += "<option value='" + key + "-" + num_chosen.toString() + "'>" + key + "</option>";
     }
   }
-  entry += "</select>";
-  entry += "<div class='form-inline' id='keyword-options-" + num_chosen.toString() +"'></div>";
-  if (num_chosen < 3){
-    entry += "<button class='btn btn-primary' name='add-" + num_chosen.toString() + "-options' onClick='num_chosen += 1; addKeywordSelect();'>Add</button>";
-  }
+  entry += "</select> <br>";
   entry += "</div>";
+  entry += "<div class='form-group' id='keyword-options-" + num_chosen.toString() +"'></div>";
   document.getElementById("keyword-selection").innerHTML = document.getElementById("keyword-selection").innerHTML + entry;
+  if(num_chosen == 2){
+    document.getElementById("keyword-add").disabled = true;
+  }
+
 }
 
 
-function displayOptions(){
-  var outer_div = document.getElementById("keyword-options-"+num_chosen.toString());
-  var sel = document.getElementById("k-" + num_chosen.toString());
-  var key = sel.options[sel.selectedIndex].value;
-  var entry = "<h5 style='display:inline'>Don't spend longer than</h5>";
-  entry += "<label for='" + key +"-hours'>Hours: </label>"
-  entry += "<input id='" + key +"-hours' class='form-control' type='number' min='0' step='1' placeholder='Hours'>";
-  entry += "<label for='" + key +"-minutes'>Minutes: </label>"
-  entry += "<input id='" + key +"-minutes' class='form-control' type='number' min='0' max='59' step='1' placeholder='Mins'>";
-  outer_div.innerHTML = outer_div.innerHTML + entry;
+function displayOptions(id){
+  id = parseInt(id.split("-")[1]);
+  var outer_div = document.getElementById("keyword-options-" + id);
+  var sel = document.getElementById("k-" + id);
+  // key = sel.options[sel.selectedIndex].value.split("-")[0];
+  // chosen[key] = true;
 
+  if(!div_inserted[id]){
+    var entry = "";
+
+    entry += "<div class='container-fluid' style='background: rgba(55,104,183,0.6); color: #fff;'>";
+
+    entry += "<div class='col-md-6'>";
+    entry += "<h4>Time Limit</h4>";
+    entry += "<div class='form-group row'>";
+    entry += "<label class='col-md-2' for='" + id +"-hours'>Hours:</label>";
+    entry += "<div class='col-md-4'>";
+    entry += "<input name='" + id + "-hours' id='" + id +"-hours' class='form-control' type='number' min='0' step='1' placeholder='Hours'>";
+    entry += "</div>";
+    entry += "<label class='col-md-2' for='" + id +"-minutes'>Minutes:</label>";
+    entry += "<div class='col-md-4'>";
+    entry += "<input name='" + id + "-minutes' id='" + id +"-minutes' class='form-control' type='number' min='0' max='59' step='1' placeholder='Mins'>";
+    entry += "</div>";
+    entry += "</div>";
+    entry += "</div>";
+
+    entry += "<div class='col-md-6'>";
+    entry += "<h4>Interest Multiplier</h4>";
+    entry += "<div class='form-group row'>";
+    entry += "<label class='col-md-2' for='" + id +"-interest'>Interest:</label>";
+    entry += "<div class='col-md-4'>";
+    entry += "<input name='" + id + "-interest' id='" + id +"-interest' class='form-control' type='number' min='0' step='1' placeholder='Multiplier'>";
+    entry += "</div>";
+    entry += "</div>";
+    entry += "</div>";
+
+    entry += "<div class='col-md-12'>";
+    entry += "<h4>Number to Visit</h4>";
+    entry += "<div class='form-group row'>";
+    entry += "<label class='col-md-2' for='" + id +"-equality'>I want to visit:</label>";
+    entry += "<div class='col-md-4'>";
+    entry += "<select name='" + id + "-equality' class='form-control'> <option value='NONE' selected>Unlimited</option> <option value='EQ'> Exactly </option> <option value='LTE'> Less than </option> <option value='GTE'> More than </option> </select>";
+    entry += "</div>";
+    entry += "<div class='col-md-4'>"
+    entry += "<input name='" + id + "-strictness' id='" + id +"-strictness' class='form-control' type='number' min='0' step='1' placeholder='Places'>";
+    entry += "</div>";
+    entry += "<label class='col-md-2' for='" + id +"-strictness'>places.</label>";
+    entry += "</div>";
+    entry += "</div>";
+
+    entry += "</div>";
+
+    outer_div.innerHTML = outer_div.innerHTML + entry;
+    div_inserted[num_chosen] = true;
+  }
 }

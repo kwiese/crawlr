@@ -78,6 +78,7 @@ body {
 
 .timeField .form-control {
 	width: 80px !important;
+	margin-bottom: 3em;
 }
 
 .loc-column{
@@ -117,6 +118,11 @@ body {
 	margin-bottom: 4em;
 }
 
+.addButton{
+	font-family: "Yellowtail", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-left: 15%;
+}
+
 .submitButton{
 	font-family: "Yellowtail", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	float: right;
@@ -126,7 +132,7 @@ body {
 }
 
 .btn-primary {
-	width: 100px;
+	width: 175px;
     line-height: 26px;
     height: 40px;
     font-size: 26px;
@@ -152,4 +158,3 @@ footer{
 	padding: 1em;
 	border-radius: 5px;
 }
-
