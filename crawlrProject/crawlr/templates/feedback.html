@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Crawlr</title>
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+      {% load static %}
+      <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+
+      <!-- Custom CSS -->
+      <link href="{% static "css/landing-page.css" %}" rel="stylesheet">
+      <!-- <link href="{% static "css/app-page.css" %}" rel="stylesheet"> -->
+
+      <!-- Custom Fonts -->
+      <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Satisfy|Varela+Round|Yellowtail" rel="stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    	<style>
+    		html, body {
+    			height: 100%;
+    			margin: 0;
+    			padding: 0;
+    		}
+    	</style>
+  </head>
+
+  <body>
+    <form method="post">
+      <h2>We are always trying to improve our site, so if you have any feedback, we'd love to hear it!<h3>
+      <div class="form-group">
+        <label for="PositiveFeedback">Tell us what you liked:</label>
+        <textarea class="form-control" id="PositiveFeedback" name="PositiveFeedback" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="NegativeFeedback">Tell us what you didn't like:</label>
+        <textarea class="form-control" id="NegativeFeedback" name="NegativeFeedback" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn-primary">Submit</button>
+    </form>
+  </body>
+</html>
