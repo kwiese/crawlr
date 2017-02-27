@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
 import os,sys
+import datetime
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from calculate import start_chain
 from crawlr.models import Feedback
@@ -10,12 +11,13 @@ from log import log
 
 def application(request):
     # if this is a POST request we need to process the form data
+    fb = Feedback(fb_neg="Test Negative Feedback", fb_pos="Test Positive Feedback", fb_date=datetime.datetime.now())
+    fb.save()
     if request.method == 'POST':
         log("starting collect....")
         data = request.POST
         #fb = Feedback(fb_neg=data["NegativeFeedback"], fb_pos=data["PositiveFeedback"], fb_date=datetime.datetime.now())
-        fb = Feedback(fb_neg="Test Negative Feedback", fb_pos="Test Positive Feedback", fb_date=datetime.datetime.now())
-        fb.save()
+        #fb.save()
         route_info = start_chain(data)
         log("route_info received:")
         log(route_info)
