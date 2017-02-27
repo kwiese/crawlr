@@ -79,7 +79,7 @@ DATABASES = {
        'ENGINE': 'django.db.backends.mysql',
        'NAME': 'Feedback',
        'USER': 'Admin',
-       'PASSWORD': 'graffiti2crawlr',
+       'PASSWORD': 'crawlrdb+69',
        'HOST': 'crawlrdb.cddefarxfzk1.us-west-2.rds.amazonaws.com',
        'PORT': '3306',
        'OPTIONS':{
