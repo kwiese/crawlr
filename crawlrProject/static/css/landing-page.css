@@ -114,6 +114,14 @@ h3 {
     }
 }
 
+.pageOne{
+    padding-top: 1.5em;
+}
+
+.pageTwo{
+    display: none;
+}
+
 .network-name {
     text-transform: uppercase;
     font-size: 14px;
