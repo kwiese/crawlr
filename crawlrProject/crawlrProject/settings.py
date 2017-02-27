@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import pymysql
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crawlr',
 ]
 
 MIDDLEWARE = [
@@ -72,12 +75,20 @@ WSGI_APPLICATION = 'crawlrProject.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': 'Feedback',
+       'USER': 'Admin',
+       'PASSWORD': 'graffiti2crawlr',
+       'HOST': 'crawlrdb.cddefarxfzk1.us-west-2.rds.amazonaws.com',
+       'PORT': '3306',
+       'OPTIONS':{
+            'sql_mode': 'traditional',
+            'init_command': 'SET default_storage_engine=INNODB',
+        }
     }
-}
 
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

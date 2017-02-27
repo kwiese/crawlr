@@ -26,7 +26,7 @@
   </head>
 
   <body>
-    <form method="post">
+    <form method="post">{% csrf_token %}
       <h2>We are always trying to improve our site, so if you have any feedback, we'd love to hear it!<h3>
       <div class="form-group">
         <label for="PositiveFeedback">Tell us what you liked:</label>
