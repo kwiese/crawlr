@@ -11,8 +11,6 @@ from log import log
 
 def application(request):
     # if this is a POST request we need to process the form data
-    fb = Feedback(fb_neg="Test Negative Feedback", fb_pos="Test Positive Feedback", fb_date=datetime.datetime.now())
-    fb.save()
     if request.method == 'POST':
         log("starting collect....")
         data = request.POST
