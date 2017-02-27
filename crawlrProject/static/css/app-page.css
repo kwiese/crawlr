@@ -86,6 +86,14 @@ body {
 	font-size: 20px;
 }
 
+.pageOne{
+    padding-top: 1.5em;
+}
+
+.pageTwo{
+    display: none;
+}
+
 .addressField .form-control{
 	width: 100%;
 }
