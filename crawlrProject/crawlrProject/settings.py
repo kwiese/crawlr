@@ -132,10 +132,6 @@ STATICFILES_FINDERS = (
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-#ALLOWED_HOSTS = [
-#    '.crawlr.tech',
-#]
-
 ALLOWED_HOSTS = [
     '.amazonaws.com',
 ]
