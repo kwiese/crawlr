@@ -78,15 +78,64 @@
     </nav>
 
 	  <div class="container form-container" style="" id="queryPage">
-	    <div class="form-header">
-	       <h1>Maximize Your Night</h1>
-	    </div>
+
+      <div class="introText">
+  	    <div class="form-header">
+  	       <h1>Make Your Night</h1>
+           <p>
+              Not sure where to go tonight? We can help. Tell us what you'd like to do, and we'll pick the places and plan the routes. No stress, just fun.
+              <br> 
+              &nbsp;
+              <br>
+              To start making your night, enter your starting address, budget, and how much time you have. 
+  	    </div>
+      </div>
+
       <form id="pathdata" onkeypress="return event.keyCode != 13;">{% csrf_token %}
         <div class="form-group input-group-lg">
-          <div class="addressField" style="margin-left: 5%; margin-right: 5%">
-            <h4>Starting Address</h4>
-            <input class="form-control" type="text" id="addr" name="start_address" placeholder="Address"><br>
+
+          <div class="pageOne">
+
+            <div class="addressField" style="margin-left: 5%; margin-right: 5%">
+              <h4>Starting Address</h4>
+              <input class="form-control" type="text" id="addr" name="start_address" placeholder="eg: 1541 Pearl St. Boulder, CO 80309"><br>
+            </div>
+            
+            <div class="budgetField" style="margin-left: 5%; margin-right: 5%">
+              <h4>Average Budget</h4>
+              <select class="form-control" name="budget" style="width: 50%">
+                {% for k,v in form_info.budget.items %}
+                  <option value={{k}}>{{v}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="timeField" style="margin-left: 5%; margin-right: 5%">
+              <h4>How Much Time do You Have?</h4>
+              <select name="userHour" class="form-control" style="display:inline;width: 15%">
+                <option value=0>0</option>
+                <option value=3600 selected>1</option>
+                <option value=7200>2</option>
+                <option value=10800>3</option>
+                <option value=14400>4</option>
+                <option value=18000>5</option>
+              </select>
+              <p style="display:inline; margin: 5px">hours</p>
+              <select name="userMinute" class="form-control" style="display:inline;width: 15%">
+                <option value=0>0</option>
+                <option value=1800 selected>30</option>
+              </select>
+              <p style="display:inline; margin: 5px">minutes</p>
+            </div>
+
+            <div class="nextButton">
+              <button type="button" class="btn btn-primary">Next</button>
+            </div>
+
           </div>
+
+          <div class="pageTwo">
+
           <div class="radiusField" style="margin-left: 5%; margin-right: 5%">
             <h4>Search Radius</h4>
             <select class="form-control" name="searchRadius">
@@ -95,31 +144,7 @@
               <option value=2414>1.5 miles</option>
             </select>
           </div>
-          <div class="budgetField" style="margin-left: 5%; margin-right: 5%">
-            <h4>Average Budget</h4>
-            <select class="form-control" name="budget" style="width: 50%">
-              {% for k,v in form_info.budget.items %}
-                <option value={{k}}>{{v}}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <div class="timeField" style="margin-left: 5%; margin-right: 5%">
-            <h4>How Much Time do You Have?</h4>
-            <select name="userHour" class="form-control" style="display:inline;width: 15%">
-              <option value=0>0</option>
-              <option value=3600 selected>1</option>
-              <option value=7200>2</option>
-              <option value=10800>3</option>
-              <option value=14400>4</option>
-              <option value=18000>5</option>
-            </select>
-            <p style="display:inline; margin: 5px">hours</p>
-            <select name="userMinute" class="form-control" style="display:inline;width: 15%">
-              <option value=0>0</option>
-              <option value=1800 selected>30</option>
-            </select>
-            <p style="display:inline; margin: 5px">minutes</p>
-          </div>
+
           <div style="margin-left: 5%; margin-right: 5%" id="keyword-selection">
             <h4>Keywords</h4>
             <div id="keyword-selection-0">
@@ -129,6 +154,7 @@
             <div id="keyword-selection-2">
             </div>
           </div>
+
           <div class='col-md-4'>
             <div class='form-group row'>
               <div class='addButton'>
@@ -136,12 +162,19 @@
               </div>
             </div>
           </div>
+
+        <div class="backButton">
+            <button type="button" class="btn btn-primary">Back</button>
         </div>
+
         <input id="timestamp" name="timestamp" type="hidden"</input>
-        <div class="submitButton">
-            <button type="submit" class="btn btn-primary">Submit</button>
+          <div class="submitButton">
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
         </div>
       </form>
+
     </div>
 
     <div class="container" id="loading" style="display: none">
