@@ -13,7 +13,8 @@ def application(request):
     if request.method == 'POST':
         log("starting collect....")
         data = request.POST
-        fb = Feedback(fb_neg=data["NegativeFeedback"], fb_pos=data["PositiveFeedback"], fb_date=datetime.datetime.now())
+        #fb = Feedback(fb_neg=data["NegativeFeedback"], fb_pos=data["PositiveFeedback"], fb_date=datetime.datetime.now())
+        fb = Feedback(fb_neg="Test Negative Feedback", fb_pos="Test Positive Feedback", fb_date=datetime.datetime.now())
         fb.save()
         route_info = start_chain(data)
         log("route_info received:")
