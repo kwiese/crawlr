@@ -219,7 +219,7 @@ def solve(data):
             last_s = last
             if website:
                 last_s = "<a href={}>{}</a>".format(website, last_s)
-            pitem = "{} ({}), Rating: {}, Price: {}, Spend {} here".format(last_s, key, rating, budget, tstring)
+            pitem = "{} ({})<br>Type: {}<br>Rating: {}<br>Price Rating: {}".format(last_s, tstring, key, rating, budget)
             final_path.append(pitem)
             final_addresses.append(pla["address"])
             for x in chosenEdges:

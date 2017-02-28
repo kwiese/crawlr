@@ -27,10 +27,11 @@ def start_chain(data):
                     val,
                     re.M|re.I,
                 )
-                k = mm.group(1)
-                i = mm.group(2)
-                keyindices[i] = k
-                keywords.append(k)
+                if mm:
+                    k = mm.group(1)
+                    i = mm.group(2)
+                    keyindices[i] = k
+                    keywords.append(k)
 
         d["keywords"] = keywords
 
