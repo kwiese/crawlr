@@ -1,31 +1,14 @@
 body {
-	background-image: url(/static/img/joanna-boj.jpg);
+	background-image: url(/static/img/IMG_9755.JPG);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: #a9a9a9;
-}
-
-.introText{
-	float: left;
-	margin-top: 10%;
-    margin-left: 4em;
-    width: 25%;
-	color: white;
-	font-family: "Lato", "Helvetica", Arial, sans-serif;
-
-}
-
-.topnav{
-	background-color: #222222 !important;
-	width: 100% !important;
-	border-radius: 0px !important;
 }
 
 .navbar-default{
 	background-color: transparent;
 	border: none;
-	font-size: 26px;
+	font-size: 32px;
 	margin-left: 3em;
 	padding-top: 1em;
 	padding-bottom: 1em;
@@ -40,34 +23,27 @@ body {
 	font-size: 48px;
 }
 
-.form-container{
-	/*background-color: rgba(225,225,215,0.63);*/
+.form-container {
+	background-color: rgba(225,225,215,0.63);
 	border-radius: 15px;
 	padding: 0;
 }
 
-.form-group{
-	margin-top: 10%;
-	float: right;
-	width: 50%;
-	background-color: whitesmoke;
-	border-radius: 5px;
-}
-
 .form-header{
-	/*background-color: #222222;*/
+	background-color: #3f5666;
 	height: 60px;
 	width: 100%;
-	/*border-radius: 15px 15px 0px 0px !important;*/
+	border-radius: 15px 15px 0px 0px !important;
 }
 
 .form-header h1{
-	font-size: 32px !important;
+	font-size: 36px !important;
 	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-align: left;
 	color: white;
 	margin-top: 0;
-	padding-bottom: 0.5em;
+    padding-top: 10px;
+    padding-left: 20px;
 }
 
 .input-column{
@@ -84,14 +60,6 @@ body {
 
 .input-column h4{
 	font-size: 20px;
-}
-
-.pageOne{
-    padding-top: 1.5em;
-}
-
-.pageTwo{
-    display: none;
 }
 
 .addressField .form-control{
@@ -111,34 +79,6 @@ body {
 .timeField .form-control {
 	width: 80px !important;
 	margin-bottom: 3em;
-}
-
-.nextButton .btn{
-	float: right;
-    margin: 1em;
-    margin-top: 0em;
-    font-family: "Yellowtail";
-    width: 80px;
-    background-color: #222222;
-}
-
-.nextButton .btn:hover{
-	background-color: #ea6045;
-	border-color: white;
-}
-
-.backButton .btn{
-	float: right;
-    margin: 1em;
-    margin-top: 0em;
-    font-family: "Yellowtail";
-    width: 80px;
-    background-color: #222222;
-}
-
-.backButton .btn:hover{
-	background-color: #ea6045;
-	border-color: white;
 }
 
 .loc-column{
