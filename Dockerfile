@@ -14,7 +14,8 @@ yum install -y python35u.x86_64 python35u-devel.x86_64 python35u-pip.noarch && \
 /usr/bin/pip3.5 install python-dateutil && \
 /usr/bin/pip3.5 install redis && \
 /usr/bin/pip3.5 install Cython && \
-/usr/bin/pip3.5 install gunicorn
+/usr/bin/pip3.5 install gunicorn && \
+/usr/bin/pip3.5 install PyMySQL
 
 ADD ["setup/nginx.conf", "nginx.conf"]
 ADD ["nginx.conf", "nginx/nginx.conf"]
