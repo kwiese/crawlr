@@ -220,8 +220,9 @@ p.copyright {
 }
 .faq-btn {
 	margin-bottom: 5%;
-	margin-left: 35%;
+	margin-left: 30%;
 	width: 40%;
+	cursor: pointer;
 }
 
 div.faq-btn a {
@@ -231,7 +232,7 @@ div.faq-btn a {
 div.faq-btn div {
 	display: inline-block;
   background-color: white;
-	border-radius: 20px;
+	border-radius: 50px;
 	padding: 40px;
 	box-shadow: 0px 0px 15px #888888;
 }
@@ -239,9 +240,10 @@ div.faq-btn div {
 div.faq-btn:hover div {
 	display: inline-block;
 	background-color: #ddd;
-	border-radius: 20px;
+	border-radius: 50px;
 	padding: 40px;
 	box-shadow: none;
+	cursor: pointer;
 }
 
 div.faq-btn h1 {
