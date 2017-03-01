@@ -2,100 +2,71 @@
 <html>
     <head>
       <title>Crawlr</title>
-    	<meta charset="utf-8">
-    	<meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       {% load static %}
       <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
 
       <!-- Custom CSS -->
-      <link href="{% static "css/landing-page.css" %}" rel="stylesheet">
       <link href="{% static "css/app-page.css" %}" rel="stylesheet">
 
       <!-- Custom Fonts -->
       <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
-      <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-      <link href="https://fonts.googleapis.com/css?family=Satisfy|Varela+Round|Yellowtail" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Satisfy|Varela+Round|Yellowtail|Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="{% static "js/display.js" %}"></script>
       <script src="{% static "js/select.js" %}"></script>
-      <script>
-          function checkUpdate(keyword) {
-              var e = document.getElementById(keyword)
-              if(e.style.display == 'block')
-                  e.style.display = 'none'
-              else
-                  e.style.display = 'block'
-          }
-      </script>
-    	<script>
-    		var map = null;
-    		var start = null;
-    		var geocoder = null;
-    		var directionsService = null;
-    		var directionsDisplay = null;
-    	</script>
-    	<style>
-    		html, body {
-    			height: 100%;
-    			margin: 0;
-    			padding: 0;
-    		}
-    	</style>
+      <script src="{% static "js/map.js" %}"></script>
+      <script src="{% static "js/formNav.js" %}"></script>
   </head>
 
   <body onload="addKeywordSelect()">
-    <!-- <nav class="navbar navbar-default">
-   	  <div class="container-fluid">
-   	    <div class="navbar-header">
-   	      <a class="navbar-brand topnav" style="background:transparent;" href= "/" >Crawlr</a>
-   	    </div>
-   	  </div>
- 	  </nav> -->
 
-    <nav class="navbar navbar-default topnav" style="width:100%; margin:0" role="navigation">
-        <div class="container navbar-fixed-top topnav">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a class="navbar-brand topnav" href="/application">Crawlr</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/#">Home</a>
-                    </li>
-                    <li>
-                        <a href="/#about">About</a>
-                    </li>
-                    <li>
-                        <a href="/#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+    <!--Navigation-->
+    <nav class="navbar navbar-default topnav" role="navigation">
+        
+        <div class="navbar-header">
+            <a class="navbar-brand topnav" href="/application">Crawlr</a>
         </div>
-        <!-- /.container -->
+        
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/#">Home</a>
+                </li>
+                <li>
+                    <a href="/#about">About</a>
+                </li>
+                <li>
+                    <a href="/#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+
     </nav>
 
-	  <div class="container form-container" style="" id="queryPage">
+    <!--main content-->
+    <div class="container form-container" style="" id="queryPage">
 
-      <div class="introText">
-  	    <div class="form-header">
-  	       <h1>Make Your Night</h1>
-           <p>
-              Not sure where to go tonight? We can help. Tell us what you'd like to do, and we'll pick the places and plan the routes. No stress, just fun.
-              <br> 
-              &nbsp;
-              <br>
-              To start making your night, enter your starting address, budget, and how much time you have. 
-  	    </div>
-      </div>
 
       <form id="pathdata" onkeypress="return event.keyCode != 13;">{% csrf_token %}
         <div class="form-group input-group-lg">
 
-          <div class="pageOne">
+          <!--Explanation text for first form-->
+          <div class="pageOneText">
+            <div class="form-header">
+               <h1>Make Your Night</h1>
+               <p>
+                  Not sure where to go tonight? We can help. Tell us what you'd like to do, and we'll pick the places and plan the routes. No stress, just fun.
+                  <br>
+                  &nbsp;
+                  <br>
+                  To start making your night, enter your starting address, budget, and how much time you have.
+                </p> 
+            </div>
+          </div>
 
+          <div id="pageOne" class="pageOne">
             <div class="addressField" style="margin-left: 5%; margin-right: 5%">
               <h4>Starting Address</h4>
               <input class="form-control" type="text" id="addr" name="start_address" placeholder="eg: 1541 Pearl St. Boulder, CO 80309"><br>
@@ -129,84 +100,87 @@
             </div>
 
             <div class="nextButton">
-              <button type="button" class="btn btn-primary">Next</button>
+              <button id="nextButton" type="button" class="btn btn-primary">Next</button>
             </div>
 
           </div>
 
-          <div class="pageTwo">
-
-          <div class="radiusField" style="margin-left: 5%; margin-right: 5%">
-            <h4>Search Radius</h4>
-            <select class="form-control" name="searchRadius">
-              <option value=805 selected>0.5 miles</option>
-              <option value=1609>1 mile</option>
-              <option value=2414>1.5 miles</option>
-            </select>
-          </div>
-
-          <div style="margin-left: 5%; margin-right: 5%" id="keyword-selection">
-            <h4>Keywords</h4>
-            <div id="keyword-selection-0">
-            </div>
-            <div id="keyword-selection-1">
-            </div>
-            <div id="keyword-selection-2">
+          <!--Explanation text for second form-->
+          <div class="pageTwoText">
+            <div class="form-header">
+               <h1>What sounds good?</h1>
+               <p>
+                  Here we'll ask to to give us a rough idea of what you'd like to do. 
+                  <br>
+                  &nbsp;
+                  <br>
+                  First, tell us how far you're willing to go from your starting location. Then, add location types to the list. 
             </div>
           </div>
 
-          <div class='col-md-4'>
-            <div class='form-group row'>
-              <div class='addButton'>
-                <button type="button" class='btn btn-primary' id="keyword-add" onClick='num_chosen += 1; addKeywordSelect();'>Add Option</button>
+          <div id="pageTwo" class="pageTwo">
+
+            <div class="radiusField" style="margin-left: 5%; margin-right: 5%">
+              <h4>Search Radius</h4>
+              <select class="form-control" name="searchRadius">
+                <option value=805 selected>0.5 miles</option>
+                <option value=1609>1 mile</option>
+                <option value=2414>1.5 miles</option>
+              </select>
+            </div>
+
+            <div style="margin-left: 5%; margin-right: 5%" id="keyword-selection">
+              <h4>Keywords</h4>
+              <div id="keyword-selection-0">
+              </div>
+              <div id="keyword-selection-1">
+              </div>
+              <div id="keyword-selection-2">
               </div>
             </div>
+
+            <div class='col-md-4'>
+              <div class='form-group row'>
+                <div class='addButton'>
+                  <button type="button" class='btn btn-primary' id="keyword-add" onClick='num_chosen += 1; addKeywordSelect();'>Add Option</button>
+                </div>
+              </div>
+            </div>
+
+          <div id="backButton" class="backButton">
+              <button type="button" class="btn btn-primary">Back</button>
           </div>
 
-        <div class="backButton">
-            <button type="button" class="btn btn-primary">Back</button>
-        </div>
-
-        <input id="timestamp" name="timestamp" type="hidden"</input>
+          <input id="timestamp" name="timestamp" type="hidden"</input>
           <div class="submitButton">
               <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </div>
+
         </div>
       </form>
 
     </div>
 
-    <div class="container" id="loading" style="display: none">
-      <h4 style="text-align:center; display:inline; color:white">Calculating your adventure...</h4>
-      <i class="fa fa-spinner fa-spin" style="font-size:24px; color: blue"></i>
-    </div>
-    <div class="container" id="results" style="display: none; height: 100%; width: 100%">
-      <fieldset style="border-radius: 5px; overflow: scroll; background-color: transparent; border: 2px solid #fff; border-radius: 5px; display: inline; width: 48%; height: 50% ;float: left">
-        <legend>Your Route</legend>
-	<ol id="finalpath" class="list-group" style="margin: 10px">
-        </ol>
-      </fieldset>
-      <div id="map" style="display: inline; float: right; height: 50%; width: 50%"></div>
+
+    <div class="results">
+      <div class="container calculating" id="loading" style="display: none">
+        <h4 style="text-align:center; display:inline; color:white">Calculating your adventure...</h4>
+        <i class="fa fa-spinner fa-spin" style="font-size:24px; color: blue"></i>
+      </div>
+      <div class="container locList" id="results" style="display: none; height: 100%; width: 100%">
+        <fieldset style="border-radius: 5px; overflow: scroll; background-color: transparent; border: 2px solid #fff; border-radius: 5px; display: inline; width: 48%; height: 50% ;float: left">
+          <legend>Your Route</legend>
+          <ol id="finalpath" class="list-group" style="margin: 10px"></ol>
+        </fieldset>
+        <div id="map" style="display: inline; float: right; height: 50%; width: 50%"></div>
+      </div>
+
+      <div class="container" id="nopath" style="display: none">
+        <h3 style="margin: 0 auto; width: 50%">Sorry, we couldn't find a route for you!</h3>
+      </div>
     </div>
 
-    <div class="container" id="nopath" style="display: none">
-      <h3 style="margin: 0 auto; width: 50%">Sorry, we couldn't find a route for you!</h3>
-    </div>
-    <script>
-      function initMap() {
-        geocoder = new google.maps.Geocoder();
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 9,
-          center: {lat: 41.85, lng: -87.65},
-        });
-        directionsDisplay = new google.maps.DirectionsRenderer;
-        directionsDisplay.setMap(map);
-        directionsService = new google.maps.DirectionsService;
-        var iA = document.getElementById('addr');
-        var autocomplete = new google.maps.places.Autocomplete(iA);
-      }
-    </script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwLw6rb6ifekvYt1vKA2jFvgG9AMCskRQ&libraries=places&callback=initMap">
     </script>
