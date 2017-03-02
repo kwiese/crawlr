@@ -53,17 +53,18 @@ h3 {
 }
 
 .button{
-    font-size: 2.5em;
+    font-size: 1.5em;
     background: none;
     border: 2px solid #ffffff;
     border-radius: 4px;
     box-shadow: none;
-    display: inline-block;
+/*    display: inline-block;*/
+    padding: 10px;
     text-align: center;
-    width: 17%;
+/*    width: 12%; */
     text-decoration: none;
     color: #ffffff;
-    padding-bottom: 0.15em;
+/*    padding-bottom: 0.15em;*/
     -o-transition:.5s;
     -ms-transition:.5s;
     -moz-transition:.5s;
@@ -105,10 +106,10 @@ h3 {
     font-weight: 400;
 }
 
-body {
+/*body {
     background: url(../img/semenov-ivan.jpg) no-repeat center center;
     background-size: cover;
-}
+}*/
 .intro-header {
     /*padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
     /*padding-bottom: 40px;*/
@@ -121,14 +122,14 @@ body {
 
 .intro-message {
     position: relative;
-    padding-top: 20%;
-    padding-bottom: 20%;
+    padding-top: 15%;
+    padding-bottom: 1.5%;
 }
 
 .intro-message > h1 {
     margin: 0;
     text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 5em;
+    font-size: 10em;
 }
 
 .intro-divider {
@@ -304,4 +305,11 @@ div.faq-btn h1 {
 
 div.faq-btn:hover h1 {
 	color: #c64329;
+}
+
+.intro-faq {
+    font-family: "Yellowtail", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 6em !important;
+    text-decoration: none;
+    color: whitesmoke;
 }
