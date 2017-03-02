@@ -1,49 +1,127 @@
 body {
-	background-image: url(/static/img/IMG_9755.JPG);
+	background-image: url(/static/img/jazmin-quaynor.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-color: #a9a9a9;
+}
+
+.pageOneText{
+	display: block;
+	float: left;
+	margin-top: 5%;
+    margin-left: 4em;
+    padding-left:1em;
+	height: 300px;
+    width: 300px;
+    color: white;
+    padding: 1.5em;
+    padding-top: 2em;
+    font-family: "Lato", "Helvetica", Arial, sans-serif;
+    background-image: url(/static/img/backHaze.png);
+    background-size: 300px 300px;
+}
+
+.pageOne{
+	display: block;
+	padding-top: 1.5em;
+	background-color: whitesmoke;
+	float: right;
+	width: 50%;
+	border-radius:10px;
+	-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
+}
+
+.pageTwoText{
+	display: none;
+	float: left;
+	margin-top: 5%;
+    margin-left: 4em;
+    padding-left:1em;
+	height: 300px;
+    width: 300px;
+    color: white;
+    padding: 1.5em;
+    padding-top: 2em;
+    font-family: "Lato", "Helvetica", Arial, sans-serif;
+    background-image: url(/static/img/backHaze.png);
+    background-size: 300px 300px;
+}
+
+.pageTwo{
+	display: none;
+	padding-top: 1.5em;
+	background-color: whitesmoke;
+	float: right;
+	width: 50%;
+	border-radius:10px;
+	-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
+}
+
+.pageTwoText{
+	display: none;
+}
+
+.topnav{
+	background-color: #222222 !important;
+	width: 100% !important;
+	border-radius: 0px !important;
+}
+
+.navbar-brand{
+	font-family: "Yellowtail";
+	font-size: 36px;
+	color: whitesmoke !important;
+	margin-left: 2em;
+	text-shadow: 2px 2px 13px rgba(0, 0, 0, 1);
+	font-weight: 300;
+}
+
+.navbar-collapse li{
+	font-size: 16px;
+	color: whitesmoke !important;
+	font-family: "Lato", Helvetica, Arial, sans-serif;
 }
 
 .navbar-default{
 	background-color: transparent;
 	border: none;
-	font-size: 32px;
-	margin-left: 3em;
-	padding-top: 1em;
-	padding-bottom: 1em;
+	/*font-size: 26px;*/
+	/*margin-left: 3em;*/
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
 }
 
-.navbar-brand{
-	text-shadow: 2px 2px 13px rgba(0, 0, 0, 1);
-}
-
-.page-header{
-	font-family: "Yellowtail", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 48px;
-}
-
-.form-container {
-	background-color: rgba(225,225,215,0.63);
+.form-container{
+	/*background-color: rgba(225,225,215,0.63);*/
 	border-radius: 15px;
 	padding: 0;
 }
 
+/*.form-group{
+	margin-top: 10%;
+	background-color: whitesmoke;
+	border-radius: 5px;
+}*/
+
 .form-header{
-	background-color: #3f5666;
+	/*background-color: #222222;*/
 	height: 60px;
 	width: 100%;
-	border-radius: 15px 15px 0px 0px !important;
+	/*border-radius: 15px 15px 0px 0px !important;*/
 }
 
 .form-header h1{
-	font-size: 36px !important;
+	font-size: 32px !important;
 	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-align: left;
 	color: white;
 	margin-top: 0;
-    padding-top: 10px;
-    padding-left: 20px;
+	padding-bottom: 0.5em;
 }
 
 .input-column{
@@ -62,6 +140,8 @@ body {
 	font-size: 20px;
 }
 
+
+
 .addressField .form-control{
 	width: 100%;
 }
@@ -79,6 +159,34 @@ body {
 .timeField .form-control {
 	width: 80px !important;
 	margin-bottom: 3em;
+}
+
+.nextButton .btn{
+	float: right;
+    margin: 1em;
+    margin-top: 0em;
+    font-family: "Yellowtail";
+    width: 80px;
+    background-color: #222222;
+}
+
+.nextButton .btn:hover{
+	background-color: #ea6045;
+	border-color: white;
+}
+
+.backButton .btn{
+	float: left;
+    margin: 1em;
+    margin-top: 6em;
+    font-family: "Yellowtail";
+    width: 80px;
+    background-color: #222222;
+}
+
+.backButton .btn:hover{
+	background-color: #ea6045;
+	border-color: white;
 }
 
 .loc-column{
