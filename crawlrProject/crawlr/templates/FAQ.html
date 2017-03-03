@@ -28,7 +28,7 @@
 									ga('send', 'pageview');
 								</script>
 				</head>
-				<body style="background-color: #eeeeee">
+				<body style="background-image: url(/static/img/serge-esteve.jpg); background-size: cover; background-repeat: no-repeat; background-attachment: fixed">
 								<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
 												<div class="container topnav">
 												<div class="container topnav" style="display: inline-block; width:30%; float: left">
@@ -49,39 +49,38 @@
 												</div>
 												</div>
 								</nav>
-
 							  
-							  <div class="container" style="border: none; width: 100%; height: auto; background-image: url(/static/img/patryk-sobczak-cropped.jpg); background-size: cover; background-repeat: no-repeat; position: absolute; z-index: -2; top: 0px">	
-									<div class="page-header" style="border: none; margin-top: 20%; margin-bottom: 20%">
-													<h1 style="margin-left: 13%">Crawlr: HowTo</h1>
+							  <div class="container" style="margin-top: 10%; border: none">	
+									<div class="page-header" style="border: none">
+													<u style="color: white"><h1>Crawlr: HowTo</h1></u>
 									</div>
 								</div>
-								<div class="container" style="width: 100%; margin-top: 30%;">
-								  <div class="list-group" style="background-color: white; margin-left: 5%; margin-right: 5%">
-										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%; padding: 10%; padding-top: 3em; padding-bottom: 1em; border: none">
+								<div class="container">
+								  <div class="list-group">
+										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%">
 														<div class="d-flex w-100 justify-content-between">
 																		<h3 class="mb-1"><b>What is this?</b></h5>
 														</div>
-														<p class="mb-1" style="margin-left: 2%">
+														<p class="mb-1">
 														Imagine that it's Friday evening -- you just finished a long week of work and are ready to paint the town red with your friends. Unfortunately, the group message you send out asking people what they would like to do is met with an overwhelming "I don't know". What do you do now?<br><br><i>In comes Crawlr!</i><br><br>Instead of spending the next 20 minutes arguing over what to do, let Crawlr plan your perfect night. All Crawlr needs to know is where you want to start, how far you want to go, what kinds of places you like, and how long you want to spend having the best night of your week</p>
 										</div>
-										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%; padding: 10%; padding-top: 0em; padding-bottom: 1em; border: none">
+										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%">
 														<div class="d-flex w-100 justify-content-between">
 																		<h3 class="mb-1"><b>I'm Ready! What's First?</b></h5>
 														</div>
-														<p class="mb-1" style="margin-left: 2%">
-																		The first thing you need to know is <i>where you want to start</i>
-																		<br><br>This is a <i><b>formatted address</b></i> in the form of, for example, '1521 Pearl St, Boulder, CO'. This means that you should look up an address in the general area you want to visit ahead of time, and use that!
-																		<br><br>Why are we doing it this way? Wouldn't it just be easier for you to put in a location by name, or just ask for your current location from your phone?
-																		<br><br>Well, sort of... 
-																		<br>We *don't* plan on this format being in the final app, but because this is a prototype, and because of some stuff going on behind the scenes, we really need that address (for now)
+														<p class="mb-1" style="display: inline">
+														The first thing you need to know is <i>where you want to start</i> 
+														<br><br>This is a <i><b>formatted address</b></i> in the form of, for example, '1521 Pearl St, Boulder, CO'. This means that you should look up an address in the general area you want to visit ahead of time, and use that!
+														<br><br>Why are we doing it this way? Wouldn't it just be easier for you to put in a location by name, or just ask for your current location from your phone?
+														<br><br>Well, sort of... 
+														<br>We *don't* plan on this format being in the final app, but because this is a prototype, and because of some stuff going on behind the scenes, we really need that address (for now)
 														</p>
 										</div>
-										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%; padding: 10%; padding-top: 0em; padding-bottom: 1em; border: none">
+										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%">
 														<div class="d-flex w-100 justify-content-between">
 																		<h3 class="mb-1"><b>Ok, What's Next?</b></h5>
 														</div>
-														<p class="mb-1" style="margin-left: 2%">
+														<p class="mb-1" style="display: inline">
 														Now Crawlr needs to know how far you're willing to travel 
 														<br><br>You specify a distance which Crawlr uses as a radius to search for places you might like 
 														<br><br>Basically, imagine drawing a circle around your starting location, where the distance from your location to the edge of the circle is the distance you give 
@@ -90,11 +89,11 @@
 														<br><br>We would love for people to be able to go as far as they want -- eventually. Right now we are using Google to get data about places, and if we look too far then we use up all the data Google gives us for a day. In the full application, we hope to let people plan <i>huge</i> trips which can include driving and public transportation
 														</p>
 										</div>
-										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%; padding: 10%; padding-top: 0em; padding-bottom: 1em; border: none">
+										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%">
 														<div class="d-flex w-100 justify-content-between">
 																		<h3 class="mb-1"><b>What's This Budget Thing?</b></h5>
 														</div>
-														<p class="mb-1" style="margin-left: 2%">
+														<p class="mb-1" style="display: inline">
 															The first thing you're probably thinking when you see each budget entry is "well how much money is this?"
 															<br><br>Our answer at the moment is <i>"We have no idea!"</i>
 															<br><br>So why are we including this?
@@ -108,12 +107,11 @@
 															<br><br>We don't know what you're going to order at each place, and different dollar sign ratings can mean different things for different places. For example, five dollar signs at a coffee shop is <i>probably</i> a way different dollar amount than five dollar signs at a steak house
 														</p>
 										</div>
-										
-										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%; padding: 10%; padding-top: 0em; padding-bottom: 1em; border: none">
+										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%">
 														<div class="d-flex w-100 justify-content-between">
 																		<h3 class="mb-1"><b>I Think I Understand the Time...</b></h5>
 														</div>
-														<p class="mb-1" style="margin-left: 2%">
+														<p class="mb-1" style="display: inline">
 															You probably do, but here's some important stuff to consider
 															<br><br>1. If you specify too little time, Crawlr probably will tell you it can't find you a route
 															<br>This is pretty straightforward -- if you don't have enough time to travel to any of the places around you, or actually spend time at any of them, then there isn't a route available
@@ -121,12 +119,11 @@
 															<br>Right now, Crawlr only looks at places which are <i>open when you request a route</i> and <i>stay open for the whole time you want to spend on a route</i>. This means that you could request a route at 5:00 PM, and want to spend 6 hours on a route, and get no places back. This could happen if all the places Crawlr finds close before 11:00 PM, meaning it can't find any places to send you
 														</p>
 										</div>
-
-										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%; padding: 10%; padding-top: 0em; padding-bottom: 1em; border: none">
+										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%">
 														<div class="d-flex w-100 justify-content-between">
 																		<h3 class="mb-1"><b>I'm Ready to Go!</b></h5>
 														</div>
-														<p class="mb-1" style="margin-left: 2%">
+														<p class="mb-1" style="display: inline">
 															No, you're not
 															<br><br>You still need to enter what kinds of places you'd like to go!
 															<br><br>This is where you specify
@@ -141,27 +138,25 @@
 															<br><br>For 'More than', it's the same as 'Exactly', just that Crawlr might choose more than the number of places you give
 														</p>
 										</div>
-
-										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%; padding: 10%; padding-top: 0em; padding-bottom: 3em; border: none">
+										<div class="list-group-item list-group-item-action flex-column align-items-start" style="margin-top: 5%; margin-bottom: 5%">
 														<div class="d-flex w-100 justify-content-between">
 																		<h3 class="mb-1"><b>Ok, NOW You're Ready to Go!</b></h5>
 														</div>
-														<p class="mb-1" style="margin-left: 2%">
+														<p class="mb-1" style="display: inline">
 															Thanks so much for using Crawlr!
 															<br><br>Keep in mind that this is still very much in development, and we are making changes every day to make the app better!
 															<br><br>If you have any feedback for our application, PLEASE leave a comment in the feedback section once you receive your route -- we will be constantly monitoring feedback, so if you have anything you'd like to see added or updated, let us know!	
 														</p>
 										</div>
-									  <div class="container" style="border: none; width: auto; height: auto; background-color: #3f5666; border-top: 5px solid #ea6045">								
-												<div class="container faq-btn" style="margin-top: 5%">
-													<a href="/application/">
-														<div>
-																<h1>Let's Go!</h1>
-														</div>
-													</a>
-												</div>
-								    </div>
-								  </div>
+									</div>
 								</div>
+								<div class="container faq-btn">
+									<a href="/application/">
+										<div>
+												<h1>Let's Go!</h1>
+										</div>
+									</a>
+								</div>
+
 				</body>
 </html>

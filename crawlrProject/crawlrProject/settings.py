@@ -31,12 +31,16 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
+#     'social_django',
+#     'oauth2client.contrib.django_util',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
+    'social_django',  # <--
     'crawlr',
 ]
 
@@ -46,8 +50,11 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',  # <--
 ]
 
 ROOT_URLCONF = 'crawlrProject.urls'
@@ -63,6 +70,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',  # <--
+                'social.apps.django_app.context_processors.login_redirect', # <--
             ],
         },
     },
@@ -77,7 +86,7 @@ WSGI_APPLICATION = 'crawlrProject.wsgi.application'
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.mysql',
-       'NAME': 'Feedback',
+       'NAME': 'Crawlr',
        'USER': 'Admin',
        'PASSWORD': 'crawlrdb+69',
        'HOST': 'crawlrdb.cddefarxfzk1.us-west-2.rds.amazonaws.com',
@@ -89,6 +98,14 @@ DATABASES = {
     }
 
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+#    'social.backends.github.GithubOAuth2',
+#    'social.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    )
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -138,6 +155,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "822801398505-43mjqmu0p8mqa3b2cnc8ntt3sl0ic45b"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "b1t5LC_1iKwkd7rg443BC0r2"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email']
+
+GOOGLE_OAUTH2_CLIENT_ID = "822801398505-43mjqmu0p8mqa3b2cnc8ntt3sl0ic45b"
+GOOGLE_OAUTH2_CLIENT_SECRET = "b1t5LC_1iKwkd7rg443BC0r2"
+GOOGLE_OAUTH2_SCOPES = ('email')
+
+SOCIAL_AUTH_FACEBOOK_KEY = '394819504211343'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'd63625c60bb769362e06919778d034ff'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+
 
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # SECURE_SSL_REDIRECT = True

@@ -1,69 +1,19 @@
 body {
-	background-image: url(/static/img/jazmin-quaynor.jpg);
+	background-image: url(/static/img/joanna-boj.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-color: #a9a9a9;
 }
 
-.pageOneText{
-	display: block;
+.introText{
 	float: left;
-	margin-top: 5%;
+	margin-top: 10%;
     margin-left: 4em;
-    padding-left:1em;
-	height: 300px;
-    width: 300px;
-    color: white;
-    padding: 1.5em;
-    padding-top: 2em;
-    font-family: "Lato", "Helvetica", Arial, sans-serif;
-    background-image: url(/static/img/backHaze.png);
-    background-size: 300px 300px;
-}
+    width: 25%;
+	color: white;
+	font-family: "Lato", "Helvetica", Arial, sans-serif;
 
-.pageOne{
-	display: block;
-	padding-top: 1.5em;
-	background-color: whitesmoke;
-	float: right;
-	width: 50%;
-	border-radius:10px;
-	-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
-	box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
-}
-
-.pageTwoText{
-	display: none;
-	float: left;
-	margin-top: 5%;
-    margin-left: 4em;
-    padding-left:1em;
-	height: 300px;
-    width: 300px;
-    color: white;
-    padding: 1.5em;
-    padding-top: 2em;
-    font-family: "Lato", "Helvetica", Arial, sans-serif;
-    background-image: url(/static/img/backHaze.png);
-    background-size: 300px 300px;
-}
-
-.pageTwo{
-	display: none;
-	padding-top: 1.5em;
-	background-color: whitesmoke;
-	float: right;
-	width: 50%;
-	border-radius:10px;
-	-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
-	box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
-}
-
-.pageTwoText{
-	display: none;
 }
 
 .topnav{
@@ -72,28 +22,22 @@ body {
 	border-radius: 0px !important;
 }
 
-.navbar-brand{
-	font-family: "Yellowtail";
-	font-size: 36px;
-	color: whitesmoke !important;
-	margin-left: 2em;
-	text-shadow: 2px 2px 13px rgba(0, 0, 0, 1);
-	font-weight: 300;
-}
-
-.navbar-collapse li{
-	font-size: 16px;
-	color: whitesmoke !important;
-	font-family: "Lato", Helvetica, Arial, sans-serif;
-}
-
 .navbar-default{
 	background-color: transparent;
 	border: none;
-	/*font-size: 26px;*/
-	/*margin-left: 3em;*/
-	padding-top: 0.2em;
-	padding-bottom: 0.2em;
+	font-size: 26px;
+	margin-left: 3em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+.navbar-brand{
+	text-shadow: 2px 2px 13px rgba(0, 0, 0, 1);
+}
+
+.page-header{
+	font-family: "Yellowtail", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 48px;
 }
 
 .form-container{
@@ -102,11 +46,13 @@ body {
 	padding: 0;
 }
 
-/*.form-group{
+.form-group{
 	margin-top: 10%;
+	float: right;
+	width: 50%;
 	background-color: whitesmoke;
 	border-radius: 5px;
-}*/
+}
 
 .form-header{
 	/*background-color: #222222;*/
@@ -140,7 +86,13 @@ body {
 	font-size: 20px;
 }
 
+.pageOne{
+    padding-top: 1.5em;
+}
 
+.pageTwo{
+    display: none;
+}
 
 .addressField .form-control{
 	width: 100%;
@@ -176,9 +128,9 @@ body {
 }
 
 .backButton .btn{
-	float: left;
+	float: right;
     margin: 1em;
-    margin-top: 6em;
+    margin-top: 0em;
     font-family: "Yellowtail";
     width: 80px;
     background-color: #222222;
