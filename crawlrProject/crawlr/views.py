@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import logout
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 import os,sys
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
@@ -19,7 +19,7 @@ def home(request):
 def login(request):
     context = {}
     if not request.user.is_authenticated:
-        template = 'index_home.html'
+        template = 'login.html'
         return render(request, template, context)
     else:
         return redirect("/members")
@@ -32,7 +32,7 @@ def members(request):
     return render(request, template, context)
 
 def logout(request):
-    logout(request)
+    auth_logout(request)
     return redirect('/')
 
 #@login_required

@@ -26,10 +26,10 @@ urlpatterns = [
     url(r'^application/', include('crawlr.urls')),
     url(r'^FAQ/', TemplateView.as_view(template_name='FAQ.html')),
     #url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', views.home, name='home'),
     url(r'^members/', views.members, name='members'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^login/$', views.login, name="login"),
+    url(r'^$', views.home, name='home'),
 ]
 
 #########################################################################################33333#########33
