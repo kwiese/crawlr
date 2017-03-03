@@ -1,4 +1,4 @@
-$(document).ready(function () {	
+$(document).ready(function () {
 	$("#nextButton").click(function(e){
 		e.preventDefault();
 		$("#pageOne").hide(500);

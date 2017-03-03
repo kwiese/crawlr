@@ -15,19 +15,19 @@ var l_bounds = {
 };
 
 var chosen = {
-  'restaurant': false,
-  'cafe': false,
-  'art_gallery': false,
-  'bakery': false,
-  'bar': false,
-  'book_store': false,
-  'clothing_store': false,
-  'library': false,
-  'liquor_store': false,
-  'museum': false,
-  'night_club': false,
-  'park': false,
-  'shopping_mall': false,
+  'restaurant': "Restaurant",
+  'cafe': "Cafe",
+  'art_gallery': "Art Gallery",
+  'bakery': "Bakery",
+  'bar': "Bar",
+  'book_store': "Book Store",
+  'clothing_store': "Clothing Store",
+  'library': "Library",
+  'liquor_store': "Liquor Store",
+  'museum': "Museum",
+  'night_club': "Night Club",
+  'park': "Park",
+  'shopping_mall': "Shopping Mall",
 };
 
 var num_chosen = 0;
@@ -62,9 +62,7 @@ function addKeywordSelect(){
   entry += "<select class='form-control' id='k-" + num_chosen.toString() + "' name='k-" + num_chosen.toString() + "'onchange='displayOptions(this.id);'>";
   entry += "<option value='NONE-NONE'>Select...</option>";
   for (var key in chosen){
-    if (!chosen[key]){
-      entry += "<option id='" + key + "-" + num_chosen.toString() + "' value='" + key + "-" + num_chosen.toString() + "'>" + key + "</option>";
-    }
+    entry += "<option id='" + key + "-" + num_chosen.toString() + "' value='" + key + "-" + num_chosen.toString() + "'>" + chosen[key] + "</option>";
   }
   entry += "</select> <br>";
   entry += "</div>";
@@ -89,7 +87,6 @@ function displayOptions(id){
   id = parseInt(id.split("-")[1]);
   var outer_div = document.getElementById("keyword-options-" + id);
   var sel = document.getElementById("k-" + id);
-
   if(!div_inserted[id]){
     var entry = "";
 
@@ -136,6 +133,6 @@ function displayOptions(id){
     entry += "</div>";
 
     outer_div.innerHTML = outer_div.innerHTML + entry;
-    div_inserted[num_chosen] = true;
+    div_inserted[id] = true;
   }
 }

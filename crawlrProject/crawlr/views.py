@@ -20,4 +20,4 @@ def application(request):
         # log(route_info)
         # return JsonResponse(route_info)
     # log("fetched main page")
-    return render(request, 'feedback.html', {'form_info': form_constraints})
+    return render(request, 'application-new.html', {'form_info': form_constraints})

@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'crawlrProject.wsgi.application'
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.mysql',
-       'NAME': 'Feedback',
+       'NAME': 'Crawlr',
        'USER': 'Admin',
        'PASSWORD': 'crawlrdb+69',
        'HOST': 'crawlrdb.cddefarxfzk1.us-west-2.rds.amazonaws.com',
