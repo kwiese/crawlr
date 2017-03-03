@@ -10,11 +10,8 @@ from crawlr.models import Feedback, CredentialsModel
 
 def home(request):
     context = {}
-    if not request.user.is_authenticated:
-        template = 'index_home.html'
-        return render(request, template, context)
-    else:
-        return redirect("/members")
+    template = 'index_home.html'
+    return render(request, template, context)
 
 def login(request):
     context = {}
@@ -22,14 +19,14 @@ def login(request):
         template = 'login.html'
         return render(request, template, context)
     else:
-        return redirect("/members")
+        return redirect("/")
 
 
-def members(request):
-    context = {}
-    print(request.user.email)
-    template = 'members.html'
-    return render(request, template, context)
+# def members(request):
+#     context = {}
+#     print(request.user.email)
+#     template = 'members.html'
+#     return render(request, template, context)
 
 def logout(request):
     auth_logout(request)
