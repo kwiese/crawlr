@@ -95,7 +95,7 @@
           <form id="loginform" class="form-horizontal" role="form" method="post">{% csrf_token %}
             <div style="margin-bottom: 4%" class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="Username or Email">
+              <input id="login-username" type="text" class="form-control" name="email" value="" placeholder="Username or Email">
             </div>
             <div style="margin-bottom: 1%" class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
@@ -111,7 +111,7 @@
             <div style="margin-top:3%" class="form-group">
             <!-- Button -->
               <div class="col-md-12 control">
-                <a id="btn-login" type="submit" class="btn btn-success">Login</a>
+                <button id="btn-login" type="submit" class="btn btn-success">Login</button>
                 <span style="margin-left:1%; margin-right:1%">or</span>
                 <a id="btn-fblogin" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i>Log in with Facebook</a>
                 <a id="btn-googlelogin" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="btn btn-social btn-google"><i class="fa fa-google"></i>Log in with Google</a>
@@ -121,64 +121,10 @@
               <div class="col-md-12 control">
                 <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
                   Don't have an account!
-                  <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">
+                  <a href="/signup">
                   Sign Up Here
                   </a>
                 </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div id="signupbox" style="display:none; margin-top:25%" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-      <div class="panel panel-info" style="border-color: whitesmoke; background-color:#eeeeee">
-        <div class="panel-heading" style="background-color: #222222; color: whitesmoke;">
-          <div class="panel-title" style="font-family: 'Yellowtail'; font-size:200%;">Sign Up</div>
-          <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()" style="color:#ea6045;">Sign In</a></div>
-        </div>
-        <div class="panel-body" >
-          <form id="signupform" class="form-horizontal" role="form" method="post">{% csrf_token %}
-            <div id="signupalert" style="display:none" class="alert alert-danger">
-              <p>Error:</p>
-              <span></span>
-            </div>
-            <div class="form-group">
-              <label for="email" class="col-md-3 control-label">Email</label>
-              <div class="col-md-9">
-                <input type="text" class="form-control" name="email" placeholder="Email Address">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="firstname" class="col-md-3 control-label">First Name</label>
-              <div class="col-md-9">
-                <input type="text" class="form-control" name="firstname" placeholder="First Name">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="lastname" class="col-md-3 control-label">Last Name</label>
-              <div class="col-md-9">
-                <input type="text" class="form-control" name="lastname" placeholder="Last Name">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="password" class="col-md-3 control-label">Password</label>
-              <div class="col-md-9">
-                <input type="password" class="form-control" name="new-password" placeholder="Password">
-              </div>
-            </div>
-            <div class="form-group">
-            <!-- Button -->
-              <div class="col-md-offset-3 col-md-9">
-              <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
-              <span style="margin-left:1%;">or</span>
-              </div>
-            </div>
-            <div style="border-top: 1px solid #999; padding-top:7%"  class="form-group">
-              <div class="col-md-12" style="text-align: center;">
-                <a id="btn-fblogin" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i>Sign up with Facebook</a>
-                <a id="btn-googlelogin" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="btn btn-social btn-google"><i class="fa fa-google"></i>Sign up with Google</a>
               </div>
             </div>
           </form>

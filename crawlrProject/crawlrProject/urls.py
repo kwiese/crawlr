@@ -29,6 +29,7 @@ urlpatterns = [
     #url(r'^members/', views.members, name='members'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^login/$', views.login, name="login"),
+    url(r'^signup/$', views.signup, name="signup"),
     url(r'^$', views.home, name='home'),
 ]
 
