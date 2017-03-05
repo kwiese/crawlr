@@ -168,7 +168,9 @@ body {
 	width: 20%;
 }
 
-
+#map {
+	min-height: 500px !important;
+}
 
 /*.form-group{
 	margin-top: 10%;
