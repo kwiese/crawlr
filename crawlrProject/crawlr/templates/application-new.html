@@ -16,8 +16,8 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="{% static "js/display.js" %}"></script>
       <script src="{% static "js/select.js" %}"></script>
-      <script src="{% static "js/map.js" %}"></script>
-      <script src="{% static "js/formNav.js" %}"></script>
+<!--      <script src="{% static "js/map.js" %}"></script> -->
+      <script src="{% static "js/formNav.js" %}"></script> 
   </head>
 
   <body onload="addKeywordSelect()">
@@ -53,7 +53,7 @@
         <div class="form-group input-group-lg">
 
           <!--Explanation text for first form-->
-          <div class="pageOneText">
+          <div id="pageOneText" class="pageOneText">
             <div class="form-header">
                <h1>Make Your Night</h1>
                <p>
@@ -106,7 +106,7 @@
           </div>
 
           <!--Explanation text for second form-->
-          <div class="pageTwoText">
+          <div id="pageTwoText" class="pageTwoText">
             <div class="form-header">
                <h1>What sounds good?</h1>
                <p>
@@ -173,7 +173,7 @@
           <legend>Your Route</legend>
           <ol id="finalpath" class="list-group" style="margin: 10px"></ol>
         </fieldset>
-        <div id="map" style="display: inline; float: right; height: 50%; width: 50%"></div>
+        <div id="map" style="display: inline; float: right; min-height: 500px; width: 50%"></div>
       </div>
 
       <div class="container" id="nopath" style="display: none">

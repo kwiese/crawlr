@@ -1,8 +1,8 @@
 var map = null;
-  var start = null;
-  var geocoder = null;
-  var directionsService = null;
-  var directionsDisplay = null;
+var start = null;
+var geocoder = null;
+var directionsService = null;
+var directionsDisplay = null;
 
 function initMap() {
   geocoder = new google.maps.Geocoder();
