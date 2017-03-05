@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import PBKDF2PasswordHasher
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+from django.utils import timezone
+import datetime
 import os,sys
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 # from calculate import start_chain
 from crawlr.form_info import form_constraints
-from crawlr.models import Feedback, CredentialsModel
+from crawlr.models import Feedback
+
 # from log import log
 
 def home(request):
@@ -15,6 +22,16 @@ def home(request):
 
 def login(request):
     context = {}
+    if request.method == 'POST':
+        data = request.POST
+        if User.objects.filter(username=data["email"]).exists():
+            print("exists")
+        else:
+            hasher = PBKDF2PasswordHasher()
+            user = User(username=data["email"], first_name=data["firstname"], last_name=data["lastname"], email=data["email"], date_joined=timezone.now())
+            user.password = hasher.encode(password= data['new-password'], salt="salt", iterations=1000)
+            user.save()
+            return redirect("/")
     if not request.user.is_authenticated:
         template = 'login.html'
         return render(request, template, context)
