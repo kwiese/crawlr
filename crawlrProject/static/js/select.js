@@ -15,19 +15,19 @@ var l_bounds = {
 };
 
 var chosen = {
-  'restaurant': false,
-  'cafe': false,
-  'art_gallery': false,
-  'bakery': false,
-  'bar': false,
-  'book_store': false,
-  'clothing_store': false,
-  'library': false,
-  'liquor_store': false,
-  'museum': false,
-  'night_club': false,
-  'park': false,
-  'shopping_mall': false,
+  'restaurant': "Restaurant",
+  'cafe': "Cafe",
+  'art_gallery': "Art Gallery",
+  'bakery': "Bakery",
+  'bar': "Bar",
+  'book_store': "Book Store",
+  'clothing_store': "Clothing Store",
+  'library': "Library",
+  'liquor_store': "Liquor Store",
+  'museum': "Museum",
+  'night_club': "Night Club",
+  'park': "Park",
+  'shopping_mall': "Shopping Mall",
 };
 
 var num_chosen = 0;
@@ -62,9 +62,7 @@ function addKeywordSelect(){
   entry += "<select class='form-control' id='k-" + num_chosen.toString() + "' name='k-" + num_chosen.toString() + "'onchange='displayOptions(this.id);'>";
   entry += "<option value='NONE-NONE'>Select...</option>";
   for (var key in chosen){
-    if (!chosen[key]){
-      entry += "<option id='" + key + "-" + num_chosen.toString() + "' value='" + key + "-" + num_chosen.toString() + "'>" + key + "</option>";
-    }
+    entry += "<option id='" + key + "-" + num_chosen.toString() + "' value='" + key + "-" + num_chosen.toString() + "'>" + chosen[key] + "</option>";
   }
   entry += "</select> <br>";
   entry += "</div>";
@@ -89,27 +87,26 @@ function displayOptions(id){
   id = parseInt(id.split("-")[1]);
   var outer_div = document.getElementById("keyword-options-" + id);
   var sel = document.getElementById("k-" + id);
-
   if(!div_inserted[id]){
     var entry = "";
 
     entry += "<div class='container-fluid' style='background: rgba(55,104,183,0.6); color: #fff;'>";
 
-    entry += "<div class='col-md-6'>";
+    entry += "<div class='timeDiv col-md-6'>";
     entry += "<h4>Time Limit</h4>";
     entry += "<div class='form-group row'>";
-    entry += "<label class='col-md-2' for='" + id +"-hours'>Hours:</label>";
-    entry += "<div class='col-md-4'>";
+    entry += "<label class='hoursLabel col-md-2' for='" + id +"-hours'>Hours:</label>";
+    entry += "<div class='hoursField col-md-4'>";
     entry += "<input name='" + id + "-hours' id='" + id +"-hours' class='form-control' type='number' min='0' step='1' value='1' placeholder='Hours'>";
     entry += "</div>";
-    entry += "<label class='col-md-2' for='" + id +"-minutes'>Minutes:</label>";
-    entry += "<div class='col-md-4'>";
+    entry += "<label class='minutesLabel col-md-2' for='" + id +"-minutes'>Minutes:</label>";
+    entry += "<div class='minutesField col-md-4'>";
     entry += "<input name='" + id + "-minutes' id='" + id +"-minutes' class='form-control' type='number' min='0' max='59' step='1' value='0' placeholder='Mins'>";
     entry += "</div>";
     entry += "</div>";
     entry += "</div>";
 
-    entry += "<div class='col-md-6'>";
+    entry += "<div class='iMult col-md-6'>";
     entry += "<h4>Interest Multiplier</h4>";
     entry += "<div class='form-group row'>";
     entry += "<label class='col-md-2' for='" + id +"-interest'>Interest:</label>";
@@ -119,23 +116,23 @@ function displayOptions(id){
     entry += "</div>";
     entry += "</div>";
 
-    entry += "<div class='col-md-12'>";
+    entry += "<div class='numDiv col-md-12'>";
     entry += "<h4>Number to Visit</h4>";
     entry += "<div class='form-group row'>";
-    entry += "<label class='col-md-2' for='" + id +"-equality'>I want to visit:</label>";
-    entry += "<div class='col-md-4'>";
+    entry += "<label class='placeLabel col-md-2' for='" + id +"-equality'>I want to visit:</label>";
+    entry += "<div class='placeEqField col-md-4'>";
     entry += "<select name='" + id + "-equality' class='form-control'> <option value='NONE' selected>Unlimited</option> <option value='EQ'> Exactly </option> <option value='LTE'> Less than </option> <option value='GTE'> More than </option> </select>";
     entry += "</div>";
-    entry += "<div class='col-md-4'>"
+    entry += "<div class='placeNumField col-md-4'>"
     entry += "<input name='" + id + "-strictness' id='" + id +"-strictness' class='form-control' type='number' min='0' step='1' placeholder='Places'>";
     entry += "</div>";
-    entry += "<label class='col-md-2' for='" + id +"-strictness'>places.</label>";
+    entry += "<label class='placeTail col-md-2' for='" + id +"-strictness'>places.</label>";
     entry += "</div>";
     entry += "</div>";
 
     entry += "</div>";
 
     outer_div.innerHTML = outer_div.innerHTML + entry;
-    div_inserted[num_chosen] = true;
+    div_inserted[id] = true;
   }
 }
