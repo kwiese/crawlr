@@ -106,7 +106,7 @@ function displayOptions(id){
     entry += "</div>";
     entry += "</div>";
 
-    entry += "<div class='iMult col-md-6'>";
+    entry += "<div class='iMult col-md-6' style='display:none'>";
     entry += "<h4>Interest Multiplier</h4>";
     entry += "<div class='form-group row'>";
     entry += "<label class='col-md-2' for='" + id +"-interest'>Interest:</label>";
