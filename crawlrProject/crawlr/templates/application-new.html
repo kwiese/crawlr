@@ -18,18 +18,18 @@
       <script src="{% static "js/display.js" %}"></script>
       <script src="{% static "js/select.js" %}"></script>
       <script src="{% static "js/map.js" %}"></script>
-      <script src="{% static "js/formNav.js" %}"></script> 
+      <script src="{% static "js/formNav.js" %}"></script>
   </head>
 
   <body onload="addKeywordSelect()">
 
     <!--Navigation-->
     <nav class="navbar navbar-default topnav" role="navigation">
-        
+
         <div class="navbar-header">
             <a class="navbar-brand topnav" href="/application">Crawlr</a>
         </div>
-        
+
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -63,7 +63,7 @@
                   &nbsp;
                   <br>
                   To start making your night, enter your starting address, budget, and how much time you have.
-                </p> 
+                </p>
             </div>
           </div>
 
@@ -72,7 +72,7 @@
               <h4>Starting Address</h4>
               <input class="form-control" type="text" id="addr" name="start_address" placeholder="eg: 1541 Pearl St. Boulder, CO 80309"><br>
             </div>
-            
+
             <div class="budgetField" style="margin-left: 5%; margin-right: 5%">
               <h4>Average Budget</h4>
               <select class="form-control" name="budget" style="width: 50%">
@@ -111,11 +111,11 @@
             <div class="form-header">
                <h1>What sounds good?</h1>
                <p>
-                  Here we'll ask to to give us a rough idea of what you'd like to do. 
+                  Here we'll ask to to give us a rough idea of what you'd like to do.
                   <br>
                   &nbsp;
                   <br>
-                  First, tell us how far you're willing to go from your starting location. Then, add location types to the list. 
+                  First, tell us how far you're willing to go from your starting location. Then, add location types to the list.
             </div>
           </div>
 
@@ -131,7 +131,7 @@
             </div>
 
             <div style="margin-left: 5%; margin-right: 5%" id="keyword-selection">
-              <h4>Keywords</h4>
+              <h4>Locations</h4>
               <div id="keyword-selection-0">
               </div>
               <div id="keyword-selection-1">
@@ -143,7 +143,7 @@
             <div class='col-md-4'>
               <div class='form-group row'>
                 <div class='addButton'>
-                  <button type="button" class='btn btn-primary' id="keyword-add" onClick='num_chosen += 1; addKeywordSelect();'>Add Option</button>
+                  <button type="button" class='btn btn-primary' id="keyword-add" onClick='num_chosen += 1; addKeywordSelect();'>Add Location</button>
                 </div>
               </div>
             </div>
@@ -163,10 +163,14 @@
 
     </div>
 
-
-    <div class="results"> 
-      <div style="height:100vh; width:100vw; background:rgba(0,0,0,.5); margin-top:-2em">
-        <div id="loading" syle="display:none">
+    <!-- Results section -->
+    <div class="results">
+      <!-- <div class="container calculating" id="loading" style="display: none">
+        <h4 style="text-align:center; display:inline; color:white">Calculating your adventure...</h4>
+        <i class="fa fa-spinner fa-spin" style="font-size:24px; color: blue"></i>
+      </div> -->
+      <div id="loading-parent" style="height:100vh; width:100vw; background:rgba(0,0,0,.5); margin-top:-2em; display:none">
+        <div id="loading">
           <div id="top"></div>
           <div id="bottom"></div>
           <div id="line"></div>
@@ -174,14 +178,29 @@
       </div>
       <div class="container locList" id="results" style="display: none; height: 100%; width: 100%">
         <fieldset style="border-radius: 5px; overflow: scroll; background-color: transparent; border: 2px solid #fff; border-radius: 5px; display: inline; width: 48%; height: 50% ;float: left">
-          <legend><h1>Your Route</h1></legend>
+          <legend>Your Route</legend>
           <ol id="finalpath" class="list-group" style="margin: 10px"></ol>
         </fieldset>
-        <div id="map" style="display: inline; float: right; min-height: 500px; width: 50%"></div>
+        <div id="map" style="display: inline; float: right; height: 50%; width: 50%"></div>
       </div>
 
       <div class="container" id="nopath" style="display: none">
         <h3 style="margin: 0 auto; width: 50%">Sorry, we couldn't find a route for you!</h3>
+      </div>
+
+      <div id="feedback" style="display:none">
+        <form id="feedback-form" method="post">{% csrf_token %}
+          <h2>We are always trying to improve our site, so if you have any feedback, we'd love to hear it!<h3>
+          <div class="form-group">
+            <label for="PositiveFeedback">Tell us what you liked:</label>
+            <textarea class="form-control" id="PositiveFeedback" name="PositiveFeedback" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="NegativeFeedback">Tell us what you didn't like:</label>
+            <textarea class="form-control" id="NegativeFeedback" name="NegativeFeedback" rows="3"></textarea>
+          </div>
+          <button class="feedSub" type="submit" class="btn-primary">Submit</button>
+        </form>
       </div>
     </div>
 

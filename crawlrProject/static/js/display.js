@@ -2,7 +2,7 @@ $(document).ready(function () {
   $('#pathdata').on('submit', function(e) {
     e.preventDefault();
     document.getElementById("queryPage").style.display = 'none';
-    document.getElementById("loading").style.display = 'block';
+    document.getElementById("loading-parent").style.display = 'block';
     document.getElementById('timestamp').value = Date(Date.UTC());
     $.ajax({
       type: 'post',
@@ -12,6 +12,7 @@ $(document).ready(function () {
         var ok = false;
         document.getElementById("loading").style.display = 'none';
         document.getElementById("results").style.display = 'block';
+        document.getElementById("feedback").style.display = 'block';
         google.maps.event.trigger(map, 'resize');
         $.each(data, function(k, v) {
           if (k == "path"){
@@ -25,6 +26,7 @@ $(document).ready(function () {
             } else {
               document.getElementById("results").style.display = 'none';
               document.getElementById("nopath").style.display = 'block';
+              document.getElementById("feedback").style.display = 'block';
             }
           } else if (k == "addresses"){
             if (data[k].length > 0) {
@@ -69,6 +71,17 @@ $(document).ready(function () {
           document.getElementById("results").style.display = 'none';
           document.getElementById("nopath").style.display = 'block';
         }
+      }
+    });
+  });
+  $('#feedback-form').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'post',
+      url: '/feedback/',
+      data: $('#feedback-form').serialize(),
+      dataType: 'json',
+      success: function(data) {
       }
     });
   });
