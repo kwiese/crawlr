@@ -77,6 +77,8 @@ $(document).ready(function () {
   });
   $('#feedback-form').on('submit', function(e) {
     e.preventDefault();
+    document.getElementById("feedback").style.display = 'none';
+    document.getElementById("feedback-submitted").style.display = 'block';
     $.ajax({
       type: 'post',
       url: '/feedback/',
