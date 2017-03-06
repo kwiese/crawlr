@@ -6,11 +6,12 @@ $(document).ready(function () {
     document.getElementById('timestamp').value = Date(Date.UTC());
     $.ajax({
       type: 'post',
+      url: '/application/',
       data: $('#pathdata').serialize(),
       dataType: 'json',
       success: function(data) {
         var ok = false;
-        document.getElementById("loading").style.display = 'none';
+        document.getElementById("loading-parent").style.display = 'none';
         document.getElementById("results").style.display = 'block';
         document.getElementById("feedback").style.display = 'block';
         google.maps.event.trigger(map, 'resize');

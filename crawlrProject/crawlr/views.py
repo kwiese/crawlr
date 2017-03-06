@@ -3,21 +3,21 @@ from django.http import HttpResponseRedirect, JsonResponse
 import os,sys
 import datetime
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
-#from calculate import start_chain
+from calculate import start_chain
 from crawlr.form_info import form_constraints
 from crawlr.models import Feedback
-#from log import log
+from log import log
 
 def application(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        # log("starting collect....")
+        log("starting collect....")
         data = request.POST
         route_info = start_chain(data)
-        # log("route_info received:")
-        # log(route_info)
+        log("route_info received:")
+        log(route_info)
         return JsonResponse(route_info)
-    # log("fetched main page")
+    log("fetched main page")
     return render(request, 'application-new.html', {'form_info': form_constraints})
 
 def feedback(request):
