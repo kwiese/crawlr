@@ -11,15 +11,32 @@ body {
 	float: left;
 	margin-top: 5%;
     margin-left: 4em;
-    padding-left:1em;
-	height: 300px;
-    width: 300px;
+    padding-left: 1em;
+	height: 250px;
+    width: 400px;
     color: white;
     padding: 1.5em;
     padding-top: 2em;
     font-family: "Lato", "Helvetica", Arial, sans-serif;
     background-image: url(/static/img/backHaze.png);
-    background-size: 300px 300px;
+    background-size: 400px 250px;
+}
+
+.col-md-4 {
+	width: 100%;
+
+}
+
+.addButton {
+	margin-left: 5% !important;
+}
+
+.addButton .btn-primary:hover {
+	background-color: #ea6045;
+}
+
+.addButton .btn-primary:active{
+	background-color: #ea6045;
 }
 
 .pageOne{
@@ -39,15 +56,15 @@ body {
 	float: left;
 	margin-top: 5%;
     margin-left: 4em;
-    padding-left:1em;
+    padding-left:1.5em;
 	height: 300px;
-    width: 300px;
+    width: 400px;
     color: white;
     padding: 1.5em;
     padding-top: 2em;
     font-family: "Lato", "Helvetica", Arial, sans-serif;
     background-image: url(/static/img/backHaze.png);
-    background-size: 300px 300px;
+    background-size: 400px 300px;
 }
 
 .pageTwo{
@@ -96,10 +113,63 @@ body {
 	padding-bottom: 0.2em;
 }
 
+.container-fluid{
+	background-color: #222222 !important;
+	border-radius: 5px;
+}
+
 .form-container{
 	/*background-color: rgba(225,225,215,0.63);*/
 	border-radius: 15px;
 	padding: 0;
+}
+
+.iMult {
+	display: none;
+}
+
+.timeDiv {
+	width: 100%;
+}
+
+.hoursLabel {
+	width: 15%;
+}
+
+.hoursField {
+	width: 30%;
+}
+
+.minutesLabel {
+	width: 15%;
+}
+
+.minutesField {
+	width: 30%;
+}
+
+.numDiv {
+	width: 100%;
+}
+
+.placeLabel {
+	width: 25%;
+}
+
+.placeEqField {
+	width: 30%;
+}
+
+.placeNumField {
+	width: 25%;
+}
+
+.placeTail {
+	width: 20%;
+}
+
+#map {
+	min-height: 500px !important;
 }
 
 /*.form-group{
@@ -112,6 +182,8 @@ body {
 	/*background-color: #222222;*/
 	height: 60px;
 	width: 100%;
+	margin-left: 1.5em;
+	padding-right: 3em;
 	/*border-radius: 15px 15px 0px 0px !important;*/
 }
 
@@ -178,7 +250,7 @@ body {
 .backButton .btn{
 	float: left;
     margin: 1em;
-    margin-top: 6em;
+    margin-top: 1.5em;
     font-family: "Yellowtail";
     width: 80px;
     background-color: #222222;
@@ -193,7 +265,7 @@ body {
 	float: right;
 	width: 50%;
 	margin-right:5%;
-	margin-top: 5.5em;
+	margin-top: 4em;
 	font-size: 10px;
 	color: black;
 	background-color: rgba(225,225,215,0.63);
@@ -201,6 +273,78 @@ body {
 	padding-right: 2em;
 	border-radius: 15px;
 	margin-bottom: 4em;
+}
+
+#feedback {
+	position: fixed;
+	left: 0px;
+	bottom: 0px;
+	margin-left: -1em;
+	width: 110vw;
+	background: rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px -11px 21px 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px -11px 21px 0px rgba(0,0,0,0.5);
+	box-shadow: 0px -11px 21px 0px rgba(0,0,0,0.5);
+}
+
+#feedback h2{
+	text-align: left;
+	margin-left: 5%;
+	color: white;
+	font-size: 22px;
+	padding-top: 1em;
+}
+
+#feedback h3{
+	width: 100vw;
+	color: white;
+	font-size: 20px;
+}
+
+#feedback .form-group{
+	width: 35%;
+	float: left;
+	margin-left: 5%;
+}
+
+#feedback-submitted {
+	position: fixed;
+	left: 0px;
+	bottom: 0px;
+	margin-left: -1em;
+	width: 110vw;
+	background: rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px -11px 21px 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px -11px 21px 0px rgba(0,0,0,0.5);
+	box-shadow: 0px -11px 21px 0px rgba(0,0,0,0.5);
+}
+
+#feedback-submitted h2{
+	text-align: left;
+	margin-left: 5%;
+	margin-bottom: 1.5em;
+	color: white;
+	font-size: 22px;
+	padding-top: 1em;
+}
+
+.feedSub {
+	margin-left: 1.5em;
+	margin-top: 1.5em;
+	margin-bottom: 1em;
+	background-color: whitesmoke;
+	font-family: "Yellowtail", Helvetica, Arial, sans-serif;
+	color: #ea6045;
+	width: 110px;
+	height: 50px;
+	font-size: 24px;
+	border: none;
+	border-radius: 5px;
+}
+
+.feedSub:hover {
+	background-color: #ea6045;
+	color: white;
 }
 
 .loc-column h4{
@@ -234,9 +378,13 @@ body {
 .submitButton{
 	font-family: "Yellowtail", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	float: right;
-	margin-top: 4em;
-	margin-bottom: 4em;
-	margin-right: 20%;
+	margin-top: 3em;
+	margin-bottom: 1em;
+	margin-right: 10%;
+}
+
+.submitButton .btn-primary:hover{
+	background-color: #ea6045;
 }
 
 .btn-primary {
@@ -246,7 +394,7 @@ body {
     font-size: 26px;
     text-align: center;
     padding-right: 0.6em;
-    background-color: #3f5666;
+    background-color: #222222;
 }
 
 footer{
