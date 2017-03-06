@@ -22,7 +22,9 @@ def application(request):
 
 def feedback(request):
     if request.method == 'POST':
+        log("inputting feedback")
         data = request.POST
         fb = Feedback(fb_neg=data["NegativeFeedback"], fb_pos=data["PositiveFeedback"], fb_date=datetime.datetime.now())
         fb.save()
+        log("feedback in")
     return JsonResponse({})
