@@ -21,6 +21,8 @@ def application(request):
     return render(request, 'application-new.html', {'form_info': form_constraints})
 
 def feedback(request):
-    fb = Feedback(fb_neg=data["NegativeFeedback"], fb_pos=data["PositiveFeedback"], fb_date=datetime.datetime.now())
-    fb.save()
-    return "blah"
+    if request.method == 'POST':
+        data = request.POST
+        fb = Feedback(fb_neg=data["NegativeFeedback"], fb_pos=data["PositiveFeedback"], fb_date=datetime.datetime.now())
+        fb.save()
+    return JsonResponse({})

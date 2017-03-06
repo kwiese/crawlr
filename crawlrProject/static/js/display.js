@@ -74,4 +74,15 @@ $(document).ready(function () {
       }
     });
   });
+  $('#feedback-form').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'post',
+      url: '/feedback/',
+      data: $('#feedback-form').serialize(),
+      dataType: 'json',
+      success: function(data) {
+      }
+    });
+  });
 });
