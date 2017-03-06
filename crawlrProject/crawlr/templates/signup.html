@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Crawlr</title>
+
+    <!-- Bootstrap Core CSS -->
+    {% load staticfiles %}
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/css/bootstrap-social.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../static/css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy|Varela+Round|Yellowtail" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+           })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+           ga('create', 'UA-90653341-1', 'auto');
+           ga('send', 'pageview');
+
+    </script>
+
+
+</head>
+
+<body style="background: url(../static/img/semenov-ivan.jpg) no-repeat center center; background-size: cover;">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+      <div class="container topnav">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand topnav" href="#">Crawlr</a>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                  <li>
+                      <a href="#">Home</a>
+                  </li>
+                  <li>
+                      <a href="#about">About</a>
+                  </li>
+                  <li>
+                      <a href="#contact">Contact</a>
+                  </li>
+                  <li>
+                      <a href="/login">Login</a>
+                  </li>
+              </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container -->
+  </nav>
+
+  <div class="container">
+    <div id="signupbox" style="margin-top:25%" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+      <div class="panel panel-info" style="border-color: whitesmoke; background-color:#eeeeee">
+        <div class="panel-heading" style="background-color: #222222; color: whitesmoke;">
+          <div class="panel-title" style="font-family: 'Yellowtail'; font-size:200%;">Sign Up</div>
+          <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/login" style="color:#ea6045;">Sign In</a></div>
+        </div>
+        <div class="panel-body" >
+          <form id="signupform" class="form-horizontal" role="form" method="post">{% csrf_token %}
+            <div id="signupalert" style="display:none" class="alert alert-danger">
+              <p>Error:</p>
+              <span></span>
+            </div>
+            <div class="form-group">
+              <label for="email" class="col-md-3 control-label">Email</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" name="email" placeholder="Email Address">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="firstname" class="col-md-3 control-label">First Name</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" name="firstname" placeholder="First Name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastname" class="col-md-3 control-label">Last Name</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-md-3 control-label">Password</label>
+              <div class="col-md-9">
+                <input type="password" class="form-control" name="new-password" placeholder="Password">
+              </div>
+            </div>
+            <div class="form-group">
+            <!-- Button -->
+              <div class="col-md-offset-3 col-md-9">
+              <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+              <span style="margin-left:1%;">or</span>
+              </div>
+            </div>
+            <div style="border-top: 1px solid #999; padding-top:7%"  class="form-group">
+              <div class="col-md-12" style="text-align: center;">
+                <a id="btn-fblogin" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i>Sign up with Facebook</a>
+                <a id="btn-googlelogin" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="btn btn-social btn-google"><i class="fa fa-google"></i>Sign up with Google</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="{% static "js/jquery.js" %}"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="{% static "js/bootstrap.min.js" %}"></script>
+
+</body>
+
+</html>
