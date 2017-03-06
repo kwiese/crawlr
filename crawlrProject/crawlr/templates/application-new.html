@@ -169,8 +169,8 @@
         <h4 style="text-align:center; display:inline; color:white">Calculating your adventure...</h4>
         <i class="fa fa-spinner fa-spin" style="font-size:24px; color: blue"></i>
       </div> -->
-      <div style="height:100vh; width:100vw; background:rgba(0,0,0,.5); margin-top:-2em">
-        <div id="loading" syle="display:none">
+      <div id="loading-parent" style="height:100vh; width:100vw; background:rgba(0,0,0,.5); margin-top:-2em; display:none">
+        <div id="loading">
           <div id="top"></div>
           <div id="bottom"></div>
           <div id="line"></div>
@@ -186,6 +186,21 @@
 
       <div class="container" id="nopath" style="display: none">
         <h3 style="margin: 0 auto; width: 50%">Sorry, we couldn't find a route for you!</h3>
+      </div>
+
+      <div id="feedback">
+        <form method="post">{% csrf_token %}
+          <h2>We are always trying to improve our site, so if you have any feedback, we'd love to hear it!<h3>
+          <div class="form-group">
+            <label for="PositiveFeedback">Tell us what you liked:</label>
+            <textarea class="form-control" id="PositiveFeedback" name="PositiveFeedback" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="NegativeFeedback">Tell us what you didn't like:</label>
+            <textarea class="form-control" id="NegativeFeedback" name="NegativeFeedback" rows="3"></textarea>
+          </div>
+          <button class="feedSub" type="submit" class="btn-primary">Submit</button>
+        </form>
       </div>
     </div>
 
