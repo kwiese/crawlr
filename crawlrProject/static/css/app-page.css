@@ -276,7 +276,7 @@ body {
 }
 
 #feedback {
-	position: fixed;
+	/*position: relative;*/
 	left: 0px;
 	bottom: 0px;
 	margin-left: -1em;
