@@ -69,35 +69,47 @@
 
           <div id="pageOne" class="pageOne">
             <div class="addressField" style="margin-left: 5%; margin-right: 5%">
-              <h4>Starting Address</h4>
-              <input class="form-control" type="text" id="addr" name="start_address" placeholder="eg: 1541 Pearl St. Boulder, CO 80309"><br>
+              <h4 id="addr_label">Starting Address</h4>
+              <div id="addr_input" class="form-group">
+                <input class="form-control" type="text" id="addr" name="start_address" placeholder="eg: 1541 Pearl St. Boulder, CO 80309">
+                <span id="addr_icon" style="display:none" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <p id="addr_message" style="color:#a94442; display:none">An address input is required.</p>
+              </div>
             </div>
 
             <div class="budgetField" style="margin-left: 5%; margin-right: 5%">
-              <h4>Average Budget</h4>
-              <select class="form-control" name="budget" style="width: 50%">
-                {% for k,v in form_info.budget.items %}
-                  <option value={{k}}>{{v}}</option>
-                {% endfor %}
-              </select>
+              <h4 id="budget_label">Average Budget</h4>
+              <div id="budget" class="form-group">
+                <select id="budget_select" class="form-control" name="budget" style="width: 50%" onchange="checkBudget()">
+                    <option value=0>$</option>
+                    <option value=1>$$</option>
+                    <option value=2 selected>$$$</option>
+                    <option value=3>$$$$</option>
+                    <option value=4>$$$$$</option>
+                </select>
+                <p id="budget_message" style="color:#8a6d3b; display:none">WARNING: This budget selection will extremely limit your options, which may cause no routes to be found.</p>
+              </div>
             </div>
 
             <div class="timeField" style="margin-left: 5%; margin-right: 5%">
-              <h4>How Much Time do You Have?</h4>
-              <select name="userHour" class="form-control" style="display:inline;width: 15%">
-                <option value=0>0</option>
-                <option value=3600 selected>1</option>
-                <option value=7200>2</option>
-                <option value=10800>3</option>
-                <option value=14400>4</option>
-                <option value=18000>5</option>
-              </select>
-              <p style="display:inline; margin: 5px">hours</p>
-              <select name="userMinute" class="form-control" style="display:inline;width: 15%">
-                <option value=0>0</option>
-                <option value=1800 selected>30</option>
-              </select>
-              <p style="display:inline; margin: 5px">minutes</p>
+              <h4 id="time_label">How Much Time do You Have?</h4>
+              <div id="time_available" classT="form-group">
+                <select id="userHour" name="userHour" class="form-control" style="display:inline;width: 15%" onchange="validateTime()">
+                  <option value=0>0</option>
+                  <option value=3600 selected>1</option>
+                  <option value=7200>2</option>
+                  <option value=10800>3</option>
+                  <option value=14400>4</option>
+                  <option value=18000>5</option>
+                </select>
+                <p style="display:inline; margin: 5px">hours</p>
+                <select id="userMinute" name="userMinute" class="form-control" style="display:inline;width: 15%">
+                  <option value=0>0</option>
+                  <option value=1800 selected>30</option>
+                </select>
+                <p style="display:inline; margin: 5px">minutes</p>
+                <p id="time_message" style="color:#a94442; display:none; margin-top:0">You need to enter a time longer than 0.</p>
+              </div>
             </div>
 
             <div class="nextButton">
