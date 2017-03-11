@@ -71,7 +71,7 @@
             <div class="addressField" style="margin-left: 5%; margin-right: 5%">
               <h4 id="addr_label">Starting Address</h4>
               <div id="addr_input" class="form-group">
-                <input class="form-control" type="text" id="addr" name="start_address" placeholder="eg: 1541 Pearl St. Boulder, CO 80309">
+                <input class="form-control" type="text" id="addr" name="start_address" placeholder="eg: 1541 Pearl St. Boulder, CO 80309" onchange="validateAddress()">
                 <span id="addr_icon" style="display:none" class="glyphicon glyphicon-remove form-control-feedback"></span>
                 <p id="addr_message" style="color:#a94442; display:none">An address input is required.</p>
               </div>
@@ -103,7 +103,7 @@
                   <option value=18000>5</option>
                 </select>
                 <p style="display:inline; margin: 5px">hours</p>
-                <select id="userMinute" name="userMinute" class="form-control" style="display:inline;width: 15%">
+                <select id="userMinute" name="userMinute" class="form-control" style="display:inline;width: 15%" onchange="validateTime()">
                   <option value=0>0</option>
                   <option value=1800 selected>30</option>
                 </select>
@@ -197,7 +197,7 @@
       </div>
 
       <div class="container" id="nopath" style="display: none">
-        <h3 style="margin: 0 auto; width: 50%">Sorry, we couldn't find a route for you!</h3>
+        <h3 style="margin: 0 auto; width: 50%">Sorry, we couldn't find a route for you! Curious as to why your route didn't work? Our <a href="/about">FAQs</a> might help!</h3>
       </div>
 
       <div id="feedback" style="display:none">
