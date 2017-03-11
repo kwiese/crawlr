@@ -179,7 +179,6 @@ def solve(data):
     final_path = []
     final_addresses = []
     if len(chosenEdges) > 0:
-        print("HOME")
         final_path.append("Home ({})".format(data["user_data"]["start_address"]))
         final_addresses.append(data["user_data"]["start_address"])
         while last != "HOME":
@@ -195,7 +194,6 @@ def solve(data):
                 if var_mapping[y] == last:
                     last_d = yn
                     break
-            print("{}: time: {}, place decision: {}".format(last, last_t.X, last_d.X))
             la = None
             for place in data["place_data"][key]:
                 if place["name"] == last:
@@ -228,7 +226,6 @@ def solve(data):
                     chosenEdges.remove(x)
                     break
 
-        print("HOME")
         final_path.append("Home ({})".format(data["user_data"]["start_address"]))
         final_addresses.append(data["user_data"]["start_address"])
             

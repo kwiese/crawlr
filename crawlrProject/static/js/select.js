@@ -121,7 +121,7 @@ function displayOptions(id){
     entry += "<div class='form-group row'>";
     entry += "<label class='placeLabel col-md-2' for='" + id +"-equality'>I want to visit:</label>";
     entry += "<div class='placeEqField col-md-4'>";
-    entry += "<select name='" + id + "-equality' class='form-control'> <option value='NONE' selected>Unlimited</option> <option value='EQ'> Exactly </option> <option value='LTE'> Less than </option> <option value='GTE'> More than </option> </select>";
+    entry += "<select name='" + id + "-equality' class='form-control'> <option value='NONE' selected>Unlimited</option> <option value='EQ'> Exactly </option> <option value='LTE'> No More Than </option> <option value='GTE'> At Least </option> </select>";
     entry += "</div>";
     entry += "<div class='placeNumField col-md-4'>"
     entry += "<input name='" + id + "-strictness' id='" + id +"-strictness' class='form-control' type='number' min='0' step='1' placeholder='Places'>";

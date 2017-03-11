@@ -6,11 +6,11 @@ $(document).ready(function () {
     document.getElementById('timestamp').value = Date(Date.UTC());
     $.ajax({
       type: 'post',
-      url: '/application/',
       data: $('#pathdata').serialize(),
       dataType: 'json',
       success: function(data) {
         var ok = false;
+				var error = "";
         document.getElementById("loading-parent").style.display = 'none';
         document.getElementById("results").style.display = 'block';
         document.getElementById("feedback").style.display = 'block';
@@ -66,11 +66,15 @@ $(document).ready(function () {
                 }
               });
             }
-          }
+          } else if (k == "error"){
+		error = data[k];
+		ok = false;
+	  }
         });
         if (ok == false) {
           document.getElementById("results").style.display = 'none';
           document.getElementById("nopath").style.display = 'block';
+          document.getElementById("nopathmsg").innerHTML = error;
         }
       }
     });
