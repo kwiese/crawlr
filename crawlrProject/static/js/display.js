@@ -10,6 +10,7 @@ $(document).ready(function () {
       dataType: 'json',
       success: function(data) {
         var ok = false;
+				var error = "";
         document.getElementById("loading").style.display = 'none';
         document.getElementById("results").style.display = 'block';
         document.getElementById("feedback").style.display = 'block';
@@ -65,11 +66,15 @@ $(document).ready(function () {
                 }
               });
             }
-          }
+          } else if (k == "error"){
+						error = data[k];
+						ok = false;
+					}
         });
         if (ok == false) {
           document.getElementById("results").style.display = 'none';
           document.getElementById("nopath").style.display = 'block';
+					document.getElementById("nopath").innerHTML = error;
         }
       }
     });
