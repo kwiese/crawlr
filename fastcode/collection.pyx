@@ -6,7 +6,7 @@ from libcpp.string cimport string
 
 def meldSubtours(edgeArray, subtours):
     if len(subtours) == 1:
-        return subtours
+        return subtours[0]
 
     elif len(subtours) == 2:
 

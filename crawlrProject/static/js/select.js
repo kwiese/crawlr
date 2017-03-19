@@ -1,33 +1,13 @@
 var l_bounds = {
   'restaurant': 1200,
   'cafe': 300,
-  'art_gallery': 1800,
-  'bakery': 900,
   'bar': 1800,
-  'book_store': 900,
-  'clothing_store': 900,
-  'library': 2700,
-  'liquor_store': 900,
-  'museum': 5400,
-  'night_club': 1800,
-  'park': 1800,
-  'shopping_mall': 2700,
 };
 
 var chosen = {
   'restaurant': "Restaurant",
   'cafe': "Cafe",
-  'art_gallery': "Art Gallery",
-  'bakery': "Bakery",
   'bar': "Bar",
-  'book_store': "Book Store",
-  'clothing_store': "Clothing Store",
-  'library': "Library",
-  'liquor_store': "Liquor Store",
-  'museum': "Museum",
-  'night_club': "Night Club",
-  'park': "Park",
-  'shopping_mall': "Shopping Mall",
 };
 
 var num_chosen = 0;
