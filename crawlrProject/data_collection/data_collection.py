@@ -28,6 +28,9 @@ def collectData(user_data):
     try:
         event_loop = asyncio.SelectorEventLoop()
         place_data = event_loop.run_until_complete(collectUserData(user_data, event_loop))
+        if "error" in place_data:
+            all_data["error"] = place_data["error"]
+            return all_data
         place_data = filterPlaces(place_data)
         distance_data = event_loop.run_until_complete(collectMapData(place_data, event_loop))
 
@@ -39,7 +42,6 @@ def collectData(user_data):
     finally:
         return all_data
 
-#async def generateMapData(origins, destinations, j, frm, to, maps_key):
 def generateMapData(origins, destinations, names, maps_key):
     client = googlemaps.Client(key=maps_key)
     d_data = {}
@@ -201,8 +203,11 @@ async def collectUserData(user_data, event_loop):
     
     places = {keyword: [] for keyword in user_data['keywords'] + ["HOME"]}
 
-
-    geocode = km.geocode(user_data['start_address'])
+    try:
+        geocode = km.geocode(user_data['start_address'])
+    except Exception as e:
+        places["error"] = "Invalid start address! Make sure your address is autocompleted!"
+        return places
     
     geocode_tup = (geocode[0]['geometry']['location']['lat'], geocode[0]['geometry']['location']['lng'])
     da = km.reverse_geocode(geocode_tup)
