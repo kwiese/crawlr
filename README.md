@@ -10,4 +10,4 @@ Crawlr uses a mixed integer program in order to maximize the value while minimiz
 
 ### Want to see it in action?
 
-Go to www.crawlr.tech, scroll to the bottom, and plan your trip!
+Crawlr is no longer being supported, sorry for any inconvenienvce!
